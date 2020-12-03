@@ -1,0 +1,144 @@
+---
+hello_world:
+  module: hello
+  class: HelloWorld
+
+act_garbage:
+  module: act_garbage
+  class: Get_ACT_Garbage
+  GAR_FLAG: "input_boolean.check_act_garbage"
+  SUBURB: "NICHOLLS"
+  SPLIT_SUBURB: ""
+
+irrigation1:
+  module: irrigation_code
+  class: Home_Irrigation
+  START_TIME: '01:00:00'
+  NO_OF_SCHEDULES: 3
+  RESET_BUCKET: False
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  STATION_1: 'switch.tasmota2'
+  STATION_2: 'switch.tasmota3'
+  STATION_3: 'switch.tasmota4'
+  STATION_4: 'switch.tasmota'
+  STATION_1_WEIGHT: 0.4881
+  STATION_2_WEIGHT: 1.0631
+  STATION_3_WEIGHT: 1.4644
+  STATION_4_WEIGHT: 1.4644
+  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+
+
+irrigation2:
+  module: irrigation_code
+  class: Home_Irrigation
+  START_TIME: '05:00:00'
+  NO_OF_SCHEDULES: 3
+  RESET_BUCKET: False
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  STATION_1: 'switch.tasmota2'
+  STATION_2: 'switch.tasmota3'
+  STATION_3: 'switch.tasmota4'
+  STATION_4: 'switch.tasmota'
+  STATION_1_WEIGHT: 0.4881
+  STATION_2_WEIGHT: 1.0631
+  STATION_3_WEIGHT: 1.4644
+  STATION_4_WEIGHT: 1.4644
+  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+
+irrigation3:
+  module: irrigation_code
+  class: Home_Irrigation
+  START_TIME: '20:00:00'
+  NO_OF_SCHEDULES: 3
+  RESET_BUCKET: True
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  STATION_1: 'switch.tasmota2'
+  STATION_2: 'switch.tasmota3'
+  STATION_3: 'switch.tasmota4'
+  STATION_4: 'switch.tasmota'
+  STATION_1_WEIGHT: 0.4881
+  STATION_2_WEIGHT: 1.0631
+  STATION_3_WEIGHT: 1.4644
+  STATION_4_WEIGHT: 1.4644
+  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+
+
+light_timer1:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "switch.upstairs_light"
+
+light_timer2:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "switch.spare_switch"
+
+light_timer3:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "switch.lounge_room_light"
+
+home_presence_app:
+  module: home_presence_app
+  class: HomePresenceApp
+  plugin:
+    - HASS
+    - MQTT
+  monitor_topic: monitor
+  # mqtt_event: mqtt
+  # user_device_domain: "device_tracker"
+  # everyone_not_home: everyone_not_home
+  # everyone_home: everyone_home
+  # somebody_is_home: somebody_is_home
+  depart_check_time: 30
+  depart_scans: 3
+  minimum_confidence: 60
+  not_home_timeout: 15
+  system_check: 30
+  system_timeout: 60
+  home_gateway_sensors: None
+
+  log_level: INFO
+  # reboot the all nodes at 12 midnight on Mondays and Thursdays
+  # scheduled_restart:
+  #   time: 00:00:01
+  #   days:
+  #     - mon
+  #     - thu
+  #   location: all
+
+  # other location configuration options
+    #location: living_room, kitchen
+
+  location:
+      - ground_floor
+
+  home_motion_sensors: None
+
+  known_devices:
+    - 'D4:61:DA:52:DA:5B davidbluetooth'
+    - 'D8:1C:79:B4:C1:E3 wendybluetooth'
+
+  known_beacons:
+    - 'D4:61:DA:52:DA:5B davidbluebeacon'
+    - 'D8:1C:79:B4:C1:E3 wendybluebeacon'
+
+  remote_monitors:
+    disable: False
+
+    ground_floor:
+      host: 10.0.0.98
+      username: !secret ground_floor_monitor_username
+      password: !secret ground_floor_monitor_password
+      reboot_command: sudo /sbin/reboot now
+      auto_reboot_when_offline: True
+      time: 02:00:01

@@ -1,0 +1,21 @@
+---
+secrets: /config/secrets.yaml
+appdaemon:
+  latitude: -35.282
+  longitude: 149.1287
+  elevation: 571
+  time_zone: Australia/Sydney
+  plugins:
+    HASS:
+      type: hass
+    MQTT:
+       type: mqtt
+       namespace: mqtt
+       client_host: 10.0.0.55
+       client_user: AppDaemon_Monitor
+       client_password: david230355
+http:
+  url: http://125.0.0.1:5050
+admin:
+api:
+hadashboard:
