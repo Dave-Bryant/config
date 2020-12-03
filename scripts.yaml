@@ -1,0 +1,291 @@
+irrigate_lawn:
+  alias: irrigate lawn
+  sequence:
+    - service: logbook.log
+      data:
+        name: script.irrigate_lawn
+        message: starting the irrigating lawn scripts
+    - service: pyscript.run_station
+      data:
+        master_valve: 'switch.spare_switch'
+        entity_id: 'switch.upstairs_light'
+        delay: sensor.smart_irrigation_hourly_adjusted_run_time
+        overflow: 300
+    - service: logbook.log
+      data:
+        name: script.irrigate_lawn
+        message: finished the irrigating lawn scripts
+
+
+
+
+
+#     # - condition:
+#     #     - condition: numeric_state
+#     #       entity_id: sensor.smart_irrigation_daily_adjusted_run_time
+#     #       above: 0
+#     #     - condition: numeric_state
+#     #       entity_id: sensor.smart_irrigation_hourly_adjusted_run_time
+#     #       above: 0
+#     - service: logbook.log
+#       data:
+#         name: script.irrigate_lawn
+#         message: Irrigation Master Valve on and wait 60 seconds
+#   #  # - data: {}
+#   #  #   entity_id: switch.irrigation_tap1
+#   #  #   service: switch.turn_on
+#     - delay:
+#         seconds: 60
+#
+#     # - service_template: >
+#     #     {% if states('sensor.smart_irrigation_daily_adjusted_run_time') | int > 300  %}
+#     #       script.turn_on
+#     #     {% endif %}
+#     #   entity_id: script.irrigate_lawn_station_1
+#
+#     - service: logbook.log
+#       data:
+#         name: script.irrigate_lawn
+#         message: Irrigation Station 1 turned on
+#   #  # - data: {}
+#   #  #   entity_id: switch.irrigation_tap1
+#   #  #   service: switch.turn_on
+#     - delay: "{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int }}"
+#     - service: logbook.log
+#       data:
+#         name: script.irrigate_lawn
+#         message: Irrigation Station 1 turned off
+#   #   # - data: {}
+#   #   #   entity_id: switch.irrigation_tap1
+#   #     # service: switch.turn_off
+#     # - data: {}
+#     #   service: smart_irrigation.reset_bucket
+#
+# irrigate_lawn_station_1:
+#   alias: irrigate lawn station 1
+#   sequence:
+#     - service: logbook.log
+#       data:
+#         name: script.irrigate_lawn_station_1
+#         message: starting the irrigating lawn station 1 extra script
+
+
+study_speaker:
+  alias: Turn on Study Speaker
+  sequence:
+#    - service_template: >
+ #       {% if is_state('media_player.spotify_david_bryant', 'off') %}
+  #      media_player.turn_on
+   #     {% elif is_state('media_player.spotify_david_bryant', 'paused') %}
+    #    media_player.media_play_pause
+     #   {% else %}
+      #  media_player.media_play
+ #       {% endif %}
+  #    data:
+   #     entity_id: media_player.spotify_david_bryant
+    #- service: logbook.log
+ #     data:
+  #      name: media_player.spotify_david_bryant
+   #     message: Spotify turned on 1
+
+ #   - service: media_player.select_source
+  #    data_template:
+   #     entity_id: media_player.spotify_david_bryant
+    #    source: DESKTOP-P8SHTJJ
+
+
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.spotify_david_bryant
+        volume_level: 0.4
+    - service: logbook.log
+      data:
+        name: media_player.spotify_david_bryant
+        message: Spotify volume set 2
+
+    - service: media_player.turn_on
+      data:
+        entity_id: media_player.yamaha_study_speaker_main
+    - service: logbook.log
+      data:
+        name: media_player.yamaha_study_speaker_main
+        message: study_speaker turned on 3
+
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.yamaha_study_speaker_main
+        volume_level: 0.3
+    - service: logbook.log
+      data:
+        name: media_player.yamaha_study_speaker_main
+        message: study_speaker volume set 4
+
+    - service: media_player.select_source
+      data_template:
+        entity_id: media_player.spotify_david_bryant
+        source: media_player.yamaha_study_speaker_main
+    - service: logbook.log
+      data:
+        name: media_player.spotify_david_bryant
+        message: Sources set up 5
+
+    - service: media_player.play_media
+      data:
+        entity_id: media_player.spotify_david_bryant
+        media_content_type: playlist
+        media_content_id: spotify:playlist:37i9dQZF1E4qeJ0tf6mP9P
+
+
+#
+study_speaker_off:
+  alias: Turn off Study Speaker
+  sequence:
+    - service: media_player.media_pause
+      data:
+        entity_id: media_player.yamaha_study_speaker_main
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.yamaha_study_speaker_main
+    - service: media_player.media_stop
+      data:
+        entity_id: media_player.spotify_david_bryant
+    - service: media_player.turn_off
+      data:
+        entity_id: media_player.spotify_david_bryant
+
+# Replaced by AppDaemon
+# light_random_turn_on_and_off_1:
+#   alias: light_random_turn_on_and_off_1
+#   sequence:
+#     - condition: sun
+#       after: sunset
+#       before: sunrise
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_1
+#         message: light_random_turn_on_and_off_1 has had 1st delay  "{{ lightswitch }}"
+#     - service: switch.turn_on
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_1
+#         message: light_random_turn_on_and_off_1 has had 2nd delay "{{ lightswitch }}"
+#     - service: switch.turn_off
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - alias: light_loop_1
+#       service: script.turn_on
+#       entity_id: script.light_loop_1
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"
+#
+# light_loop_1:
+#   alias: light_loop_1
+#   sequence:
+#     - delay: '00:00:01'
+#     - wait_template: "{{ is_state('script.light_random_turn_on_and_off_1', 'off') }}"
+#     - service: logbook.log
+#       data_template:
+#         name: script.light_random_turn_on_and_off_1
+#         message: Light 1 turned on "{{ lightswitch }}"
+#     - alias: light_loop_1
+#       service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_1
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"
+#
+#
+# light_random_turn_on_and_off_2:
+#   alias: light_random_turn_on_and_off_2
+#   sequence:
+#     - condition: sun
+#       after: sunset
+#       before: sunrise
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_2
+#         message: light_random_turn_on_and_off_2 has had 1st delay  "{{ lightswitch }}"
+#     - service: switch.turn_on
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_2
+#         message: light_random_turn_on_and_off_2 has had 2nd delay "{{ lightswitch }}"
+#     - service: switch.turn_off
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - alias: light_loop_2
+#       service: script.turn_on
+#       entity_id: script.light_loop_2
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"
+#
+# light_loop_2:
+#   alias: light_loop_2
+#   sequence:
+#     - delay: '00:00:01'
+#     - wait_template: "{{ is_state('script.light_random_turn_on_and_off_2', 'off') }}"
+#     - service: logbook.log
+#       data_template:
+#         name: script.light_random_turn_on_and_off_2
+#         message: Light 2 turned on "{{ lightswitch }}"
+#     - alias: light_loop_2
+#       service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_2
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"
+#
+# light_random_turn_on_and_off_3:
+#   alias: light_random_turn_on_and_off_3
+#   sequence:
+#     - condition: sun
+#       after: sunset
+#       before: sunrise
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_3
+#         message: light_random_turn_on_and_off_3 has had 1st delay  "{{ lightswitch }}"
+#     - service: switch.turn_on
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - delay: '00:{{ range(0,5) | random | int }}{{ range(0,9) | random | int }}:00'
+#     - service: logbook.log
+#       data_template:
+#         name: light_random_turn_on_and_off_3
+#         message: light_random_turn_on_and_off_3 has had 2nd delay "{{ lightswitch }}"
+#     - service: switch.turn_off
+#       data_template:
+#         entity_id: "{{ lightswitch }}"
+#     - alias: light_loop_3
+#       service: script.turn_on
+#       entity_id: script.light_loop_3
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"
+#
+# light_loop_3:
+#   alias: light_loop_3
+#   sequence:
+#     - delay: '00:00:01'
+#     - wait_template: "{{ is_state('script.light_random_turn_on_and_off_3', 'off') }}"
+#     - service: logbook.log
+#       data_template:
+#         name: script.light_random_turn_on_and_off_3
+#         message: Light 3 turned on "{{ lightswitch }}"
+#     - alias: light_loop_3
+#       service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_3
+#       data_template:
+#         variables:
+#           lightswitch: "{{ lightswitch }}"

@@ -1,0 +1,306 @@
+resources:
+  - type: module
+    url: /local/community/simple-thermostat/simple-thermostat.js?track=true
+  - type: module
+    url: /local/community/canvas-gauge-card/canvas-gauge-card.js
+  - type: module
+    url: /local/community/weather-card/weather-card.js
+  - type: module
+    url: /local/community/lovelace-paper-buttons-row/paper-buttons-row.js
+  - type: module
+    url: /local/community/scheduler-card/scheduler-card.js
+
+
+no-top-header:
+  card-mod-theme: no-top-header
+  card-mod-root: |
+    app-toolbar {
+      display: none;
+    }
+
+views:
+  - title: Home
+    background: var(--background-image)
+    badges:
+      - entity: binary_sensor.updater
+      - entity: person.david_bryant
+      - entity: person.wendy_bryant
+      - entity: group.bryant_family
+      - entity: sun.sun
+
+    cards:
+      - type: glance
+        title: Switches
+        entities:
+          - entity: switch.upstairs_light
+            tap_action:
+              action: toggle
+          - entity: switch.lounge_room_light
+            tap_action:
+              action: toggle
+          - entity: switch.spare_switch
+            tap_action:
+              action: toggle
+
+
+      - entity: media_player.spotify_david_bryant
+        type: media-control
+
+      - type: horizontal-stack
+        cards:
+          - type: custom:canvas-gauge-card
+            entity: sensor.cpu_temperature
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: CPU Temperature
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.memory_use_percent
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Memory Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.processor_use
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Processor Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+
+      - entity: climate.study
+        sensors:
+          - entity: sensor.study_humidity
+            name: Humidity
+        type: 'custom:simple-thermostat'
+      - entity: climate.hollys_bedroom
+        sensors:
+          - entity: sensor.hollys_bedroom_humidity
+            name: Humidity
+        type: 'custom:simple-thermostat'
+      - entity: climate.wendys_bedroom
+        sensors:
+          - entity: sensor.wendys_bedroom_humidity
+            name: Humidity
+        type: 'custom:simple-thermostat'
+      - entity: climate.family_room
+        sensors:
+          - entity: sensor.family_room_humidity
+            name: Humidity
+        type: 'custom:simple-thermostat'
+      - entity: weather.openweathermap
+        type: weather-forecast
+      - entity: weather.dark_sky
+        name: null
+        type: 'custom:weather-card'
+      - entities:
+          - entity: sensor.speedtest_download
+          - entity: sensor.speedtest_upload
+          - entity: sensor.speedtest_ping
+        show_header_toggle: false
+        title: Network
+        type: entities
+      - type: entities
+        entities:
+          - sensor.australia_coronavirus_confirmed
+          - sensor.australia_coronavirus_current
+          - sensor.australia_coronavirus_deaths
+          - sensor.australia_coronavirus_recovered
+        title: Corona Virus
+      - type: entities
+        entities:
+          - sensor.act_garbage_last_updated
+          - sensor.act_garbage_pickup
+          - sensor.act_recycling_pickup
+          - sensor.act_greenwaste_pickup
+          - binary_sensor.act_garbage_today
+          - binary_sensor.act_garbage_tomorrow
+          - binary_sensor.act_recycling_today
+          - binary_sensor.act_recycling_tomorrow
+          - binary_sensor.act_greenwaste_today
+          - binary_sensor.act_greenwaste_tomorrow
+        title: ACT Garbage Collection
+        show_header_toggle: false
+  - title: Automations
+    cards:
+      - type: entities
+        entities:
+          - automation.turn_off_lights_at_a_time_if_home
+          - automation.turn_off_stairs_lights_at_a_time_if_home
+          - automation.turn_off_fam_lamp_at_a_time
+          - automation.turn_on_lights_at_sundown_if_home
+          - automation.turn_off_tv_at_a_time
+          - automation.turn_off_ac_at_a_time
+          - automation.wendy_ac_on_at_700pm_if_home
+          - automation.create_weekly_backup
+          - automation.test
+      - type: entities
+        entities:
+          - script.study_speaker
+          - script.study_speaker_off
+          - automation.home_assistant_has_started
+          - automation.study_ac_after_800am_and_before_500pm_if_home
+          - automation.study_ac_off_when_temp_20_225_or_1700_or_not_home
+          - automation.study_ac_and_spotify_on_at_800am_if_home
+          - automation.study_spotify_off_when_1700_or_not_home
+          - automation.holly_ac_on_at_500am_if_not_19_24_or_not_home
+          - automation.holly_ac_off_when_temp_20_225_or_800am_or_930pm
+          - automation.holly_ac_after_500am_and_before_800am_if_home
+          - automation.holly_ac_on_at_830pm_if_not_19_24_or_home
+          - automation.holly_ac_after_830pm_and_before_930pm_if_home
+          - automation.notify_greenwaste_garbage_collection
+          - automation.notify_recycling_garbage_collection
+
+
+      - type: calendar
+        title: 'Calendar'
+        entities:
+          - calendar.test_everything
+
+  - title: Irrigation
+    cards:
+      - type: glance
+        title: Switches
+        entities:
+          - entity: switch.tasmota
+            tap_action:
+              action: toggle
+          - entity: switch.tasmota2
+            tap_action:
+              action: toggle
+          - entity: switch.tasmota3
+            tap_action:
+              action: toggle
+          - entity: switch.tasmota4
+            tap_action:
+              action: toggle
+      - type: entities
+        title: 'smart_irrigation_base_schedule'
+        entities:
+          - sensor.smart_irrigation_base_schedule_index
+      - type: entities
+        title: 'smart_irrigation_hourly_adjusted_run_time'
+        entities:
+          - sensor.smart_irrigation_hourly_adjusted_run_time_2
+      - type: entities
+        title: 'sensor.smart_irrigation_daily_adjusted_run_time'
+        entities:
+          - sensor.smart_irrigation_daily_adjusted_run_time
+      - type: entities
+        title: 'smart_irrigation_hourly_netto_precipitation'
+        entities:
+          - sensor.smart_irrigation_hourly_netto_precipitation
+      - type: entities
+        title: 'smart_irrigation_bucket'
+        entities:
+          - sensor.smart_irrigation_bucket
+  - title: Cameras
+    cards:
+      - type: picture-elements
+        entity: camera.front_camera
+        camera_image: camera.front_camera
+        camera_view: live
+        elements:
+          - type: icon
+            entity: camera.front_camera
+            icon: mdi:cctv
+            style:
+              top: 7%
+              right: 0%
+              --iron-icon-fill-color: "#11AB7D"
+              --iron-icon-height: 40px
+              --iron-icon-width: 40px
+
+      - type: picture-elements
+        entity: camera.back_camera
+        camera_image: camera.back_camera
+        camera_view: live
+        elements:
+          - type: icon
+            entity: camera.back_camera
+            icon: mdi:cctv
+            style:
+              top: 7%
+              right: 0%
+              --iron-icon-fill-color: "#11AB7D"
+              --iron-icon-height: 40px
+              --iron-icon-width: 40px
+
+    path: default_view

@@ -1,0 +1,709 @@
+- alias: Home_Assistant_has_started   ###works
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+    -  delay: '00:00:30'
+    -  service: media_player.turn_on
+       entity_id: media_player.office_speaker
+    -  service: media_player.volume_set
+       data:
+         entity_id: media_player.office_speaker
+         volume_level: '0.2'
+    -  service: tts.google_translate_say
+       entity_id: media_player.office_speaker
+       data:
+         message: 'Home Assistant has started.'
+
+#######                    Bluetooth Presence detection setting device tracker
+- alias: David Occupancy On
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.david_occupancy_confidence
+      above: 10
+  action:
+    - service: device_tracker.see
+      data:
+        dev_id: david
+        location_name: home
+        source_type: bluetooth
+
+- alias: David Occupancy Off
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.david_occupancy_confidence
+      below: 10
+  action:
+    - service: device_tracker.see
+      data:
+        dev_id: david
+        location_name: not_home
+        source_type: bluetooth
+
+- alias: Wendy Occupancy On
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.wendy_occupancy_confidence
+      above: 10
+  action:
+    - service: device_tracker.see
+      data:
+        dev_id: wendy
+        location_name: home
+        source_type: bluetooth
+
+- alias: Wendy Occupancy Off
+  trigger:
+    - platform: numeric_state
+      entity_id: sensor.wendy_occupancy_confidence
+      below: 10
+  action:
+    - service: device_tracker.see
+      data:
+        dev_id: wendy
+        location_name: not_home
+        source_type: bluetooth
+
+########
+- alias: Test   ###works
+  trigger:
+    platform: time
+    at: '08:00:00'
+  condition:
+    condition: state
+    entity_id: group.bryant_family
+    state: 'home'
+  action:
+    -  service: tts.google_translate_say
+       entity_id: media_player.office_speaker
+       data:
+         message: 'It is 8 oclock david'
+########
+- alias: Notify Recycling Garbage Collection
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - tue
+      - condition: state
+        entity_id: binary_sensor.act_recycling_tomorrow
+        state: 'on'
+  action:
+    -  service: media_player.turn_on
+       entity_id: media_player.family_room_display
+    # -  service: media_player.volume_set
+    #    data:
+    #      entity_id: media_player.family_room_display
+    #      volume_level: '0.5'
+    -  service: tts.google_translate_say
+       entity_id: media_player.family_room_display
+       data:
+         message: 'You need to put the recycling bin out on the road'
+
+
+- alias: Notify GreenWaste Garbage Collection
+  trigger:
+    platform: time
+    at: '17:00:00'
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        weekday:
+          - tue
+      - condition: state
+        entity_id: binary_sensor.act_greenwaste_tomorrow
+        state: 'on'
+  action:
+    -  service: media_player.turn_on
+       entity_id: media_player.family_room_display
+    # -  service: media_player.volume_set
+    #    data:
+    #      entity_id: media_player.family_room_display
+    #      volume_level: '0.5'
+    -  service: tts.google_translate_say
+       entity_id: media_player.family_room_display
+       data:
+         message: 'You need to put the green waste bin out on the road'
+
+########
+- alias: Turn_on_lights_at_sundown_if_home   ###works but retesting presence condition
+  trigger:
+ #   - platform: time
+  #    at: "18:00:00"
+  #  - platform: sun
+  #    event: sunset
+  #    offset: "-00:10:00"
+    platform: numeric_state
+    entity_id: sun.sun
+    value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+    below: 3.0
+                # Can be a positive or negative number
+  condition:
+    condition: and
+    conditions:
+      - condition: time
+        after: '12:00:00'
+        before: '20:00:00'  # so  it doesnt trigger in the morning
+      - condition: state
+        entity_id: group.bryant_family
+        state: 'home'
+  action:
+    service: switch.turn_on
+    entity_id:
+      - switch.lounge_room_light
+      - switch.spare_switch
+      - switch.upstairs_light
+
+########
+- alias: Turn_off_lights_at_a_time_if_home      ###works
+  trigger:
+    platform: time
+    at: "21:00:00"
+  condition:
+    condition: state
+    entity_id: group.bryant_family
+    state: 'home'
+  action:
+    - service: switch.turn_off
+      entity_id: switch.lounge_room_light
+    # - service: media_player.turn_on
+    #   entity_id: media_player.family_room_display
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
+    # - service: tts.google_translate_say
+    #   entity_id: media_player.family_room_display
+    #   data:
+    #     message: 'Time for bed Wendy.'
+
+########
+- alias: Turn_off_stairs_lights_at_a_time_if_home    ###works
+  trigger:
+    platform: time
+    at: "22:00:00"
+  condition:
+    condition: state
+    entity_id: group.bryant_family
+    state: 'home'
+  action:
+    service: switch.turn_off
+    entity_id:
+      - switch.upstairs_light
+      - switch.spare_switch
+
+########  Replaced by AppDaemon
+# - alias: Turn_on_lights_at_sundown_randomly_if_not_home  ### I think it Works
+#   trigger:
+#     platform: sun
+#     event: sunset
+#     offset: "+00:10:00"
+#   condition:
+#     condition: state
+#     entity_id: group.bryant_family
+#     state: "not_home"
+#   action:
+#     - service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_1
+#       data:
+#         variables:
+#           lightswitch: "switch.upstairs_light"
+#     - service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_2
+#       data:
+#         variables:
+#           lightswitch: "switch.spare_switch"
+#     - service: script.turn_on
+#       entity_id: script.light_random_turn_on_and_off_3
+#       data:
+#         variables:
+#           lightswitch: "switch.lounge_room_light"
+
+########
+- alias: Turn_off_AC_at_a_time
+  trigger:
+    platform: time
+    at: "23:00:00"
+  condition:
+    condition: state
+    entity_id: climate.family_room
+    state: 'on'
+  action:
+    - service: climate.turn_off
+      entity_id:
+        - climate.family_room
+    - service: media_player.turn_on
+      entity_id: media_player.family_room_display
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
+    - service: tts.google_translate_say
+      entity_id: media_player.family_room_display
+      data:
+        message: 'Air Conditioner turned off automatically.'
+
+########
+- alias: Turn_off_Fam_Lamp_at_a_time
+  trigger:
+    platform: time
+    at: "23:00:00"
+  condition:
+    condition: state
+    entity_id: switch.lounge_room_light
+    state: 'on'
+  action:
+    - service: switch.turn_off
+      entity_id:
+        - switch.lounge_room_light
+    - service: media_player.turn_on
+      entity_id: media_player.family_room_display
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
+    - service: tts.google_translate_say
+      entity_id: media_player.family_room_display
+      data:
+        message: 'Lamp turned off automatically.'
+
+########                               ## Samsung
+- alias: Turn_off_TV_at_a_time
+  trigger:
+    platform: time
+    at: "23:00:00"
+  condition:
+    condition: state
+    entity_id: media_player.unnamed_device
+    state: 'on'
+  action:
+    - service: media_player.turn_off
+      entity_id: media_player.unnamed_device
+    - service: media_player.turn_on
+      entity_id: media_player.family_room_display
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
+    - service: tts.google_translate_say
+      entity_id: media_player.family_room_display
+      data:
+        message: 'Television turned off automatically.'
+
+########
+# - alias: Welcome_Home_David   ###works   ##turned off
+#   trigger:
+#     platform: state
+#     entity_id: person.david_bryant
+#     from: "not_home"
+#     to: "home"
+#     # If given, will trigger when state has been the to state for 10 minutes.
+#     for: "00:10:00"
+#   action:
+#     -  service: media_player.turn_on
+#        entity_id: media_player.family_room_display
+#     # -  service: tts.google_translate_say
+#     #    entity_id: media_player.family_room_display
+#     #    data:
+#     #      message: 'Welcome Home David'
+
+########
+# - alias: Welcome_Home_Wendy     ###works   ###turned off
+#   trigger:
+#     platform: state
+#     entity_id: person.wendy_bryant
+#     from: "not_home"
+#     to: "home"
+#     # If given, will trigger when state has been the to state for 10 minutes.
+#     for: "00:10:00"
+#   action:
+#     -  service: media_player.turn_on
+#        entity_id: media_player.family_room_display
+#     -  service: tts.google_translate_say
+#        entity_id: media_player.family_room_display
+#        data:
+#          message: 'Welcome Home Wendy'
+
+########   STUDY AC & Spotify
+
+- alias: study_ac_and_spotify_on_at_800am_if_home  ###triggers but spotify stuffed
+  trigger:
+    platform: time
+    at: "08:00:00"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: state
+        entity_id: binary_sensor.study_temp_thres_on
+        state: 'off'
+      - condition: state
+        entity_id: climate.study
+        state: 'off'
+  action:
+    -  service: media_player.turn_on
+       entity_id: media_player.office_speaker
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.family_room_display
+        volume_level: '0.3'
+    -  service: tts.google_translate_say
+       entity_id: media_player.office_speaker
+       data:
+         message: 'Air Conditioning and Spotify starting.'
+    - service: climate.turn_on
+      entity_id: climate.study
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.study
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.study
+        hvac_mode: >
+          {% if states('sensor.study_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+#    - service: script.turn_on                                   ####stuffed
+#      entity_id: script.study_speaker
+
+- alias: study_spotify_off_when_1700_or_not_home    ###works
+  trigger:
+    - platform: time
+      at: "17:00:00"
+    - platform: state
+      entity_id: person.david_bryant
+      from: "home"
+      to: "not_home"
+      for: "00:10:00"
+  condition:
+    condition: or
+    conditions:
+      - condition: template
+        value_template: '{{ states("media_player.spotify_david_bryant") != "off" }}'
+      - condition: template
+        value_template: '{{ states("media_player.yamaha_study_speaker_main") != "off" }}'
+  action:
+    - service: script.turn_on
+      entity_id: script.study_speaker_off
+    - service: media_player.turn_on
+      entity_id: media_player.office_speaker
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.family_room_display
+        volume_level: '0.3'
+    - service: tts.google_translate_say
+      entity_id: media_player.office_speaker
+      data:
+        message: 'Turning Spotify off.'
+
+- alias: study_spotify_off_when_work_scheduled       ###works
+  trigger:
+    platform: state
+    entity_id: calendar.test_work
+    from: "off"
+    to: "on"
+  condition:
+    condition: or
+    conditions:
+      - condition: template
+        value_template: '{{ states("media_player.spotify_david_bryant") != "off" }}'
+      - condition: template
+        value_template: '{{ states("media_player.yamaha_study_speaker_main") != "off" }}'
+  action:
+    - service: script.turn_on
+      entity_id: script.study_speaker_off
+
+
+- alias: study_ac_after_800am_and_before_500pm_if_home
+  trigger:
+    platform: state
+    entity_id: binary_sensor.study_temp_thres_on
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: time
+        after: '08:00:00'
+        before: '17:00:00'
+      - condition: state
+        entity_id: climate.study
+        state: 'off'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.study
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.study
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.study
+        hvac_mode: >
+          {% if states('sensor.study_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+
+- alias: study_ac_off_when_temp_20_225_or_1700_or_not_home
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.study_temp_thres_off
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: time
+      at: "17:00:00"
+    - platform: state
+      entity_id: person.david_bryant
+      from: "home"
+      to: "not_home"
+      for: "00:10:00"
+  condition:
+    - condition: template
+      value_template: '{{ states("climate.study") != "off" }}'
+  action:
+    - service: climate.turn_off
+      entity_id: climate.study
+
+   ########   WENDY BEDROOM AC
+
+- alias: wendy_ac_on_at_700pm_if_home           ####works
+  trigger:
+    platform: time
+    at: "19:00:00"
+  action:
+    - service: climate.turn_off
+      entity_id:  climate.wendys_bedroom
+    - delay: '00:01:00'
+    - service: climate.turn_on
+      entity_id:  climate.wendys_bedroom
+    - service: climate.set_temperature
+      data:
+        entity_id:  climate.wendys_bedroom
+        temperature: 24
+    - service: climate.set_hvac_mode
+      data:
+        entity_id:  climate.wendys_bedroom
+        hvac_mode: heat
+    - service: climate.set_fan_mode
+      data:
+        entity_id:  climate.wendys_bedroom
+        fan_mode: 'strong'
+    - service: climate.set_swing_mode
+      data:
+        entity_id:  climate.wendys_bedroom
+        swing_mode: 'rangeFull'
+
+
+   ########   HOLLY BEDROOM AC
+
+- alias: holly_ac_on_at_500am_if_not_19_24_or_not_home   ### works
+  trigger:
+    platform: time
+    at: "05:00:00"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: state
+        entity_id: binary_sensor.hollys_bedroom_temp_thres_on
+        state: 'off'
+      - condition: state
+        entity_id: climate.hollys_bedroom
+        state: 'off'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.hollys_bedroom
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.hollys_bedroom
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.hollys_bedroom
+        hvac_mode: >
+          {% if states('sensor.hollys_bedroom_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+
+
+- alias: holly_ac_after_500am_and_before_800am_if_home                  ###works
+  trigger:
+    platform: state
+    entity_id: binary_sensor.hollys_bedroom_temp_thres_on
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: time
+        after: '05:00:00'
+        before: '08:00:00'
+      - condition: state
+        entity_id: climate.hollys_bedroom
+        state: 'off'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.hollys_bedroom
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.hollys_bedroom
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.hollys_bedroom
+        hvac_mode: >
+          {% if states('sensor.hollys_bedroom_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+
+- alias: holly_ac_off_when_temp_20_225_or_800am_or_930pm   ###works
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.hollys_bedroom_temp_thres_off
+      from: 'off'
+      to: 'on'
+      for:
+        minutes: 5
+    - platform: time
+      at: "08:00:00"
+    - platform: time
+      at: "21:30:00"
+  condition:
+    - condition: template
+      value_template: '{{ states("climate.hollys_bedroom") != "off" }}'
+  action:
+    - service: climate.turn_off
+      entity_id: climate.hollys_bedroom
+
+#####
+
+- alias: holly_ac_on_at_830pm_if_not_19_24_or_home                  ### works
+  trigger:
+    platform: time
+    at: "20:30:00"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: state
+        entity_id: binary_sensor.hollys_bedroom_temp_thres_on
+        state: 'off'
+      - condition: state
+        entity_id: climate.hollys_bedroom
+        state: 'off'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.hollys_bedroom
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.hollys_bedroom
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.hollys_bedroom
+        hvac_mode: >
+          {% if states('sensor.hollys_bedroom_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+
+
+- alias: holly_ac_after_830pm_and_before_930pm_if_home                   ### works
+  trigger:
+    platform: state
+    entity_id: binary_sensor.hollys_bedroom_temp_thres_on
+    from: 'on'
+    to: 'off'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+      - condition: time
+        after: "20:30:00"
+        before: "21:30:00"
+      - condition: state
+        entity_id: climate.hollys_bedroom
+        state: 'off'
+  action:
+    - service: climate.turn_on
+      entity_id: climate.hollys_bedroom
+    - service: climate.set_temperature
+      data:
+        entity_id: climate.hollys_bedroom
+        temperature: 20
+        target_temp_high: 26
+        target_temp_low: 20
+        hvac_mode: heat
+    - service: climate.set_hvac_mode
+      data_template:
+        entity_id: climate.hollys_bedroom
+        hvac_mode: >
+          {% if states('sensor.hollys_bedroom_temp')|float < 20.0 %}
+          heat
+          {% else %}
+          cool
+          {% endif %}
+
+- alias: create_weekly_backup   ### works
+  trigger:
+    - platform: time
+      at: "18:00:00"
+  condition:
+    - condition: time
+      weekday:
+        - mon
+  action:
+    - service: logbook.log
+      data:
+        message: Weekly Backup 💾 is created!
+        name: automation.create_weekly_backup
+    - service: hassio.snapshot_full
+      data_template:
+        name: >
+          Backup_{{ now().strftime('%d-%m-%YT%H-%M-%S') }}
