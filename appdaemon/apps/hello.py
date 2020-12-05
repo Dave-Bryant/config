@@ -3,7 +3,7 @@ import appdaemon.plugins.hass.hassapi as hass
 #
 # Hellow World App
 #
-# Args:
+# Argss:
 #
 
 class HelloWorld(hass.Hass):
@@ -11,6 +11,11 @@ class HelloWorld(hass.Hass):
   def initialize(self):
      self.log("Hello from AppDaemon")
      self.log("You are now ready to run Apps!")
+     my_global_var = self.config["global_var"]
+     self.log("here comes the global var %s", my_global_var )
+     self.config["global_var"] = "howzat"
+     my_global_var = self.config["global_var"]
+     self.log("here comes the global var %s", my_global_var )
      self.turn_off('switch.tasmota')
      self.test(argument1 ="viola", match = self.entities.switch.tasmota.state)
 

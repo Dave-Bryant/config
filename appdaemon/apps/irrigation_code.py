@@ -26,7 +26,7 @@ class Home_Irrigation(hass.Hass):
 
   def main_routine(self, *args):     # change daily to > 60 to stop small runs
      self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
-     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))} seconds")
+     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))} seconds. ")
      if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2')) > 0 and self.running_time > 0:
          self.running_time = self.running_time / self.no_of_schedules
          self.log(f"Starting Irrigation. Running time is: {self.running_time/60:.2f} minutes")
@@ -64,8 +64,9 @@ class Home_Irrigation(hass.Hass):
          if self.reset_backet:
              self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
          self.log("Irrigation schedule set")
+
      else:
-         self.log("Irrigation not needed")
+         self.log("Irrigation not needed")         
 
 # Methods
 
