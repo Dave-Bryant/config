@@ -1,22 +1,3 @@
-irrigate_lawn:
-  alias: irrigate lawn
-  sequence:
-    - service: logbook.log
-      data:
-        name: script.irrigate_lawn
-        message: starting the irrigating lawn scripts
-    - service: pyscript.run_station
-      data:
-        master_valve: 'switch.spare_switch'
-        entity_id: 'switch.upstairs_light'
-        delay: sensor.smart_irrigation_hourly_adjusted_run_time
-        overflow: 300
-    - service: logbook.log
-      data:
-        name: script.irrigate_lawn
-        message: finished the irrigating lawn scripts
-
-
 
 
 

@@ -18,10 +18,10 @@ irrigation1:
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
   VALVE_LEAD_TIME: 00 # 20 secs for each station then some
-  STATION_1: 'switch.tasmota2'
-  STATION_2: 'switch.tasmota3'
-  STATION_3: 'switch.tasmota4'
-  STATION_4: 'switch.tasmota'
+  STATION_1: 'switch.frlawnwest'
+  STATION_2: 'switch.frlawneast'
+  STATION_3: 'switch.bklawnsouth'
+  STATION_4: 'switch.bklawnnorth'
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
@@ -39,10 +39,10 @@ irrigation2:
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
   VALVE_LEAD_TIME: 00 # 20 secs for each station then some
-  STATION_1: 'switch.tasmota2'
-  STATION_2: 'switch.tasmota3'
-  STATION_3: 'switch.tasmota4'
-  STATION_4: 'switch.tasmota'
+  STATION_1: 'switch.frlawnwest'
+  STATION_2: 'switch.frlawneast'
+  STATION_3: 'switch.bklawnsouth'
+  STATION_4: 'switch.bklawnnorth'
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
@@ -59,10 +59,10 @@ irrigation3:
   RESET_BUCKET: True
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
   VALVE_LEAD_TIME: 00 # 20 secs for each station then some
-  STATION_1: 'switch.tasmota2'
-  STATION_2: 'switch.tasmota3'
-  STATION_3: 'switch.tasmota4'
-  STATION_4: 'switch.tasmota'
+  STATION_1: 'switch.frlawnwest'
+  STATION_2: 'switch.frlawneast'
+  STATION_3: 'switch.bklawnsouth'
+  STATION_4: 'switch.bklawnnorth'
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644

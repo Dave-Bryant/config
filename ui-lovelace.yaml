@@ -7,7 +7,7 @@ resources:
     url: /local/community/weather-card/weather-card.js
   - type: module
     url: /local/community/lovelace-paper-buttons-row/paper-buttons-row.js
-  
+
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -237,16 +237,16 @@ views:
       - type: glance
         title: Switches
         entities:
-          - entity: switch.tasmota
+          - entity: switch.bklawnnorth
             tap_action:
               action: toggle
-          - entity: switch.tasmota2
+          - entity: switch.bklawnsouth
             tap_action:
               action: toggle
-          - entity: switch.tasmota3
+          - entity: switch.frlawneast
             tap_action:
               action: toggle
-          - entity: switch.tasmota4
+          - entity: switch.frlawnwest
             tap_action:
               action: toggle
       - type: entities
