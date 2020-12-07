@@ -2,6 +2,7 @@
 hello_world:
   module: hello
   class: HelloWorld
+  constrain_days: 'mon,wed'
 
 act_garbage:
   module: act_garbage
@@ -16,8 +17,8 @@ irrigation1:
   START_TIME: '01:00:00'
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'

@@ -16,7 +16,7 @@ class HelloWorld(hass.Hass):
      self.config["global_var"] = "howzat"
      my_global_var = self.config["global_var"]
      self.log("here comes the global var %s", my_global_var )
-     self.turn_off('switch.tasmota')
+     self.turn_off('switch.frlawnwest')
      self.test(argument1 ="viola", match = self.entities.switch.frlawnwest.state)
 
   def test(self, argument1, match, **kwargs):
