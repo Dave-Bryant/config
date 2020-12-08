@@ -38,7 +38,6 @@ irrigation1:
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
 
-
 irrigation2:
   module: irrigation_code
   class: Home_Irrigation
@@ -119,7 +118,6 @@ irrigation4:              # Gardens
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-
 
 light_timer1:
   module: light_timer_code
