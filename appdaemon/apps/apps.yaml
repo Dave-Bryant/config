@@ -15,6 +15,7 @@ irrigation1:
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '01:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
@@ -23,54 +24,101 @@ irrigation1:
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
+  STATION_5: ''
+  STATION_6: ''
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
+  STATION_5_WEIGHT: 1.0
+  STATION_6_WEIGHT: 1.0
   STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
 
 
 irrigation2:
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '05:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
+  STATION_5: ''
+  STATION_6: ''
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
+  STATION_5_WEIGHT: 1.0
+  STATION_6_WEIGHT: 1.0
   STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
 
 irrigation3:
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '20:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for waterme master 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00 # 20 secs for each station then some
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
+  STATION_5: ''
+  STATION_6: ''
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
+  STATION_5_WEIGHT: 1.0
+  STATION_6_WEIGHT: 1.0
   STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
+
+irrigation4:              # Gardens
+  module: irrigation_code
+  class: Home_Irrigation
+  START_TIME: '03:00:00'
+  START_DAYS: "tue,wed,sat"
+  NO_OF_SCHEDULES: 1
+  RESET_BUCKET: False
+  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
+  VALVE_LEAD_TIME: 00
+  STATION_1: ''
+  STATION_2: ''
+  STATION_3: ''
+  STATION_4: ''
+  STATION_5: 'switch.frlawnwest'
+  STATION_6: 'switch.frlawneast'
+  STATION_1_WEIGHT: 0.4881
+  STATION_2_WEIGHT: 1.0631
+  STATION_3_WEIGHT: 1.4644
+  STATION_4_WEIGHT: 1.4644
+  STATION_5_WEIGHT: 1.0
+  STATION_6_WEIGHT: 1.0
+  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
+  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
 
 
 light_timer1:
