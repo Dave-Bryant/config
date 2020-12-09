@@ -237,16 +237,16 @@ views:
       - type: glance
         title: Switches
         entities:
-          - entity: switch.bklawnnorth
-            tap_action:
-              action: toggle
-          - entity: switch.bklawnsouth
+          - entity: switch.frlawnwest
             tap_action:
               action: toggle
           - entity: switch.frlawneast
             tap_action:
               action: toggle
-          - entity: switch.frlawnwest
+          - entity: switch.bklawnsouth
+            tap_action:
+              action: toggle
+          - entity: switch.bklawnnorth
             tap_action:
               action: toggle
       - type: entities
@@ -256,7 +256,7 @@ views:
       - type: entities
         title: 'smart_irrigation_hourly_adjusted_run_time'
         entities:
-          - sensor.smart_irrigation_hourly_adjusted_run_time_2
+          - sensor.smart_irrigation_hourly_adjusted_run_time
       - type: entities
         title: 'sensor.smart_irrigation_daily_adjusted_run_time'
         entities:

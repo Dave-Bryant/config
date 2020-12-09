@@ -33,16 +33,22 @@ class Home_Irrigation(hass.Hass):
 
   def main_routine(self, *args):
      self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
-     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))} seconds. ")
-     if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2')) > 0 and self.running_time > 0:
+     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))} seconds. ")
+     if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time')) > 0 and self.running_time > 0:
          self.running_time = self.running_time / self.no_of_schedules
          self.log(f"Starting Irrigation. Running time is: {self.running_time/60:.2f} minutes")
-         self.station1_running_time = self.running_time*self.station1_weight
-         self.station2_running_time = self.running_time*self.station2_weight
-         self.station3_running_time = self.running_time*self.station3_weight
-         self.station4_running_time = self.running_time*self.station4_weight
-         self.station5_running_time = self.running_time*self.station5_weight
-         self.station6_running_time = self.running_time*self.station6_weight
+         if self.station1 != '': self.station1_running_time = self.running_time*self.station1_weight
+         else: self.station1_running_time = 0.0001
+         if self.station2 != '': self.station2_running_time = self.running_time*self.station2_weight
+         else: self.station2_running_time = 0.0001
+         if self.station3 != '': self.station3_running_time = self.running_time*self.station3_weight
+         else: self.station3_running_time = 0.0001
+         if self.station4 != '': self.station4_running_time = self.running_time*self.station4_weight
+         else: self.station4_running_time = 0.0001
+         if self.station5 != '': self.station5_running_time = self.running_time*self.station5_weight
+         else: self.station5_running_time = 0.0001
+         if self.station6 != '': self.station6_running_time = self.running_time*self.station6_weight
+         else: self.station6_running_time = 0.0001
          self.log(f"Station running times (minutes): Station 1: {self.station1_running_time/60:.2f} Station 2: {self.station2_running_time/60:.2f} Station3: {self.station3_running_time/60:.2f} Station4: {self.station4_running_time/60:.2f} Station5: {self.station5_running_time/60:.2f} Station6: {self.station6_running_time/60:.2f}")
          # make sure all valves are off
          if self.station1 != '': self.turn_off(self.station1)

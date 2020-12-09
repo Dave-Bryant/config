@@ -68,7 +68,7 @@ irrigation2:
 irrigation3:
   module: irrigation_code
   class: Home_Irrigation
-  START_TIME: '20:00:00'
+  START_TIME: '22:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
@@ -96,7 +96,7 @@ irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '03:00:00'
-  START_DAYS: "tue,wed,sat"
+  START_DAYS: "tue,sat"
   NO_OF_SCHEDULES: 1
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
