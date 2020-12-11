@@ -350,10 +350,10 @@
   action:
     -  service: media_player.turn_on
        entity_id: media_player.office_speaker
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.family_room_display
-        volume_level: '0.3'
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
     -  service: tts.google_translate_say
        entity_id: media_player.office_speaker
        data:
@@ -400,10 +400,10 @@
       entity_id: script.study_speaker_off
     - service: media_player.turn_on
       entity_id: media_player.office_speaker
-    - service: media_player.volume_set
-      data:
-        entity_id: media_player.family_room_display
-        volume_level: '0.3'
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.office_speaker
+        # volume_level: '0.3'
     - service: tts.google_translate_say
       entity_id: media_player.office_speaker
       data:

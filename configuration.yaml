@@ -198,6 +198,24 @@ sensor:
         unit_of_measurement: '%'
         device_class: humidity
         value_template: "{{ state_attr('climate.family_room', 'current_humidity') }}"
+
+  # Weather Underground
+  - platform: wundergroundpws
+    api_key: !secret Weather_Underground_API_Key
+    pws_id: !secret Weather_Underground_Station_ID
+    monitored_conditions:
+      - temp
+      - precipTotal
+      - pressure
+      - windSpeed
+      - dewpt
+      - humidity
+      - solarRadiation
+      - precip_1d
+      - precip_chance_1d
+      - weather_1d
+
+
 binary_sensor:
   - platform: threshold
     entity_id: sensor.study_temp

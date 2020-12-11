@@ -269,6 +269,46 @@ views:
         title: 'smart_irrigation_bucket'
         entities:
           - sensor.smart_irrigation_bucket
+      - type: entities
+        title: 'Dewpoint'
+        entities:
+          - sensor.wupws_dewpt
+      - type: entities
+        title: 'Humidity'
+        entities:
+          - sensor.wupws_humidity
+      - type: entities
+        title: 'Rain'
+        entities:
+          - sensor.wupws_preciptotal
+      - type: entities
+        title: 'Radiation'
+        entities:
+          - sensor.wupws_solarradiation
+      - type: entities
+        title: 'Temp'
+        entities:
+          - sensor.wupws_temp
+      - type: entities
+        title: 'Pressure'
+        entities:
+          - sensor.wupws_pressure
+      - type: entities
+        title: 'Wind Speed'
+        entities:
+          - sensor.wupws_windspeed
+      - type: entities
+        title: 'Forecast rain'
+        entities:
+          - sensor.wupws_precip_1d
+      - type: entities
+        title: 'Forecast rain Probability'
+        entities:
+          - sensor.wupws_precip_chance_1d          
+      - type: entities
+        title: 'Weather Description 1d'
+        entities:
+          - sensor.wupws_weather_1d
   - title: Cameras
     cards:
       - type: picture-elements
