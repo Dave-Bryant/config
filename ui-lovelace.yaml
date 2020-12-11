@@ -234,6 +234,28 @@ views:
 
   - title: Irrigation
     cards:
+      - type: entities
+        title: 'Daily Forecast'
+        entities:
+          - sensor.wupws_temp
+          - sensor.wupws_preciptotal
+          - sensor.wupws_precip_chance_1d
+          - sensor.wupws_windspeed
+          - sensor.wupws_humidity
+          - sensor.wupws_pressure
+          - sensor.wupws_dewpt
+          - sensor.wupws_solarradiation
+      - type: entities
+        title: 'Weather Overview'
+        entities:
+          - sensor.wupws_weather_1d
+          - sensor.wupws_weather_1n
+          - sensor.wupws_weather_2d
+          - sensor.wupws_weather_2n
+          - sensor.wupws_weather_3d
+          - sensor.wupws_weather_3n
+          - sensor.wupws_weather_4d
+          - sensor.wupws_weather_4n
       - type: glance
         title: Switches
         entities:
@@ -269,46 +291,8 @@ views:
         title: 'smart_irrigation_bucket'
         entities:
           - sensor.smart_irrigation_bucket
-      - type: entities
-        title: 'Dewpoint'
-        entities:
-          - sensor.wupws_dewpt
-      - type: entities
-        title: 'Humidity'
-        entities:
-          - sensor.wupws_humidity
-      - type: entities
-        title: 'Rain'
-        entities:
-          - sensor.wupws_preciptotal
-      - type: entities
-        title: 'Radiation'
-        entities:
-          - sensor.wupws_solarradiation
-      - type: entities
-        title: 'Temp'
-        entities:
-          - sensor.wupws_temp
-      - type: entities
-        title: 'Pressure'
-        entities:
-          - sensor.wupws_pressure
-      - type: entities
-        title: 'Wind Speed'
-        entities:
-          - sensor.wupws_windspeed
-      - type: entities
-        title: 'Forecast rain'
-        entities:
-          - sensor.wupws_precip_1d
-      - type: entities
-        title: 'Forecast rain Probability'
-        entities:
-          - sensor.wupws_precip_chance_1d          
-      - type: entities
-        title: 'Weather Description 1d'
-        entities:
-          - sensor.wupws_weather_1d
+
+
   - title: Cameras
     cards:
       - type: picture-elements

@@ -214,6 +214,41 @@ sensor:
       - precip_1d
       - precip_chance_1d
       - weather_1d
+      - weather_1n
+      - weather_2d
+      - weather_2n
+      - weather_3d
+      - weather_3n
+      - weather_4d
+      - weather_4n
+
+  # - platform: wunderground  # this is the official integration. I points to the wrong web address. Waiting to be fixed.
+  #   api_key: !secret Weather_Underground_API_Key
+  #   pws_id: !secret Weather_Underground_Station_ID
+  #   monitored_conditions:
+  #     - temp_c
+  #     - precip_today_metric
+  #     - pressure_mb
+  #     - wind_kph
+  #     - dewpoint_c
+  #     - relative_humidity
+  #     - solarradiation
+  #     - temp_high_record_c
+  #     - temp_low_record_c
+  #     - precip_1d_mm
+  #     - precip_1d
+  #     - weather_1d_metric
+  #     - weather_1n_metric
+  #     - weather_2d_metric
+  #     - weather_2n_metric
+  #     - weather_3d_metric
+  #     - weather_3n_metric
+  #     - weather_4d_metric
+  #     - weather_4n_metric
+  #     - temp_high_1d_c
+  #     - temp_low_1d_c
+  #     - wind_1d_kph
+  #     - alerts
 
 
 binary_sensor:
