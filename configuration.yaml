@@ -211,8 +211,9 @@ sensor:
       - dewpt
       - humidity
       - solarRadiation
-      - precip_1d
       - precip_chance_1d
+      - temp_high_1d
+      - temp_low_1d
       - weather_1d
       - weather_1n
       - weather_2d

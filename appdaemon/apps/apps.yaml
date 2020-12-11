@@ -68,7 +68,7 @@ irrigation2:
 irrigation3:
   module: irrigation_code
   class: Home_Irrigation
-  START_TIME: '22:00:00'
+  START_TIME: '20:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True

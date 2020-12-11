@@ -245,6 +245,8 @@ views:
           - sensor.wupws_pressure
           - sensor.wupws_dewpt
           - sensor.wupws_solarradiation
+          - sensor.wupws_temp_high_1d
+          - sensor.wupws_temp_low_1d
       - type: entities
         title: 'Weather Overview'
         entities:
