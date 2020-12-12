@@ -228,6 +228,15 @@ sensor:
     name: "temp_high"
     max_age:
       minutes: 1440
+
+  - platform: template
+    sensors:
+      high_temperature_today:
+        friendly_name: 'High Temperature Today'
+        unit_of_measurement: °C
+        icon_template: mdi:thermometer
+        value_template: "{{ state_attr('sensor.temp_high', 'max_value') }}"
+
   - platform: min_max
     name: "precip_chance"
     type: max

@@ -240,7 +240,7 @@ views:
           - sensor.wupws_pressure
           - sensor.wupws_dewpt
           - sensor.wupws_solarradiation
-          - sensor.temp_high
+          - sensor.high_temperature_today
           - sensor.wupws_temp_low_1d
       - type: entities
         title: 'Weather Overview'
