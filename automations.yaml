@@ -99,7 +99,7 @@
     #    data:
     #      entity_id: media_player.family_room_display
     #      volume_level: '0.5'
-    -  service: tts.google_translate_say
+    -  service: tts.cloud_say
        entity_id: media_player.family_room_display
        data:
          message: 'You need to put the recycling bin out on the road'
@@ -125,7 +125,7 @@
     #    data:
     #      entity_id: media_player.family_room_display
     #      volume_level: '0.5'
-    -  service: tts.google_translate_say
+    -  service: tts.cloud_say
        entity_id: media_player.family_room_display
        data:
          message: 'You need to put the green waste bin out on the road'

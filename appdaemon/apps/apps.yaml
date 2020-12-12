@@ -16,6 +16,8 @@ irrigation1:
   class: Home_Irrigation
   START_TIME: '01:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  PRECIPITATION_THRESHOLD: 30
+  WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
@@ -43,6 +45,8 @@ irrigation2:
   class: Home_Irrigation
   START_TIME: '05:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  PRECIPITATION_THRESHOLD: 30
+  WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
@@ -70,6 +74,8 @@ irrigation3:
   class: Home_Irrigation
   START_TIME: '20:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  PRECIPITATION_THRESHOLD: 30
+  WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
@@ -97,6 +103,8 @@ irrigation4:              # Gardens
   class: Home_Irrigation
   START_TIME: '03:00:00'
   START_DAYS: "tue,sat"
+  PRECIPITATION_THRESHOLD: 30
+  WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
   RESET_BUCKET: False
   MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some

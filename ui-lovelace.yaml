@@ -163,11 +163,6 @@ views:
           - entity: sensor.family_room_humidity
             name: Humidity
         type: 'custom:simple-thermostat'
-      - entity: weather.openweathermap
-        type: weather-forecast
-      - entity: weather.dark_sky
-        name: null
-        type: 'custom:weather-card'
       - entities:
           - entity: sensor.speedtest_download
           - entity: sensor.speedtest_upload
@@ -239,13 +234,13 @@ views:
         entities:
           - sensor.wupws_temp
           - sensor.wupws_preciptotal
-          - sensor.wupws_precip_chance_1d
+          - sensor.precip_chance
           - sensor.wupws_windspeed
           - sensor.wupws_humidity
           - sensor.wupws_pressure
           - sensor.wupws_dewpt
           - sensor.wupws_solarradiation
-          - sensor.wupws_temp_high_1d
+          - sensor.temp_high
           - sensor.wupws_temp_low_1d
       - type: entities
         title: 'Weather Overview'
@@ -273,6 +268,10 @@ views:
           - entity: switch.bklawnnorth
             tap_action:
               action: toggle
+      - type: entities
+        title: 'Garden Watering time'
+        entities:
+          - input_number.garden_watering_time
       - type: entities
         title: 'smart_irrigation_base_schedule'
         entities:
