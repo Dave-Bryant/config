@@ -248,7 +248,7 @@ input_number:
     name: "Garden Watering Time"
     min: 0
     max: 3600
-    mode: slider
+    mode: box
     unit_of_measurement: sec
 
   # - platform: wunderground  # this is the official integration. I points to the wrong web address. Waiting to be fixed.
