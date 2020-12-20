@@ -7,7 +7,8 @@ resources:
     url: /local/community/weather-card/weather-card.js
   - type: module
     url: /local/community/lovelace-paper-buttons-row/paper-buttons-row.js
-
+  - type: module
+    url: /local/community/lovelace-card-templater/lovelace-card-templater.js
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -241,11 +242,16 @@ views:
           - sensor.wupws_dewpt
           - sensor.wupws_solarradiation
           - sensor.high_temperature_today
-          - sensor.wupws_temp_low_1d
-      - type: entities
-        title: 'Weather Overview'
+          - sensor.low_temperature_today
+
+      - type: custom:card-templater
+        card:
+          type: entities
+          title: 'Weather Overview'
         entities:
-          - sensor.wupws_weather_1d
+          - entity: sensor.wupws_weather_1d
+            state_template: >-
+              {% if states('sensor.wupws_weather_1d') == 'Unknown' %} . {% endif %}
           - sensor.wupws_weather_1n
           - sensor.wupws_weather_2d
           - sensor.wupws_weather_2n

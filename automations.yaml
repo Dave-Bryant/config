@@ -10,7 +10,7 @@
        data:
          entity_id: media_player.office_speaker
          volume_level: '0.2'
-    -  service: tts.google_translate_say
+    -  service: tts.cloud_say
        entity_id: media_player.office_speaker
        data:
          message: 'Home Assistant has started.'
@@ -74,7 +74,7 @@
     entity_id: group.bryant_family
     state: 'home'
   action:
-    -  service: tts.google_translate_say
+    -  service: tts.cloud_say
        entity_id: media_player.office_speaker
        data:
          message: 'It is 8 oclock david'

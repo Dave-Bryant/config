@@ -223,11 +223,13 @@ sensor:
       - weather_3n
       - weather_4d
       - weather_4n
+
   - platform: statistics
     entity_id: sensor.wupws_temp
-    name: "temp_high"
+    name: "temp_high_low"
     max_age:
       minutes: 1440
+    sampling_size: 1440
 
   - platform: template
     sensors:
@@ -235,7 +237,15 @@ sensor:
         friendly_name: 'High Temperature Today'
         unit_of_measurement: °C
         icon_template: mdi:thermometer
-        value_template: "{{ state_attr('sensor.temp_high', 'max_value') }}"
+        value_template: "{{ state_attr('sensor.temp_high_low', 'max_value') }}"
+
+  - platform: template
+    sensors:
+      low_temperature_today:
+        friendly_name: 'Low Temperature Today'
+        unit_of_measurement: °C
+        icon_template: mdi:thermometer
+        value_template: "{{ state_attr('sensor.temp_high_low', 'min_value') }}"
 
   - platform: min_max
     name: "precip_chance"
@@ -243,6 +253,7 @@ sensor:
     entity_ids:
       - sensor.wupws_precip_chance_1d
       - sensor.wupws_precip_chance_1n
+      
 input_number:
   garden_watering_time:
     name: "Garden Watering Time"

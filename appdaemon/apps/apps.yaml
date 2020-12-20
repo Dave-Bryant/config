@@ -39,6 +39,7 @@ irrigation1:
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
+  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
 
 irrigation2:
   module: irrigation_code
@@ -68,6 +69,7 @@ irrigation2:
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
+  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
 
 irrigation3:
   module: irrigation_code
@@ -90,19 +92,20 @@ irrigation3:
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
-  STATION_5_WEIGHT: 1.0
-  STATION_6_WEIGHT: 1.0
+  STATION_5_WEIGHT: 0.5
+  STATION_6_WEIGHT: 0.75
   STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
+  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
 
 irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '03:00:00'
-  START_DAYS: "tue,sat"
+  START_DAYS: "mon,fri"
   PRECIPITATION_THRESHOLD: 30
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
@@ -119,13 +122,14 @@ irrigation4:              # Gardens
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
-  STATION_5_WEIGHT: 1.0
-  STATION_6_WEIGHT: 1.0
+  STATION_5_WEIGHT: 0.5
+  STATION_6_WEIGHT: 0.75
   STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
+  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
 
 light_timer1:
   module: light_timer_code
