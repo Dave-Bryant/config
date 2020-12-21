@@ -236,6 +236,7 @@ views:
           - sensor.wupws_temp
           - sensor.wupws_preciptotal
           - sensor.precip_chance
+          - sensor.wupws_precip_chance_2d
           - sensor.wupws_windspeed
           - sensor.wupws_humidity
           - sensor.wupws_pressure
@@ -251,7 +252,7 @@ views:
         entities:
           - entity: sensor.wupws_weather_1d
             state_template: >-
-              {% if states('sensor.wupws_weather_1d') == 'Unknown' %} . {% endif %}
+              {% if states('sensor.wupws_weather_1d') == 'unknown' %} . {% endif %}
           - sensor.wupws_weather_1n
           - sensor.wupws_weather_2d
           - sensor.wupws_weather_2n
@@ -274,6 +275,12 @@ views:
           - entity: switch.bklawnnorth
             tap_action:
               action: toggle
+          - entity: switch.frontgarden
+            tap_action:
+              action: toggle
+          - entity: switch.backsidegarden
+            tap_action:
+              action: toggle            
       - type: entities
         title: 'Garden Watering time'
         entities:
@@ -290,14 +297,14 @@ views:
         title: 'sensor.smart_irrigation_daily_adjusted_run_time'
         entities:
           - sensor.smart_irrigation_daily_adjusted_run_time
-      - type: entities
-        title: 'smart_irrigation_hourly_netto_precipitation'
-        entities:
-          - sensor.smart_irrigation_hourly_netto_precipitation
-      - type: entities
-        title: 'smart_irrigation_bucket'
-        entities:
-          - sensor.smart_irrigation_bucket
+      # - type: entities
+      #   title: 'smart_irrigation_hourly_netto_precipitation'
+      #   entities:
+      #     - sensor.smart_irrigation_hourly_netto_precipitation
+      # - type: entities
+      #   title: 'smart_irrigation_bucket'
+      #   entities:
+      #     - sensor.smart_irrigation_bucket
 
 
   - title: Cameras

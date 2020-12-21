@@ -116,8 +116,8 @@ irrigation4:              # Gardens
   STATION_2: ''
   STATION_3: ''
   STATION_4: ''
-  STATION_5: 'switch.frlawnwest'
-  STATION_6: 'switch.frlawneast'
+  STATION_5: 'switch.frontgarden'
+  STATION_6: 'switch.backsidegarden'
   STATION_1_WEIGHT: 0.4881
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
@@ -130,6 +130,11 @@ irrigation4:              # Gardens
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
   STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
+
+irrigation_rain_monitor:              # Resets cumulative garden run time if rain occurs
+  module: irrigation_rain_monitor_code
+  class: Home_Irrigation_rain_monitor
+  PRECIPITATION_THRESHOLD: 2.0   # mm
 
 light_timer1:
   module: light_timer_code

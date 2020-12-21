@@ -213,6 +213,7 @@ sensor:
       - solarRadiation
       - precip_chance_1d
       - precip_chance_1n
+      - precip_chance_2d
       - temp_high_1d
       - temp_low_1d
       - weather_1d
@@ -253,7 +254,7 @@ sensor:
     entity_ids:
       - sensor.wupws_precip_chance_1d
       - sensor.wupws_precip_chance_1n
-      
+ 
 input_number:
   garden_watering_time:
     name: "Garden Watering Time"

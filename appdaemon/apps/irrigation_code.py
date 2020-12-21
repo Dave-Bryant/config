@@ -38,9 +38,9 @@ class Home_Irrigation(hass.Hass):
      self.chance_of_precipitation = self.render_template("{{states('sensor.precip_chance') | int}}")
      self.cumulative_total = round(self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}") / self.no_of_schedules + self.render_template("{{states('input_number.garden_watering_time') | int}}"),0) #store run time for gardens
      self.set_value("input_number.garden_watering_time",self.cumulative_total) # store persistently
-     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))} seconds. Probability of Rain: {self.chance_of_precipitation}%. Watering Threshold: {self.watering_threshold}sec. Cumulative Garden Run Time: {self.cumulative_total}sec ")
+     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.get_state('sensor.wupws_precip_chance_2d')}%. Watering Threshold: {self.watering_threshold}sec. Cumulative Garden Run Time: {self.cumulative_total}sec ")
 
-     if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time')) > 0 and self.running_time > self.watering_threshold and self.chance_of_precipitation < self.precipitation_threshold:
+     if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time')) > 0 and self.running_time > self.watering_threshold and self.chance_of_precipitation < self.precipitation_threshold and self.get_state('sensor.wupws_precip_chance_2d') < self.precipitation_threshold:
 
          self.running_time = self.running_time / self.no_of_schedules
          self.garden_running_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
