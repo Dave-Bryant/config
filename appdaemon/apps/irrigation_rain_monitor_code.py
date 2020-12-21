@@ -25,4 +25,4 @@ class Home_Irrigation_rain_monitor(hass.Hass):
       Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
       Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
 
-      self.log(f"Precipitation is: {Precipitation} mms. Garden_watering_time is: {Garden_watering_time} seconds.")
+      self.log(f"Prec: {Precipitation} mms. Gard: {Garden_watering_time} secs")
