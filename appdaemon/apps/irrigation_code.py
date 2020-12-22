@@ -17,18 +17,21 @@ class Home_Irrigation(hass.Hass):
      self.station4 = self.args["STATION_4"]
      self.station5 = self.args["STATION_5"]
      self.station6 = self.args["STATION_6"]
+     self.station7 = self.args["STATION_7"]
      self.station1_weight = self.args["STATION_1_WEIGHT"]
      self.station2_weight = self.args["STATION_2_WEIGHT"]
      self.station3_weight = self.args["STATION_3_WEIGHT"]
      self.station4_weight = self.args["STATION_4_WEIGHT"]
      self.station5_weight = self.args["STATION_5_WEIGHT"]
      self.station6_weight = self.args["STATION_6_WEIGHT"]
+     self.station7_weight = self.args["STATION_7_WEIGHT"]
      self.window1 = self.args["STATION_1_WINDOW"] # window of the WaterMe irrigation cycle
      self.window2 = self.args["STATION_2_WINDOW"]
      self.window3 = self.args["STATION_3_WINDOW"]
      self.window4 = self.args["STATION_4_WINDOW"]
      self.window5 = self.args["STATION_5_WINDOW"]
      self.window6 = self.args["STATION_6_WINDOW"]
+     self.window7 = self.args["STATION_7_WINDOW"]
 
      self.run_daily(self.main_routine, self.start_time, constrain_days = self.start_days)
      # self.run_in(self.main_routine, 0)
@@ -37,13 +40,14 @@ class Home_Irrigation(hass.Hass):
      self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
      self.chance_of_precipitation = self.render_template("{{states('sensor.precip_chance') | int}}")
 
-     if self.station1 != '':  # If not Garden Run
-         self.cumulative_total = round(self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}") / self.no_of_schedules + self.render_template("{{states('input_number.garden_watering_time') | int}}"),0) #store run time for gardens
-         self.set_value("input_number.garden_watering_time",self.cumulative_total) # store persistently
-
-     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.get_state('sensor.wupws_precip_chance_2d')}%. Watering Threshold: {self.watering_threshold}sec. Cumulative Garden Run Time: {self.cumulative_total}sec ")
+     self.log(f"Daily is: {self.running_time} seconds. Hourly is: {int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.get_state('sensor.wupws_precip_chance_2d')}%. Watering Threshold: {self.watering_threshold}sec. ")
 
      if int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time')) > 0 and self.running_time > self.watering_threshold and self.chance_of_precipitation < self.precipitation_threshold and self.get_state('sensor.wupws_precip_chance_2d') < self.precipitation_threshold:
+
+         if self.station1 != '':  # If not Garden Run then add to cumulative garden run time
+             self.cumulative_total = round(self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}") / self.no_of_schedules + self.render_template("{{states('input_number.garden_watering_time') | int}}"),0) #store run time for gardens
+             self.set_value("input_number.garden_watering_time",self.cumulative_total) # store persistently
+             self.log(f"Cumulative Garden Run Time: {self.cumulative_total}secs")
 
          self.running_time = self.running_time / self.no_of_schedules
          self.garden_running_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
@@ -74,7 +78,11 @@ class Home_Irrigation(hass.Hass):
          else: self.station6_running_time = 0.0001
          if self.station6_running_time >= (self.window6-self.master_valve_lead_time-self.valve_lead_time): self.station6_running_time = self.window6-self.master_valve_lead_time-self.valve_lead_time
 
-         self.log(f"Station running times (minutes): Station 1: {self.station1_running_time/60:.2f} Station 2: {self.station2_running_time/60:.2f} Station 3: {self.station3_running_time/60:.2f} Station 4: {self.station4_running_time/60:.2f} Station 5: {self.station5_running_time/60:.2f} Station 6: {self.station6_running_time/60:.2f}")
+         if self.station7 != '': self.station7_running_time = self.running_time*self.station4_weight
+         else: self.station7_running_time = 0.0001
+         if self.station7_running_time >= (self.window7-self.master_valve_lead_time-self.valve_lead_time): self.station7_running_time = self.window7-self.master_valve_lead_time-self.valve_lead_time
+
+         self.log(f"Station running times (minutes): Station 1: {self.station1_running_time/60:.2f} Station 2: {self.station2_running_time/60:.2f} Station 3: {self.station3_running_time/60:.2f} Station 4: {self.station4_running_time/60:.2f} Station 5: {self.station5_running_time/60:.2f} Station 6: {self.station6_running_time/60:.2f} Station 7: {self.station7_running_time/60:.2f}")
          # make sure all valves are off
          if self.station1 != '': self.turn_off(self.station1)
          if self.station2 != '': self.turn_off(self.station2)
@@ -82,6 +90,8 @@ class Home_Irrigation(hass.Hass):
          if self.station4 != '': self.turn_off(self.station4)
          if self.station5 != '': self.turn_off(self.station5)
          if self.station6 != '': self.turn_off(self.station6)
+         if self.station7 != '': self.turn_off(self.station7)
+
 
          # Turn on first station after waiting self.master_valve_lead_time seconds
          if self.station1 != '' and self.station1_running_time > 0.0001:
@@ -126,6 +136,13 @@ class Home_Irrigation(hass.Hass):
              self.run_in(self.turn_off_station_cb, self.running_time, current_station = self.station6)
              self.set_value("input_number.garden_watering_time", 0)  # reset cumulative garden running time
          else: self.window6 = 0
+
+         if self.station7 != ''  and self.station7_running_time > 0.0001:
+             self.running_time = self.window1 + self.window2 + self.window3 + self.window4 + self.window5 + self.window6 + self.valve_lead_time
+             self.run_in(self.turn_on_station_cb, self.running_time, current_station = self.station7)
+             self.running_time = self.station7_running_time + self.running_time
+             self.run_in(self.turn_off_station_cb, self.running_time, current_station = self.station7)
+         else: self.window7 = 0
 
          if self.reset_backet:
              self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")

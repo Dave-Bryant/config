@@ -280,7 +280,10 @@ views:
               action: toggle
           - entity: switch.backsidegarden
             tap_action:
-              action: toggle            
+              action: toggle
+          - entity: switch.tinybacklawn
+            tap_action:
+              action: toggle                     
       - type: entities
         title: 'Garden Watering time'
         entities:
