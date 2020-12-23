@@ -20,9 +20,8 @@ class Home_Irrigation_rain_monitor(hass.Hass):
   def main_routine(self, *args):
 
       if self.render_template("{{states('sensor.wupws_preciptotal') | int}}") >= self.precipitation_threshold:
+
+           Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
+           Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
+           self.log(f"Precipitation set to zero. Prec: {Precipitation} mms. Gard: {Garden_watering_time} secs")
            self.set_value("input_number.garden_watering_time", 0)
-
-      Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
-      Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
-
-      self.log(f"Prec: {Precipitation} mms. Gard: {Garden_watering_time} secs")
