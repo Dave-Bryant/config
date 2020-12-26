@@ -3,6 +3,13 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+recorder:
+  db_url: !secret mariadb_password
+  exclude:
+    entity_globs:
+      - sensor.wupws_*
+
+
 frontend:
   themes: !include_dir_merge_named themes
 
@@ -254,7 +261,7 @@ sensor:
     entity_ids:
       - sensor.wupws_precip_chance_1d
       - sensor.wupws_precip_chance_1n
- 
+
 input_number:
   garden_watering_time:
     name: "Garden Watering Time"
