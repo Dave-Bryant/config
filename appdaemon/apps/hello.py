@@ -1,5 +1,5 @@
 import appdaemon.plugins.hass.hassapi as hass
-
+import datetime
 #
 # Hellow World App
 #
@@ -10,6 +10,11 @@ class HelloWorld(hass.Hass):
 
   def initialize(self):
      self.log("Hello from AppDaemon")
+
+     self.start_days = self.args["START_DAYS"].split(",") # split up supplied days list
+     dayz = ('mon','tue','wed','thu','fri','sat','sun')  # work out todays date
+     if dayz[datetime.datetime.today().weekday()] in self.start_days:
+         self.log(f"Yes, found {dayz[datetime.datetime.today().weekday()]} in List: {self.start_days}")
 
      self.log("here comes the global var %s", self.config["global_irrigation_cumulative_daily_adjusted_run_time"] )
 

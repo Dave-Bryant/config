@@ -2,7 +2,7 @@
 hello_world:
   module: hello
   class: HelloWorld
-  constrain_days: 'mon,wed'
+  START_DAYS: 'mon,wed,sun'
 
 act_garbage:
   module: act_garbage
@@ -17,6 +17,7 @@ irrigation1:
   START_TIME: '01:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   PRECIPITATION_THRESHOLD: 30
+  PRECIPITATION_THRESHOLD_48: 80
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
@@ -50,6 +51,7 @@ irrigation2:
   START_TIME: '05:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   PRECIPITATION_THRESHOLD: 30
+  PRECIPITATION_THRESHOLD_48: 80
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
@@ -83,6 +85,7 @@ irrigation3:
   START_TIME: '20:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   PRECIPITATION_THRESHOLD: 30
+  PRECIPITATION_THRESHOLD_48: 80
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
@@ -114,8 +117,9 @@ irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '03:00:00'
-  START_DAYS: "mon,fri"  # out by 24 hours
+  START_DAYS: "tue,sat"
   PRECIPITATION_THRESHOLD: 30
+  PRECIPITATION_THRESHOLD_48: 80
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
   RESET_BUCKET: False
