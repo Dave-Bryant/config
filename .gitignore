@@ -10,6 +10,8 @@
 !*/*.py
 !appdaemon
 !appdaemon/apps
+!node-red
+
 
 # Ignore folders.
 .storage

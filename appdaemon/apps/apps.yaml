@@ -184,7 +184,7 @@ home_presence_app:
   minimum_confidence: 60
   not_home_timeout: 15
   system_check: 30
-  system_timeout: 125
+  system_timeout: 600
   home_gateway_sensors: None
 
   log_level: INFO
