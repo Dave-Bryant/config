@@ -184,6 +184,7 @@ views:
           - sensor.act_garbage_pickup
           - sensor.act_recycling_pickup
           - sensor.act_greenwaste_pickup
+          - input_boolean.check_act_garbage
           - binary_sensor.act_garbage_today
           - binary_sensor.act_garbage_tomorrow
           - binary_sensor.act_recycling_today
@@ -283,7 +284,7 @@ views:
               action: toggle
           - entity: switch.tinybacklawn
             tap_action:
-              action: toggle                     
+              action: toggle
       - type: entities
         title: 'Garden Watering time'
         entities:

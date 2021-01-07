@@ -7,8 +7,9 @@ recorder:
   db_url: !secret mariadb_password
   exclude:
     entity_globs:
-      - sensor.wupws_*
-
+      - sensor.wupws_weather*
+    entities:
+      - weather.dark_sky
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -269,6 +270,10 @@ input_number:
     max: 3600
     mode: box
     unit_of_measurement: sec
+
+input_boolean:
+  check_act_garbage:
+    name: input_boolean.check_act_garbage
 
   # - platform: wunderground  # this is the official integration. I points to the wrong web address. Waiting to be fixed.
   #   api_key: !secret Weather_Underground_API_Key

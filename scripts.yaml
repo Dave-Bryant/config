@@ -103,8 +103,8 @@ study_speaker:
 
     - service: media_player.select_source
       data_template:
-        entity_id: media_player.spotify_david_bryant
-        source: media_player.yamaha_study_speaker_main
+        entity_id: media_player.yamaha_study_speaker_main
+        source: media_player.spotify_david_bryant
     - service: logbook.log
       data:
         name: media_player.spotify_david_bryant

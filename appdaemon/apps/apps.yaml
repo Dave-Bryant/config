@@ -16,8 +16,8 @@ irrigation1:
   class: Home_Irrigation
   START_TIME: '01:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
-  PRECIPITATION_THRESHOLD: 30
-  PRECIPITATION_THRESHOLD_48: 80
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
@@ -50,8 +50,8 @@ irrigation2:
   class: Home_Irrigation
   START_TIME: '05:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
-  PRECIPITATION_THRESHOLD: 30
-  PRECIPITATION_THRESHOLD_48: 80
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
@@ -84,8 +84,8 @@ irrigation3:
   class: Home_Irrigation
   START_TIME: '20:00:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
-  PRECIPITATION_THRESHOLD: 30
-  PRECIPITATION_THRESHOLD_48: 80
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
@@ -116,10 +116,10 @@ irrigation3:
 irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
-  START_TIME: '03:00:00'
+  START_TIME: '18:00:00'
   START_DAYS: "tue,sat"
-  PRECIPITATION_THRESHOLD: 30
-  PRECIPITATION_THRESHOLD_48: 80
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
   RESET_BUCKET: False
@@ -184,17 +184,17 @@ home_presence_app:
   minimum_confidence: 60
   not_home_timeout: 15
   system_check: 30
-  system_timeout: 60
+  system_timeout: 125
   home_gateway_sensors: None
 
   log_level: INFO
   # reboot the all nodes at 12 midnight on Mondays and Thursdays
-  # scheduled_restart:
-  #   time: 00:00:01
-  #   days:
-  #     - mon
-  #     - thu
-  #   location: all
+  scheduled_restart:
+    time: 00:00:01
+    days:
+      - mon
+      - thu
+    location: all
 
   # other location configuration options
     #location: living_room, kitchen
