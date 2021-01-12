@@ -331,7 +331,7 @@
 
 ########   STUDY AC & Spotify
 
-- alias: study_ac_and_spotify_on_at_800am_if_home  ###triggers but spotify stuffed
+- alias: study_ac_on_at_800am_if_home  ###triggers
   trigger:
     platform: time
     at: "08:00:00"
@@ -357,7 +357,7 @@
     -  service: tts.google_translate_say
        entity_id: media_player.office_speaker
        data:
-         message: 'Air Conditioning and Spotify starting.'
+         message: 'Air Conditioning starting.'
     - service: climate.turn_on
       entity_id: climate.study
     - service: climate.set_temperature
@@ -376,8 +376,31 @@
           {% else %}
           cool
           {% endif %}
-   - service: script.turn_on                            
-     entity_id: script.study_speaker
+
+
+- alias: study_spotify_on_at_800am_if_home  ## testing
+  trigger:
+    platform: time
+    at: "08:00:00"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: person.david_bryant
+        state: 'home'
+  action:
+    -  service: media_player.turn_on
+       entity_id: media_player.office_speaker
+    # - service: media_player.volume_set
+    #   data:
+    #     entity_id: media_player.family_room_display
+    #     volume_level: '0.5'
+    -  service: tts.google_translate_say
+       entity_id: media_player.office_speaker
+       data:
+         message: 'Spotify starting.'
+    - service: script.turn_on
+      entity_id: script.study_speaker
 
 - alias: study_spotify_off_when_1700_or_not_home    ###works
   trigger:
@@ -451,7 +474,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.study
-        temperature: 20
+        temperature: 22
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -502,7 +525,7 @@
     - service: climate.set_temperature
       data:
         entity_id:  climate.wendys_bedroom
-        temperature: 24
+        temperature: 22
     - service: climate.set_hvac_mode
       data:
         entity_id:  climate.wendys_bedroom
@@ -541,7 +564,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 20
+        temperature: 22
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -580,7 +603,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 20
+        temperature: 22
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -637,7 +660,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 20
+        temperature: 22
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -676,7 +699,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 20
+        temperature: 22
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -690,20 +713,83 @@
           cool
           {% endif %}
 
-- alias: create_weekly_backup   ### works
+# - alias: create_weekly_backup   ### works
+#   trigger:
+#     - platform: time
+#       at: "18:00:00"
+#   condition:
+#     - condition: time
+#       weekday:
+#         - mon
+#   action:
+#     - service: logbook.log
+#       data:
+#         message: Weekly Backup 💾 is created!
+#         name: automation.create_weekly_backup
+#     - service: hassio.snapshot_full
+#       data_template:
+#         name: >
+#           Backup_{{ now().strftime('%d-%m-%YT%H-%M-%S') }}
+
+
+- alias: Perform Auto Backup
   trigger:
-    - platform: time
-      at: "18:00:00"
-  condition:
-    - condition: time
-      weekday:
-        - mon
+    platform: time_pattern # Perform backup every 3 hours.
+    hours: "/3"
   action:
-    - service: logbook.log
-      data:
-        message: Weekly Backup 💾 is created!
-        name: automation.create_weekly_backup
-    - service: hassio.snapshot_full
-      data_template:
-        name: >
-          Backup_{{ now().strftime('%d-%m-%YT%H-%M-%S') }}
+    service: auto_backup.snapshot_partial # Only perform a partial snapshot to save storage.
+    data_template:
+      name: "AutoBackup: {{ now().strftime('%a, %-I:%M %p (%d/%m/%Y)') }}"
+      addons:
+        - core_mariadb # It doesn't matter if you use the addon slug or name. Name is easier.
+        - core_mosquitto
+        - core_samba
+      folders:
+        - homeassistant
+        - share
+        - ssl
+        - Local add-ons
+      keep_days: 2
+
+- alias: Perform Daily Backup
+  trigger:
+    platform: time
+    at: "02:30:00"
+  condition:
+    condition: time # Perform backup every day except Mondays.
+    weekday:
+      - tue
+      - wed
+      - thu
+      - fri
+      - sat
+      - sun
+  action:
+    service: auto_backup.snapshot_full
+    data_template:
+      name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
+      keep_days: 7
+
+- alias: Perform Weekly Backup
+  trigger:
+    platform: time
+    at: "02:30:00"
+  condition:
+    condition: time # On Mondays perform a weekly backup
+    weekday:
+      - mon
+  action:
+    service: auto_backup.snapshot_full
+    data_template:
+      name: "WeeklyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
+      keep_days: 28 # Store backup for a month, basically perform 1 backup each week and store for 4 weeks.
+
+- alias: Notify Snapshot Failure
+  trigger:
+    platform: event
+    event_type: auto_backup.snapshot_failed
+  action:
+    service: persistent_notification.create
+    data_template:
+      title: "Snapshot Failed."
+      message: "Name: {{ trigger.event.data.name }}\nError: {{ trigger.event.data.error }}"

@@ -21,6 +21,9 @@ logger:
   default: info
   logs:
     custom_components.pyscript: info
+    
+auto_backup:
+  auto_purge: true
 
 discovery:
   ignore:

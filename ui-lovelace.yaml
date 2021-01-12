@@ -45,6 +45,10 @@ views:
       - entity: media_player.spotify_david_bryant
         type: media-control
 
+      - type: entities
+        entities:
+          - sensor.auto_backup
+
       - type: horizontal-stack
         cards:
           - type: custom:canvas-gauge-card
@@ -204,16 +208,17 @@ views:
           - automation.turn_off_tv_at_a_time
           - automation.turn_off_ac_at_a_time
           - automation.wendy_ac_on_at_700pm_if_home
-          - automation.create_weekly_backup
+          - automation.perform_auto_backup
           - automation.test
       - type: entities
         entities:
           - script.study_speaker
           - script.study_speaker_off
           - automation.home_assistant_has_started
+          - automation.study_ac_on_at_800am_if_home
+          - automation.study_spotify_on_at_800am_if_home
           - automation.study_ac_after_800am_and_before_500pm_if_home
           - automation.study_ac_off_when_temp_20_225_or_1700_or_not_home
-          - automation.study_ac_and_spotify_on_at_800am_if_home
           - automation.study_spotify_off_when_1700_or_not_home
           - automation.holly_ac_on_at_500am_if_not_19_24_or_not_home
           - automation.holly_ac_off_when_temp_20_225_or_800am_or_930pm
