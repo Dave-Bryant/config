@@ -9,6 +9,9 @@ resources:
     url: /local/community/lovelace-paper-buttons-row/paper-buttons-row.js
   - type: module
     url: /local/community/lovelace-card-templater/lovelace-card-templater.js
+  - type: module
+    url: /local/community/lovelace-multiple-entity-row/multiple-entity-row.js
+
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -38,6 +41,9 @@ views:
             tap_action:
               action: toggle
           - entity: switch.spare_switch
+            tap_action:
+              action: toggle
+          - entity: switch.samsung_q80_series_65
             tap_action:
               action: toggle
 
@@ -234,8 +240,157 @@ views:
         entities:
           - calendar.test_everything
 
+
+      # - type: glance
+      #   title: Switches
+      #   entities:
+      #     - entity: switch.frlawnwest
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.frlawneast
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.bklawnsouth
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.bklawnnorth
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.frontgarden
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.backsidegarden
+      #       tap_action:
+      #         action: toggle
+      #     - entity: switch.tinybacklawn
+      #       tap_action:
+      #         action: toggle
+
+            # - type: entities
+      #   title: 'Garden Watering time'
+      #   entities:
+      #     - input_number.garden_watering_time
+      # - type: entities
+      #   title: 'smart_irrigation_base_schedule'
+      #   entities:
+      #     - sensor.smart_irrigation_base_schedule_index
+      # - type: entities
+      #   title: 'smart_irrigation_hourly_adjusted_run_time'
+      #   entities:
+      #     - sensor.smart_irrigation_hourly_adjusted_run_time
+      # - type: entities
+      #   title: 'sensor.smart_irrigation_daily_adjusted_run_time'
+      #   entities:
+      #     - sensor.smart_irrigation_daily_adjusted_run_time
+      # - type: entities
+      #   title: 'smart_irrigation_hourly_netto_precipitation'
+      #   entities:
+      #     - sensor.smart_irrigation_hourly_netto_precipitation
+      # - type: entities
+      #   title: 'smart_irrigation_bucket'
+      #   entities:
+      #     - sensor.smart_irrigation_bucket
+
   - title: Irrigation
     cards:
+      - type: entities
+        title: 'Irrigation Status'
+        entities:
+          - entity: switch.frlawnwest
+            type: custom:multiple-entity-row
+            name: frlawnwest
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.frlawnwest_run_time
+                name: run time
+              - entity: input_text.frlawnwest_run_date
+                name: run date
+              - entity: input_text.frlawnwest_run_duration
+                name: run duration
+          - entity: switch.frlawneast
+            type: custom:multiple-entity-row
+            name: frlawneast
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.frlawneast_run_time
+                name: false
+              - entity: input_text.frlawneast_run_date
+                name: false
+              - entity: input_text.frlawneast_run_duration
+                name: false
+          - entity: switch.bklawnsouth
+            type: custom:multiple-entity-row
+            name: bklawnsouth
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.bklawnsouth_run_time
+                name: false
+              - entity: input_text.bklawnsouth_run_date
+                name: false
+              - entity: input_text.bklawnsouth_run_duration
+                name: false
+          - entity: switch.bklawnnorth
+            type: custom:multiple-entity-row
+            name: bklawnnorth
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.bklawnnorth_run_time
+                name: false
+              - entity: input_text.bklawnnorth_run_date
+                name: false
+              - entity: input_text.bklawnnorth_run_duration
+                name: false
+          - type: section
+          - entity: switch.frontgarden
+            type: custom:multiple-entity-row
+            name: frontgarden
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.frontgarden_run_time
+                name: false
+              - entity: input_text.frontgarden_run_date
+                name: false
+              - entity: input_text.frontgarden_run_duration
+                name: false
+          - entity: switch.backsidegarden
+            type: custom:multiple-entity-row
+            name: backsidegarden
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.backsidegarden_run_time
+                name: false
+              - entity: input_text.backsidegarden_run_date
+                name: false
+              - entity: input_text.backsidegarden_run_duration
+                name: false
+          - entity: switch.tinybacklawn
+            type: custom:multiple-entity-row
+            name: tinybacklawn
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.tinybacklawn_run_time
+                name: false
+              - entity: input_text.tinybacklawn_run_date
+                name: false
+              - entity: input_text.tinybacklawn_run_duration
+                name: false
+          - type: section
+          - entity: input_number.garden_watering_time
+            type: custom:multiple-entity-row
+            state_header: 'Garden'
+            entities:
+              - sensor.smart_irrigation_base_schedule_index
+              - sensor.smart_irrigation_hourly_adjusted_run_time
+              - sensor.smart_irrigation_daily_adjusted_run_time
+
+  
       - type: entities
         title: 'Daily Forecast'
         entities:
@@ -266,56 +421,6 @@ views:
           - sensor.wupws_weather_3n
           - sensor.wupws_weather_4d
           - sensor.wupws_weather_4n
-      - type: glance
-        title: Switches
-        entities:
-          - entity: switch.frlawnwest
-            tap_action:
-              action: toggle
-          - entity: switch.frlawneast
-            tap_action:
-              action: toggle
-          - entity: switch.bklawnsouth
-            tap_action:
-              action: toggle
-          - entity: switch.bklawnnorth
-            tap_action:
-              action: toggle
-          - entity: switch.frontgarden
-            tap_action:
-              action: toggle
-          - entity: switch.backsidegarden
-            tap_action:
-              action: toggle
-          - entity: switch.tinybacklawn
-            tap_action:
-              action: toggle
-      - type: entities
-        title: 'Garden Watering time'
-        entities:
-          - input_number.garden_watering_time
-      - type: entities
-        title: 'smart_irrigation_base_schedule'
-        entities:
-          - sensor.smart_irrigation_base_schedule_index
-      - type: entities
-        title: 'smart_irrigation_hourly_adjusted_run_time'
-        entities:
-          - sensor.smart_irrigation_hourly_adjusted_run_time
-      - type: entities
-        title: 'sensor.smart_irrigation_daily_adjusted_run_time'
-        entities:
-          - sensor.smart_irrigation_daily_adjusted_run_time
-      # - type: entities
-      #   title: 'smart_irrigation_hourly_netto_precipitation'
-      #   entities:
-      #     - sensor.smart_irrigation_hourly_netto_precipitation
-      # - type: entities
-      #   title: 'smart_irrigation_bucket'
-      #   entities:
-      #     - sensor.smart_irrigation_bucket
-
-
   - title: Cameras
     cards:
       - type: picture-elements

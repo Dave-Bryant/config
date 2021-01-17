@@ -21,7 +21,7 @@ logger:
   default: info
   logs:
     custom_components.pyscript: info
-    
+
 auto_backup:
   auto_purge: true
 
@@ -32,13 +32,16 @@ discovery:
     - yamaha
     - harmony
 
-samsungtv:
-  - host: 10.0.0.130
-    name: Samsung Smart TV
-    turn_on_action:
-      - service: wake_on_lan.send_magic_packet
-        data:
-          mac: "D0:D0:03:A2:D9:8E"
+# samsungtv:
+#   - host: 10.0.0.130
+#     name: Samsung Smart TV
+#     turn_on_action:
+#       - service: wake_on_lan.send_magic_packet
+#         data:
+#           mac: "D0:D0:03:A2:D9:8E"
+# wake_on_lan:
+
+
 
 camera:
   - platform: foscam
@@ -59,6 +62,13 @@ ffmpeg:
 media_player:
   - platform: yamaha_musiccast
     host: 10.0.0.136
+  - platform: samsungtv_tizen
+    host: 10.0.0.130
+    mac: "D0:D0:03:A2:D9:8E"
+    name: Samsung Smart TV
+    update_method: "smartthings"
+    api_key: !secret smartthings_API_key
+    device_id: !secret smartthings_device_id
 
 google:
   client_id: !secret google_client_id
@@ -273,6 +283,28 @@ input_number:
     max: 3600
     mode: box
     unit_of_measurement: sec
+input_text:
+  frlawnwest_run_time:
+  frlawneast_run_time:
+  bklawnsouth_run_time:
+  bklawnnorth_run_time:
+  frontgarden_run_time:
+  backsidegarden_run_time:
+  tinybacklawn_run_time:
+  frlawnwest_run_date:
+  frlawneast_run_date:
+  bklawnsouth_run_date:
+  bklawnnorth_run_date:
+  frontgarden_run_date:
+  backsidegarden_run_date:
+  tinybacklawn_run_date:
+  frlawnwest_run_duration:
+  frlawneast_run_duration:
+  bklawnsouth_run_duration:
+  bklawnnorth_run_duration:
+  frontgarden_run_duration:
+  backsidegarden_run_duration:
+  tinybacklawn_run_duration:
 
 input_boolean:
   check_act_garbage:

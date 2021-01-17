@@ -188,12 +188,17 @@ home_presence_app:
   home_gateway_sensors: None
 
   log_level: INFO
-  # reboot the all nodes at 12 midnight on Mondays and Thursdays
+  # reboot the all nodes at 12 midnight 
   scheduled_restart:
     time: 00:00:01
     days:
       - mon
+      - tue
+      - wed
       - thu
+      - fri
+      - sat
+      - sun
     location: all
 
   # other location configuration options

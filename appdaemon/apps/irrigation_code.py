@@ -64,47 +64,71 @@ class Home_Irrigation(hass.Hass):
              if self.station1 != '':
                  self.station1_running_time = self.running_time*self.station1_weight
                  # check if calculated time fits into window
-                 if self.station1_running_time >= (self.window1-self.master_valve_lead_time-self.valve_lead_time): self.station1_running_time = self.window1-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station1_running_time >= (self.window1-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station1_running_time = self.window1-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station1} has maxed out")
              else: self.station1_running_time = 0.0001
 
 
              if self.station2 != '':
                  self.station2_running_time = self.running_time*self.station2_weight
-                 if self.station2_running_time >= (self.window2-self.master_valve_lead_time-self.valve_lead_time): self.station2_running_time = self.window2-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station2_running_time >= (self.window2-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station2_running_time = self.window2-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station2} has maxed out")
              else: self.station2_running_time = 0.0001
 
 
              if self.station3 != '':
                  self.station3_running_time = self.running_time*self.station3_weight
-                 if self.station3_running_time >= (self.window3-self.master_valve_lead_time-self.valve_lead_time): self.station3_running_time = self.window3-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station3_running_time >= (self.window3-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station3_running_time = self.window3-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station3} has maxed out")
              else: self.station3_running_time = 0.0001
 
 
              if self.station4 != '':
                  self.station4_running_time = self.running_time*self.station4_weight
-                 if self.station4_running_time >= (self.window4-self.master_valve_lead_time-self.valve_lead_time): self.station4_running_time = self.window4-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station4_running_time >= (self.window4-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station4_running_time = self.window4-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station4} has maxed out")
              else: self.station4_running_time = 0.0001
 
 
              if self.station5 != '':
                  self.station5_running_time = self.garden_running_time*self.station5_weight
-                 if self.station5_running_time >= (self.window5-self.master_valve_lead_time-self.valve_lead_time): self.station5_running_time = self.window5-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station5_running_time >= (self.window5-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station5_running_time = self.window5-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station5} has maxed out")
              else: self.station5_running_time = 0.0001
 
 
              if self.station6 != '':
                  self.station6_running_time = self.garden_running_time*self.station6_weight
-                 if self.station6_running_time >= (self.window6-self.master_valve_lead_time-self.valve_lead_time): self.station6_running_time = self.window6-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station6_running_time >= (self.window6-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station6_running_time = self.window6-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station6} has maxed out")
              else: self.station6_running_time = 0.0001
 
 
              if self.station7 != '':
                  self.station7_running_time = self.running_time*self.station4_weight
-                 if self.station7_running_time >= (self.window7-self.master_valve_lead_time-self.valve_lead_time): self.station7_running_time = self.window7-self.master_valve_lead_time-self.valve_lead_time
+                 if self.station7_running_time >= (self.window7-self.master_valve_lead_time-self.valve_lead_time):
+                     self.station7_running_time = self.window7-self.master_valve_lead_time-self.valve_lead_time
+                     self.log(f"{self.station7} has maxed out")
              else: self.station7_running_time = 0.0001
 
 
              self.log(f"Station running times (minutes): Station 1: {self.station1_running_time/60:.2f} Station 2: {self.station2_running_time/60:.2f} Station 3: {self.station3_running_time/60:.2f} Station 4: {self.station4_running_time/60:.2f} Station 5: {self.station5_running_time/60:.2f} Station 6: {self.station6_running_time/60:.2f} Station 7: {self.station7_running_time/60:.2f}")
+
+             # update lovelace fields
+             self.set_textvalue("input_text." + self.STATION_1[7:] + "_run_duration",self.station1_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_2[7:] + "_run_duration",self.station2_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_3[7:] + "_run_duration",self.station3_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_4[7:] + "_run_duration",self.station4_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_5[7:] + "_run_duration",self.station5_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_6[7:] + "_run_duration",self.station6_running_time/60)
+             self.set_textvalue("input_text." + self.STATION_7[7:] + "_run_duration",self.station7_running_time/60)
+
              # make sure all valves are off
              if self.station1 != '': self.turn_off(self.station1)
              if self.station2 != '': self.turn_off(self.station2)
@@ -181,17 +205,23 @@ class Home_Irrigation(hass.Hass):
   def turn_on_station_cb(self, kwargs): # run in decorator for run_in
       self.turn_on_station(kwargs["current_station"])
   def turn_on_station(self, current_station):
-      if self.get_state(current_station) == 'off':  # check for none
-          self.turn_on(current_station)
+      if self.get_state(current_station) == 'off':
+          if self.precipitation == 0:
+              self.turn_on(current_station)
+              self.log("Started Station watering: %s Valve is on", current_station)
+              self.set_textvalue("input_text." + current_station[7:] + "_run_date",datetime.datetime.today().strftime("%d/%m/%Y"))
+              self.set_textvalue("input_text." + current_station[7:] + "_run_time",datetime.datetime.today().strftime("%H:%M"))
+          else:
+              self.log("%s is not needed as raining already", current_station)
       else:
           self.log("%s is already on...could be an error", current_station)
-      self.log("Started Station watering: %s Valve is on", current_station)
+
 
   def turn_off_station_cb(self, kwargs): # run in decorator for run_in
       self.turn_off_station(kwargs["current_station"])
   def turn_off_station(self, current_station):
-      if self.get_state(current_station) == 'on':  # check for none
+      if self.get_state(current_station) == 'on':
           self.turn_off(current_station)
       else:
-          self.log("%s is already off...could be an error", current_station)
+          self.log("%s is already off...could be an error or could have rained", current_station)
       self.log("Stopped Station watering: %s Valve is off", current_station)
