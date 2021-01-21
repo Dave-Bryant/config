@@ -185,10 +185,11 @@ home_presence_app:
   not_home_timeout: 15
   system_check: 30
   system_timeout: 600
-  home_gateway_sensors: None
+  home_gateway_sensors:
+    - binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
   log_level: INFO
-  # reboot the all nodes at 12 midnight 
+  # reboot the all nodes at 12 midnight
   scheduled_restart:
     time: 00:00:01
     days:
@@ -205,7 +206,7 @@ home_presence_app:
     #location: living_room, kitchen
 
   location:
-      - ground_floor
+    - ground_floor
 
   home_motion_sensors: None
 

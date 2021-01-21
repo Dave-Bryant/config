@@ -29,6 +29,7 @@ views:
       - entity: person.wendy_bryant
       - entity: group.bryant_family
       - entity: sun.sun
+      - entity: binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
     cards:
       - type: glance
@@ -307,7 +308,9 @@ views:
               - entity: input_text.frlawnwest_run_date
                 name: run date
               - entity: input_text.frlawnwest_run_duration
-                name: run duration
+                name: run dur.
+                format: precision2
+                format: duration
           - entity: switch.frlawneast
             type: custom:multiple-entity-row
             name: frlawneast
@@ -320,6 +323,8 @@ views:
                 name: false
               - entity: input_text.frlawneast_run_duration
                 name: false
+                format: precision2
+                format: duration
           - entity: switch.bklawnsouth
             type: custom:multiple-entity-row
             name: bklawnsouth
@@ -332,6 +337,8 @@ views:
                 name: false
               - entity: input_text.bklawnsouth_run_duration
                 name: false
+                format: precision2
+                format: duration
           - entity: switch.bklawnnorth
             type: custom:multiple-entity-row
             name: bklawnnorth
@@ -344,6 +351,8 @@ views:
                 name: false
               - entity: input_text.bklawnnorth_run_duration
                 name: false
+                format: precision2
+                format: duration
           - type: section
           - entity: switch.frontgarden
             type: custom:multiple-entity-row
@@ -357,6 +366,8 @@ views:
                 name: false
               - entity: input_text.frontgarden_run_duration
                 name: false
+                format: precision2
+                format: duration
           - entity: switch.backsidegarden
             type: custom:multiple-entity-row
             name: backsidegarden
@@ -369,6 +380,8 @@ views:
                 name: false
               - entity: input_text.backsidegarden_run_duration
                 name: false
+                format: precision2
+                format: duration
           - entity: switch.tinybacklawn
             type: custom:multiple-entity-row
             name: tinybacklawn
@@ -381,16 +394,16 @@ views:
                 name: false
               - entity: input_text.tinybacklawn_run_duration
                 name: false
+                format: precision2
+                format: duration
           - type: section
           - entity: input_number.garden_watering_time
             type: custom:multiple-entity-row
             state_header: 'Garden'
             entities:
-              - sensor.smart_irrigation_base_schedule_index
               - sensor.smart_irrigation_hourly_adjusted_run_time
               - sensor.smart_irrigation_daily_adjusted_run_time
 
-  
       - type: entities
         title: 'Daily Forecast'
         entities:

@@ -121,13 +121,13 @@ class Home_Irrigation(hass.Hass):
              self.log(f"Station running times (minutes): Station 1: {self.station1_running_time/60:.2f} Station 2: {self.station2_running_time/60:.2f} Station 3: {self.station3_running_time/60:.2f} Station 4: {self.station4_running_time/60:.2f} Station 5: {self.station5_running_time/60:.2f} Station 6: {self.station6_running_time/60:.2f} Station 7: {self.station7_running_time/60:.2f}")
 
              # update lovelace fields
-             self.set_textvalue("input_text." + self.STATION_1[7:] + "_run_duration",self.station1_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_2[7:] + "_run_duration",self.station2_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_3[7:] + "_run_duration",self.station3_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_4[7:] + "_run_duration",self.station4_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_5[7:] + "_run_duration",self.station5_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_6[7:] + "_run_duration",self.station6_running_time/60)
-             self.set_textvalue("input_text." + self.STATION_7[7:] + "_run_duration",self.station7_running_time/60)
+             if self.station1 != '': self.set_textvalue("input_text." + self.station1[7:] + "_run_duration",self.station1_running_time)
+             if self.station2 != '': self.set_textvalue("input_text." + self.station2[7:] + "_run_duration",self.station2_running_time)
+             if self.station3 != '': self.set_textvalue("input_text." + self.station3[7:] + "_run_duration",self.station3_running_time)
+             if self.station4 != '': self.set_textvalue("input_text." + self.station4[7:] + "_run_duration",self.station4_running_time)
+             if self.station5 != '': self.set_textvalue("input_text." + self.station5[7:] + "_run_duration",self.station5_running_time)
+             if self.station6 != '': self.set_textvalue("input_text." + self.station6[7:] + "_run_duration",self.station6_running_time)
+             if self.station7 != '': self.set_textvalue("input_text." + self.station7[7:] + "_run_duration",self.station7_running_time)
 
              # make sure all valves are off
              if self.station1 != '': self.turn_off(self.station1)
@@ -209,7 +209,7 @@ class Home_Irrigation(hass.Hass):
           if self.precipitation == 0:
               self.turn_on(current_station)
               self.log("Started Station watering: %s Valve is on", current_station)
-              self.set_textvalue("input_text." + current_station[7:] + "_run_date",datetime.datetime.today().strftime("%d/%m/%Y"))
+              self.set_textvalue("input_text." + current_station[7:] + "_run_date",datetime.datetime.today().strftime("%d/%m"))
               self.set_textvalue("input_text." + current_station[7:] + "_run_time",datetime.datetime.today().strftime("%H:%M"))
           else:
               self.log("%s is not needed as raining already", current_station)
