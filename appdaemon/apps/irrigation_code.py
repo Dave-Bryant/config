@@ -43,7 +43,13 @@ class Home_Irrigation(hass.Hass):
      if self.dayz[datetime.datetime.today().weekday()] in self.start_days:
          # self.log(f"Yes, found {self.dayz[datetime.datetime.today().weekday()]} in List: {self.start_days}")
 
-         self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
+         # if API is down then use base calculation
+         if self.render_template("{{states('sensor.high_temperature_today') | int}}") == 0:
+             self.running_time = self.render_template("{{states('sensor.smart_irrigation_base_schedule_index') | int}}")
+             self.log("WU API is down, using Base Calculation")
+         else:
+             self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
+
          self.chance_of_precipitation = self.render_template("{{states('sensor.precip_chance') | int}}")
          self.chance_of_precipitation_48hrs = self.render_template("{{states('sensor.wupws_precip_chance_2d') | int}}")
          self.precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")

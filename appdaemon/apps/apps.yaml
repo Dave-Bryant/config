@@ -30,7 +30,7 @@ irrigation1:
   STATION_5: ''
   STATION_6: ''
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.4881
+  STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
@@ -42,7 +42,7 @@ irrigation1:
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
+  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
   STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
 
 irrigation2:
@@ -64,7 +64,7 @@ irrigation2:
   STATION_5: ''
   STATION_6: ''
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.4881
+  STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
@@ -76,7 +76,7 @@ irrigation2:
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
+  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
   STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
 
 irrigation3:
@@ -98,7 +98,7 @@ irrigation3:
   STATION_5: ''
   STATION_6: ''
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.4881
+  STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
@@ -110,14 +110,14 @@ irrigation3:
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
+  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
   STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
 
 irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '19:00:00'
-  START_DAYS: "tue,sat"
+  START_DAYS: "tue,sat,sun"
   PRECIPITATION_THRESHOLD: 80
   PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
@@ -132,7 +132,7 @@ irrigation4:              # Gardens
   STATION_5: 'switch.frontgarden'
   STATION_6: 'switch.backsidegarden'
   STATION_7: ''
-  STATION_1_WEIGHT: 0.4881
+  STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
@@ -144,7 +144,7 @@ irrigation4:              # Gardens
   STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
   STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 2740 # 20 sec master, 20 secs station then 45 mins for the window
+  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
   STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
 
 irrigation_rain_monitor:              # Resets cumulative garden run time if rain occurs
@@ -184,7 +184,7 @@ home_presence_app:
   minimum_confidence: 60
   not_home_timeout: 15
   system_check: 30
-  system_timeout: 600
+  system_timeout: 60
   home_gateway_sensors:
     - binary_sensor.ewelink_ms01_ecec6622_ias_zone
 

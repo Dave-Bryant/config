@@ -281,6 +281,7 @@ input_number:
     name: "Garden Watering Time"
     min: 0
     max: 3600
+    step: 10
     mode: box
     unit_of_measurement: sec
 input_text:
