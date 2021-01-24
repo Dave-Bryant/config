@@ -41,3 +41,4 @@ class HelloWorld(hass.Hass):
           self.log("it is %s", self.render_template("{{states('sensor.samsung_q80_series_65_media_playback_status') | int}}"))
       # self.log("input_text.frlawnwest_run_time is: %s", self.render_template("{{states('input_text.frlawnwest_run_time') }}"))
       # self.log("Hello from test function %s and %s", argument1, match)
+      

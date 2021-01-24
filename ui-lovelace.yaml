@@ -309,7 +309,6 @@ views:
                 name: run date
               - entity: input_text.frlawnwest_run_duration
                 name: run dur.
-                format: precision2
                 format: duration
           - entity: switch.frlawneast
             type: custom:multiple-entity-row
@@ -323,7 +322,6 @@ views:
                 name: false
               - entity: input_text.frlawneast_run_duration
                 name: false
-                format: precision2
                 format: duration
           - entity: switch.bklawnsouth
             type: custom:multiple-entity-row
@@ -337,7 +335,6 @@ views:
                 name: false
               - entity: input_text.bklawnsouth_run_duration
                 name: false
-                format: precision2
                 format: duration
           - entity: switch.bklawnnorth
             type: custom:multiple-entity-row
@@ -351,7 +348,6 @@ views:
                 name: false
               - entity: input_text.bklawnnorth_run_duration
                 name: false
-                format: precision2
                 format: duration
           - type: section
           - entity: switch.frontgarden
@@ -366,7 +362,6 @@ views:
                 name: false
               - entity: input_text.frontgarden_run_duration
                 name: false
-                format: precision2
                 format: duration
           - entity: switch.backsidegarden
             type: custom:multiple-entity-row
@@ -380,7 +375,6 @@ views:
                 name: false
               - entity: input_text.backsidegarden_run_duration
                 name: false
-                format: precision2
                 format: duration
           - entity: switch.tinybacklawn
             type: custom:multiple-entity-row
@@ -394,7 +388,6 @@ views:
                 name: false
               - entity: input_text.tinybacklawn_run_duration
                 name: false
-                format: precision2
                 format: duration
           - type: section
           - entity: input_number.garden_watering_time

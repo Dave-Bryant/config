@@ -152,6 +152,11 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
   class: Home_Irrigation_rain_monitor
   PRECIPITATION_THRESHOLD: 2.0   # mm
 
+irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
+  module: irrigation_force_code
+  class: Home_Irrigation_Force
+  FORCE_TIME: '00:45:00'  
+
 light_timer1:
   module: light_timer_code
   class: Light_Timer
@@ -188,7 +193,7 @@ home_presence_app:
   home_gateway_sensors:
     - binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
-  log_level: INFO
+  log_level: ERROR
   # reboot the all nodes at 12 midnight
   scheduled_restart:
     time: 00:00:01

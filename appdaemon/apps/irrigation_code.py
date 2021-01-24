@@ -198,6 +198,7 @@ class Home_Irrigation(hass.Hass):
 
              if self.reset_backet:
                  self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
+                 self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
                  self.log("Reset complete")
 
              self.log("Irrigation schedule set")
