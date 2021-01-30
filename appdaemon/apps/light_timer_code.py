@@ -15,7 +15,7 @@ class Light_Timer(hass.Hass):
          self.flashing_light('dummy') # function needs an argument for entity_id but I cant pass it as the iteration will blank it out
      else:
          self.sleep(120)
-         self.log("Everyone is home") 
+         self.log("Everyone is home")
          exit
   def flashing_light(self, *args):
      if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == True:
@@ -24,5 +24,5 @@ class Light_Timer(hass.Hass):
          self.log('Light is %s for %s minutes.', self.get_state(entity_id = self.Target_Light), self.duration_of_light/60)
          self.run_in(self.flashing_light, self.duration_of_light)
      else:
-         self.off(entity_id = self.Target_Light)
+         if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
          self.log("%s has finished", self.Target_Light)

@@ -8,13 +8,16 @@ import datetime
 #
 
 class Home_Irrigation_Force(hass.Hass):
-
   def initialize(self):
      self.log("Starting Home Irrigation Force")
      self.start_time = self.args["FORCE_TIME"]
+     self.listen_state(self.schedule_the_force, "input_boolean.force_irrigation", new = "on")
+
+  def schedule_the_force(self, entity, attribute, old, new, kwargs):
+     self.log("FORCE scheduled")
+     self.run_in(self.turn_it_off, 3)
      self.run_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
-     if self.start_time != '':
-         self.run_once(self.main_routine, self.start_time)
+     if self.start_time != '': self.run_once(self.main_routine, self.start_time)
 
      # self.run_in(self.main_routine, 0)
   def main_routine(self, *args):
@@ -25,3 +28,6 @@ class Home_Irrigation_Force(hass.Hass):
           self.log(f"FORCED daily_adjusted_run_time to: {self.run_time} secs")
       else:
           self.log("FORCE not required")
+
+  def turn_it_off(self,kwargs):
+      self.turn_off("input_boolean.force_irrigation")

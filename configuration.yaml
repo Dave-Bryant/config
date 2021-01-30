@@ -280,7 +280,7 @@ input_number:
   garden_watering_time:
     name: "Garden Watering Time"
     min: 0
-    max: 3600
+    max: 10000
     step: 10
     mode: box
     unit_of_measurement: sec
@@ -310,6 +310,8 @@ input_text:
 input_boolean:
   check_act_garbage:
     name: input_boolean.check_act_garbage
+  force_irrigation:
+    name: input_boolean.force_irrigation
 
   # - platform: wunderground  # this is the official integration. I points to the wrong web address. Waiting to be fixed.
   #   api_key: !secret Weather_Underground_API_Key
@@ -350,7 +352,7 @@ binary_sensor:
   - platform: threshold
     entity_id: sensor.study_temp
     lower: 20.0
-    upper: 22.5
+    upper: 23.0
     hysteresis: 0.0
     name: study_temp_thres_off
   - platform: threshold
@@ -362,7 +364,7 @@ binary_sensor:
   - platform: threshold
     entity_id: sensor.hollys_bedroom_temp
     lower: 20.0
-    upper: 22.5
+    upper: 23.0
     hysteresis: 0.0
     name: hollys_bedroom_temp_thres_off
 

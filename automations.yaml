@@ -363,7 +363,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.study
-        temperature: 20
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -474,7 +474,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.study
-        temperature: 22
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -564,7 +564,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 22
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -603,7 +603,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 22
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -660,7 +660,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 22
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat
@@ -699,7 +699,7 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.hollys_bedroom
-        temperature: 22
+        temperature: 23
         target_temp_high: 26
         target_temp_low: 20
         hvac_mode: heat

@@ -393,9 +393,23 @@ views:
           - entity: input_number.garden_watering_time
             type: custom:multiple-entity-row
             state_header: 'Garden'
+            format: duration
             entities:
-              - sensor.smart_irrigation_hourly_adjusted_run_time
-              - sensor.smart_irrigation_daily_adjusted_run_time
+              - entity: sensor.smart_irrigation_hourly_adjusted_run_time
+                attribute: adjusted_run_time_minutes
+              - entity: sensor.smart_irrigation_daily_adjusted_run_time
+                attribute: adjusted_run_time_minutes
+          - entity: input_boolean.force_irrigation
+            type: custom:multiple-entity-row
+            name: Force irrigation
+            state_header: 'Force'
+            toggle: true
+            format: duration
+            entities:
+              - attribute: base_schedule_index_minutes
+                entity: sensor.smart_irrigation_base_schedule_index
+
+
 
       - type: entities
         title: 'Daily Forecast'

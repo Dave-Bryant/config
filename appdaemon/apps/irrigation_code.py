@@ -117,7 +117,7 @@ class Home_Irrigation(hass.Hass):
 
 
              if self.station7 != '':
-                 self.station7_running_time = self.running_time*self.station4_weight
+                 self.station7_running_time = self.running_time*self.station7_weight
                  if self.station7_running_time >= (self.window7-self.master_valve_lead_time-self.valve_lead_time):
                      self.station7_running_time = self.window7-self.master_valve_lead_time-self.valve_lead_time
                      self.log(f"{self.station7} has maxed out")
