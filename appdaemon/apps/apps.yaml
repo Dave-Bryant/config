@@ -21,14 +21,15 @@ irrigation1:
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00
+  GARDEN_RUN: False
+  MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
+  VALVE_LEAD_TIME: 25
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
-  STATION_5: ''
-  STATION_6: ''
+  STATION_5: 'noswitch5'
+  STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
   STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
@@ -37,13 +38,13 @@ irrigation1:
   STATION_5_WEIGHT: 0.33
   STATION_6_WEIGHT: 1.0631
   STATION_7_WEIGHT: 0.33     # check this
-  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
-  STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_1_WINDOW: 900 # 15 mins for the window
+  STATION_2_WINDOW: 900 # 15 mins for the window
+  STATION_3_WINDOW: 1200 # 20 mins for the window
+  STATION_4_WINDOW: 1200 # 20 mins for the window
+  STATION_5_WINDOW: 1800 # 30 mins for the window
+  STATION_6_WINDOW: 3600 # 60 mins for the window
+  STATION_7_WINDOW: 900 # 15 mins for the window
 
 irrigation2:
   module: irrigation_code
@@ -55,14 +56,15 @@ irrigation2:
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: False
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00
+  GARDEN_RUN: False
+  MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
+  VALVE_LEAD_TIME: 25
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
-  STATION_5: ''
-  STATION_6: ''
+  STATION_5: 'noswitch5'
+  STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
   STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
@@ -71,13 +73,13 @@ irrigation2:
   STATION_5_WEIGHT: 0.33
   STATION_6_WEIGHT: 1.0631
   STATION_7_WEIGHT: 0.33     # check this
-  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
-  STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_1_WINDOW: 900 # 15 mins for the window
+  STATION_2_WINDOW: 900 # 15 mins for the window
+  STATION_3_WINDOW: 1200 # 20 mins for the window
+  STATION_4_WINDOW: 1200 # 20 mins for the window
+  STATION_5_WINDOW: 1800 # 30 mins for the window
+  STATION_6_WINDOW: 3600 # 60 mins for the window
+  STATION_7_WINDOW: 900 # 15 mins for the window
 
 irrigation3:
   module: irrigation_code
@@ -89,14 +91,15 @@ irrigation3:
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 3
   RESET_BUCKET: True
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00
+  GARDEN_RUN: False
+  MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
+  VALVE_LEAD_TIME: 25
   STATION_1: 'switch.frlawnwest'
   STATION_2: 'switch.frlawneast'
   STATION_3: 'switch.bklawnsouth'
   STATION_4: 'switch.bklawnnorth'
-  STATION_5: ''
-  STATION_6: ''
+  STATION_5: 'noswitch5'
+  STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
   STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
@@ -105,13 +108,13 @@ irrigation3:
   STATION_5_WEIGHT: 0.33
   STATION_6_WEIGHT: 1.0631
   STATION_7_WEIGHT: 0.33     # check this
-  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
-  STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_1_WINDOW: 900 # 15 mins for the window
+  STATION_2_WINDOW: 900 # 15 mins for the window
+  STATION_3_WINDOW: 1200 # 20 mins for the window
+  STATION_4_WINDOW: 1200 # 20 mins for the window
+  STATION_5_WINDOW: 1800 # 30 mins for the window
+  STATION_6_WINDOW: 3600 # 60 mins for the window
+  STATION_7_WINDOW: 900 # 15 mins for the window
 
 irrigation4:              # Gardens
   module: irrigation_code
@@ -123,15 +126,16 @@ irrigation4:              # Gardens
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
   RESET_BUCKET: False
-  MASTER_VALVE_LEAD_TIME: 120 # 20 secs for master; 20 secs for 1st station then some
-  VALVE_LEAD_TIME: 00
-  STATION_1: ''
-  STATION_2: ''
-  STATION_3: ''
-  STATION_4: ''
+  GARDEN_RUN: True
+  MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
+  VALVE_LEAD_TIME: 25
+  STATION_1: 'noswitch1'
+  STATION_2: 'noswitch2'
+  STATION_3: 'noswitch3'
+  STATION_4: 'noswitch4'
   STATION_5: 'switch.frontgarden'
   STATION_6: 'switch.backsidegarden'
-  STATION_7: ''
+  STATION_7: 'noswitch7'
   STATION_1_WEIGHT: 0.75
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
@@ -139,13 +143,13 @@ irrigation4:              # Gardens
   STATION_5_WEIGHT: 0.33
   STATION_6_WEIGHT: 1.0631
   STATION_7_WEIGHT: 0.33     # check this
-  STATION_1_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_2_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
-  STATION_3_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_4_WINDOW: 1240 # 20 sec master, 20 secs station then 20 mins for the window
-  STATION_5_WINDOW: 1840 # 20 sec master, 20 secs station then 30 mins for the window
-  STATION_6_WINDOW: 3640 # 20 sec master, 20 secs station then 60 mins for the window
-  STATION_7_WINDOW: 940 # 20 sec master, 20 secs station then 15 mins for the window
+  STATION_1_WINDOW: 900 # 15 mins for the window
+  STATION_2_WINDOW: 900 # 15 mins for the window
+  STATION_3_WINDOW: 1200 # 20 mins for the window
+  STATION_4_WINDOW: 1200 # 20 mins for the window
+  STATION_5_WINDOW: 1800 # 30 mins for the window
+  STATION_6_WINDOW: 3600 # 60 mins for the window
+  STATION_7_WINDOW: 900 # 15 mins for the window
 
 irrigation_rain_monitor:              # Resets cumulative garden run time if rain occurs
   module: irrigation_rain_monitor_code

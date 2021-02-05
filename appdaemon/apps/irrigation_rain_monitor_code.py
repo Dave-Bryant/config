@@ -25,4 +25,4 @@ class Home_Irrigation_rain_monitor(hass.Hass):
            Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
            if  Garden_watering_time != 0:
                self.set_value("input_number.garden_watering_time", 0)
-               self.log(f"Precipitation set to zero. Prec: {Precipitation} mms. Gard: {Garden_watering_time} secs")
+               self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
