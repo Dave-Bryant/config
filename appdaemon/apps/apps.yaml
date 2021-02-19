@@ -229,11 +229,10 @@ home_presence_app:
 
   remote_monitors:
     disable: False
-
     ground_floor:
       host: 10.0.0.98
       username: !secret ground_floor_monitor_username
       password: !secret ground_floor_monitor_password
-      reboot_command: sudo /sbin/reboot now
+      # reboot_command: sudo /sbin/reboot now
       auto_reboot_when_offline: True
       time: 02:00:01

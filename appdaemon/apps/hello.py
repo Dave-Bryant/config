@@ -103,7 +103,7 @@ class HelloWorld(hass.Hass):
           self.log(f" Station {self.stations[i]['self.number']}: window {self.stations[i]['self.window']} window_start: {self.stations[i]['self.window_start']} running time: {self.stations[i]['self.station_running_time'] } ")
 
      for i in self.stations:
-         self.log(i[0:7])
+         self.log(i[0:8])
          # if i[0:7] != 'noswitch': self.turn_off(i)
 
      # for i in self.stations:

@@ -20,7 +20,7 @@ lovelace:
 logger:
   default: info
   logs:
-    custom_components.pyscript: info
+    custom_components.samsungtv_tizen: error
 
 auto_backup:
   auto_purge: true
@@ -28,8 +28,7 @@ auto_backup:
 discovery:
   ignore:
     - apple_tv
-    - homekit
-    - yamaha
+    - homekit 
     - harmony
 
 # samsungtv:
@@ -43,19 +42,19 @@ discovery:
 
 
 
-camera:
-  - platform: foscam
-    ip: 10.0.0.117
-    rtsp_port: 88
-    name: Front Camera
-    username: !secret front_cam_user
-    password: !secret front_cam_pw
-  - platform: foscam
-    ip: 10.0.0.121
-    rtsp_port: 88
-    name: Back Camera
-    username: !secret back_cam_user
-    password: !secret back_cam_pw
+# camera:                  Now supported through Configuration interface
+#   - platform: foscam
+#     ip: 10.0.0.117
+#     rtsp_port: 88
+#     name: Front Camera
+#     username: !secret front_cam_user
+#     password: !secret front_cam_pw
+#   - platform: foscam
+#     ip: 10.0.0.121
+#     rtsp_port: 88
+#     name: Back Camera
+#     username: !secret back_cam_user
+#     password: !secret back_cam_pw
 
 ffmpeg:
 
@@ -105,6 +104,10 @@ climate:
 spotify:
   client_id: !secret spotify_client_id
   client_secret: !secret spotify_client_secret
+
+spotcast:
+  sp_dc: !secret spotify_sp_dc
+  sp_key: !secret spotify_sp_key
 
 
 # Text to speech

@@ -17,6 +17,13 @@
     track: true
     search: "#Work"
     offset: "!!"
+  - device_id: alarms
+    name: Give me alarms
+    track: true
+    search: "Alarm"
+    offset: "!!"
+    max_results: 1
+
 
 - cal_id: addressbook#contacts@group.v.calendar.google.com
   entities:

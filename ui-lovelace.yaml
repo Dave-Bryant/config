@@ -1,16 +1,16 @@
 resources:
   - type: module
-    url: /local/community/simple-thermostat/simple-thermostat.js?track=true
+    url: /hacsfiles/simple-thermostat/simple-thermostat.js
   - type: module
-    url: /local/community/canvas-gauge-card/canvas-gauge-card.js
+    url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
   - type: module
-    url: /local/community/weather-card/weather-card.js
+    url: /hacsfiles/weather-card/weather-card.js
   - type: module
-    url: /local/community/lovelace-paper-buttons-row/paper-buttons-row.js
+    url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
   - type: module
-    url: /local/community/lovelace-card-templater/lovelace-card-templater.js
+    url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
   - type: module
-    url: /local/community/lovelace-multiple-entity-row/multiple-entity-row.js
+    url: /hacsfiles/spotify-card/spotify-card.js
 
 
 no-top-header:
@@ -49,8 +49,23 @@ views:
               action: toggle
 
 
-      - entity: media_player.spotify_david_bryant
-        type: media-control
+      - type: custom:spotify-card
+      # account: <optional> which account to use for spotcast. Defaults to "default"
+      # height: <optional pixels height for the playlist element. If content is larger scrolling will be enabled>
+        limit: 5
+      # device: <optional name of a device to pre-select>
+      # playlist_type: <optional featured|discover-weekly> Change type of playlists shown. Default are your normal playlists.
+      # always_play_random_song: <optional true> Set to start playlists from a random song.
+      # country_code: <optional country code to show featured playlist relevent to a particular country. https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 >
+      # hide_warning: <optional true> Hide warnings if they are displayed.
+      # name: <optional name> Custom title. Leave empty to hide.
+      # display_style: <optional Grid> Change default display style.
+      # grid_covers_per_row: <optional number> Number of covers per row (default 3) in Grid-view.
+      # spotify_entity: <optional> Name of your spotify media player entity if it doesn't start with "spotify"
+        default_device: Yamaha Study Speaker
+        filter_devices:
+          - .*display
+          - SHIELD*
 
       - type: entities
         entities:
@@ -443,34 +458,22 @@ views:
           - sensor.wupws_weather_4n
   - title: Cameras
     cards:
-      - type: picture-elements
+      - type: picture-entity
         entity: camera.front_camera
-        camera_image: camera.front_camera
-        camera_view: live
-        elements:
-          - type: icon
-            entity: camera.front_camera
-            icon: mdi:cctv
-            style:
-              top: 7%
-              right: 0%
-              --iron-icon-fill-color: "#11AB7D"
-              --iron-icon-height: 40px
-              --iron-icon-width: 40px
+        tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.front_camera
+            filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
 
-      - type: picture-elements
+      - type: picture-entity
         entity: camera.back_camera
-        camera_image: camera.back_camera
-        camera_view: live
-        elements:
-          - type: icon
-            entity: camera.back_camera
-            icon: mdi:cctv
-            style:
-              top: 7%
-              right: 0%
-              --iron-icon-fill-color: "#11AB7D"
-              --iron-icon-height: 40px
-              --iron-icon-width: 40px
+        tap_action:
+          action: call-service
+          service: camera.snapshot
+          service_data:
+            entity_id: camera.back_camera
+            filename: '/media/back_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
 
     path: default_view
