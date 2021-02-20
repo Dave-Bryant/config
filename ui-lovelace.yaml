@@ -37,8 +37,8 @@ views:
         entities:
           - entity: switch.upstairs_light
             tap_action:
-              action: toggle
-          - entity: switch.lounge_room_light
+              action: light.toggle
+          - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
             tap_action:
               action: toggle
           - entity: switch.spare_switch

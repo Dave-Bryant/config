@@ -153,11 +153,13 @@
         entity_id: group.bryant_family
         state: 'home'
   action:
-    service: switch.turn_on
-    entity_id:
-      - switch.lounge_room_light
-      - switch.spare_switch
-      - switch.upstairs_light
+    - service: switch.turn_on
+      entity_id:
+        - switch.spare_switch
+        - switch.upstairs_light
+    - service: light.turn_on
+      entity_id:
+        - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off      
 
 ########
 - alias: Turn_off_lights_at_a_time_if_home      ###works
@@ -169,8 +171,8 @@
     entity_id: group.bryant_family
     state: 'home'
   action:
-    - service: switch.turn_off
-      entity_id: switch.lounge_room_light
+    - service: light.turn_off
+      entity_id: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
     # - service: media_player.turn_on
     #   entity_id: media_player.family_room_display
     # - service: media_player.volume_set
@@ -258,9 +260,9 @@
     entity_id: switch.lounge_room_light
     state: 'on'
   action:
-    - service: switch.turn_off
+    - service: light.turn_off
       entity_id:
-        - switch.lounge_room_light
+        - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
     - service: media_player.turn_on
       entity_id: media_player.family_room_display
     # - service: media_player.volume_set

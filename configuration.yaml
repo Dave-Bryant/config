@@ -21,6 +21,8 @@ logger:
   default: info
   logs:
     custom_components.samsungtv_tizen: error
+    homeassistant.components.media_player: error
+    homeassistant.components.pychromecast: error
 
 auto_backup:
   auto_purge: true
@@ -28,7 +30,7 @@ auto_backup:
 discovery:
   ignore:
     - apple_tv
-    - homekit 
+    - homekit
     - harmony
 
 # samsungtv:
@@ -40,7 +42,11 @@ discovery:
 #           mac: "D0:D0:03:A2:D9:8E"
 # wake_on_lan:
 
-
+zha:
+  zigpy_config:
+    network:
+      channel: 26             # What channel the radio should try to use.
+      channels: [26, 24, 25]  # Channel mask
 
 # camera:                  Now supported through Configuration interface
 #   - platform: foscam
