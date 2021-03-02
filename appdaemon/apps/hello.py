@@ -11,6 +11,11 @@ class HelloWorld(hass.Hass):
   def initialize(self):
      self.log("Hello from AppDaemon")
 
+     # self.runtime = datetime.time(23, 0, 0)
+     # self.today = datetime.date.today()
+     # self.event = datetime.datetime.combine(today, runtime)
+     # if int(str(self.time())[:2]) >= 16: self.log("gotit")
+
      # self.log("here comes the global var %s", self.config["global_irrigation_cumulative_daily_adjusted_run_time"] )
      # self.today = datetime.datetime.today()
 
@@ -103,7 +108,7 @@ class HelloWorld(hass.Hass):
           self.log(f" Station {self.stations[i]['self.number']}: window {self.stations[i]['self.window']} window_start: {self.stations[i]['self.window_start']} running time: {self.stations[i]['self.station_running_time'] } ")
 
      for i in self.stations:
-         self.log(i[0:8])
+         self.log(i[0:16])
          # if i[0:7] != 'noswitch': self.turn_off(i)
 
      # for i in self.stations:

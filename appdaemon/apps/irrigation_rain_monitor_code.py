@@ -19,10 +19,15 @@ class Home_Irrigation_rain_monitor(hass.Hass):
 
   def main_routine(self, *args):
 
-      if self.render_template("{{states('sensor.wupws_preciptotal') | int}}") >= self.precipitation_threshold:
+      if int(str(self.time())[:2]) < 22: # needs to stop while the irrigation program calculates new daily run time
 
-           Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
-           Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
-           if  Garden_watering_time != 0:
-               self.set_value("input_number.garden_watering_time", 0)
-               self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
+          if self.render_template("{{states('sensor.wupws_preciptotal') | int}}") >= self.precipitation_threshold:
+               # Reset Gardening run time
+               Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
+               Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
+               if  Garden_watering_time != 0:
+                   self.set_value("input_number.garden_watering_time", 0)
+                   self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
+               # reset Watering System so daily calaculation is set to zero
+               self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
+               self.log("Reset complete")

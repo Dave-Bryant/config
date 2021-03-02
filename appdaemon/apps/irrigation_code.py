@@ -91,7 +91,7 @@ class Home_Irrigation(hass.Hass):
 
              self.log(f"Starting Irrigation. ")
 
-             # weight the running time
+             # weight the running time & remove excess time for missing stations
              for i in self.stations:
                  if i[0:8] != 'noswitch':
                      self.stations[i]['self.station_running_time'] = self.running_time*self.stations[i]['self.station_weight']
@@ -99,20 +99,24 @@ class Home_Irrigation(hass.Hass):
                      if int(self.stations[i]['self.station_running_time']) >= self.avaiable_time :
                          self.stations[i]['self.station_running_time'] = self.avaiable_time
                          self.log(f"{i} has maxed out")
-                 else:
+                 else:   # remove all the running time from the schedule for the missing stations
                      self.stations[i]['self.station_running_time'] = 0.0001
-                     missing_station = int(self.stations[i]['self.number'])
+                     self.missing_station = int(self.stations[i]['self.number'])
                      # self.log(f"Missing station {missing_station}")
                      self.time_removed = 0
+                     # identify the time to be removed from all other station start times
                      for j in self.stations:
                          self.time_removed = int(self.stations[i]['self.window'])
                          # self.log(f"{self.time_removed} to be removed")
-                         if int(self.stations[j]['self.number']) >= int(missing_station):
+                         # remove the times for all stations after (and including) the current one
+                         if int(self.stations[j]['self.number']) >= int(self.missing_station):
                              self.new_time = int(self.stations[j]['self.window_start']) - self.time_removed
+
                              if self.new_time > 0:
-                                 self.stations[j]['self.window_start'] = int(self.stations[j]['self.window_start']) - self.time_removed
+                                 self.stations[j]['self.window_start'] = self.new_time
                              else:
-                                 self.stations[j]['self.window_start'] = 0
+                                 self.log (f" Error {j} has an invalid start time of {self.stations[j]['self.window_start']}")
+
                              # self.log(f"{j} updated")
                              # self.log(f" Station {self.stations[j]['self.number']}: window {self.stations[j]['self.window']} window_start: {self.stations[j]['self.window_start']} running time: {self.stations[j]['self.station_running_time'] } ")
 
@@ -134,10 +138,10 @@ class Home_Irrigation(hass.Hass):
              for i in self.stations:  # the station variable assigned e.g. switch.frlawneast
                  if i[0:8] != 'noswitch' and float(self.stations[i]['self.station_running_time']) > 0.0001:
                       self.running_time = int(self.stations[i]['self.window_start'])
-                      self.log(f" Station: {i} will start in {self.running_time} secs")
+                      # self.log(f" Station: {i} will start in {self.running_time} secs")
                       self.run_in(self.turn_on_station_cb, self.running_time, current_station = i)
                       self.running_time = round(float(self.stations[i]['self.station_running_time']) + float(self.running_time))
-                      self.log(f" Station: {i} will stop in {self.running_time} secs")
+                      # self.log(f" Station: {i} will stop in {self.running_time} secs")
                       self.run_in(self.turn_off_station_cb, self.running_time, current_station = i)
                  # else: self.stations[i]['self.window_start'] = 0
 

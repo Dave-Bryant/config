@@ -36,7 +36,7 @@ irrigation1:
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.0631
+  STATION_6_WEIGHT: 1.5
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -71,7 +71,7 @@ irrigation2:
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.0631
+  STATION_6_WEIGHT: 1.5
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -106,7 +106,7 @@ irrigation3:
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.0631
+  STATION_6_WEIGHT: 1.5
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -120,7 +120,7 @@ irrigation4:              # Gardens
   module: irrigation_code
   class: Home_Irrigation
   START_TIME: '19:00:00'
-  START_DAYS: "tue,sat"
+  START_DAYS: "tue,thu,sat"
   PRECIPITATION_THRESHOLD: 80
   PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
@@ -141,7 +141,7 @@ irrigation4:              # Gardens
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.0631
+  STATION_6_WEIGHT: 1.5
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
