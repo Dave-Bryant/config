@@ -456,6 +456,10 @@ views:
           - sensor.wupws_weather_3n
           - sensor.wupws_weather_4d
           - sensor.wupws_weather_4n
+
+  
+
+
   - title: Cameras
     cards:
       - type: picture-entity

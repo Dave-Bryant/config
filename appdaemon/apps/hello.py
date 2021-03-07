@@ -63,8 +63,8 @@ class HelloWorld(hass.Hass):
      self.window1 = 20# window of the WaterMe irrigation cycle
      self.window2 = 30
      self.window3 = 40
-     self.station1 = 'switch.frlawnwest'
-     self.station2 =  ''
+     self.station1 = 'noswitch1'
+     self.station2 =  'noswitch2'
      self.station3 =  'switch.frlawneast'
      self.station4 = 'switch.bklawnsouth'
      self.station1_running_time = 10
@@ -104,11 +104,19 @@ class HelloWorld(hass.Hass):
      #         # self.running_time = round(float(self.stations[i]['self.station_running_time']) + float(self.running_time)
      #         # self.log('self.running_time is: %s', self.running_time)
      #     else: self.stations[i]['self.window'] = 0
-     for i in self.stations:
-          self.log(f" Station {self.stations[i]['self.number']}: window {self.stations[i]['self.window']} window_start: {self.stations[i]['self.window_start']} running time: {self.stations[i]['self.station_running_time'] } ")
+     # for i in self.stations:
+     #      self.log(f" Station {self.stations[i]['self.number']}: window {self.stations[i]['self.window']} window_start: {self.stations[i]['self.window_start']} running time: {self.stations[i]['self.station_running_time'] } ")
+     #
+     # for i in self.stations:
+     #     self.log(i)
+     #
+     # for i in self.stations:    # Find first switch
+     #     if i[:6] == 'switch':
+     #         self.firstswitch = self.stations[i]['self.number']
+     #         break
 
-     for i in self.stations:
-         self.log(i[0:16])
+
+
          # if i[0:7] != 'noswitch': self.turn_off(i)
 
      # for i in self.stations:

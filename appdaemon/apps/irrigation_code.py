@@ -59,11 +59,14 @@ class Home_Irrigation(hass.Hass):
          self.precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
          self.hourly_adjusted_running_time = int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))
 
-         # for testing
-         # self.hourly_adjusted_running_time = 500
-         # self.running_time = 400
-         # self.precipitation = 0
-         # self.set_value("input_number.garden_watering_time",130)
+         # Find first switch then remove master valve times from all other switches
+         for i in self.stations:
+             if i[:6] == 'switch':
+                 self.firstswitch = self.stations[i]['self.number']
+                 break
+         for i in self.stations:
+             if int(self.stations[i]['self.number']) != int(self.firstswitch):
+                self.stations[i]['self.window_start'] = int(self.stations[i]['self.window_start']) - int(self.master_valve_lead_time)
 
          # print report to log
          self.log(f"Daily is: {self.running_time} seconds. Hourly is: {self.hourly_adjusted_running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. ")
@@ -99,26 +102,11 @@ class Home_Irrigation(hass.Hass):
                      if int(self.stations[i]['self.station_running_time']) >= self.avaiable_time :
                          self.stations[i]['self.station_running_time'] = self.avaiable_time
                          self.log(f"{i} has maxed out")
-                 else:   # remove all the running time from the schedule for the missing stations
+                 else:   # remove all the window of time from the schedule for the missing stations
                      self.stations[i]['self.station_running_time'] = 0.0001
-                     self.missing_station = int(self.stations[i]['self.number'])
-                     # self.log(f"Missing station {missing_station}")
-                     self.time_removed = 0
-                     # identify the time to be removed from all other station start times
                      for j in self.stations:
-                         self.time_removed = int(self.stations[i]['self.window'])
-                         # self.log(f"{self.time_removed} to be removed")
-                         # remove the times for all stations after (and including) the current one
-                         if int(self.stations[j]['self.number']) >= int(self.missing_station):
-                             self.new_time = int(self.stations[j]['self.window_start']) - self.time_removed
-
-                             if self.new_time > 0:
-                                 self.stations[j]['self.window_start'] = self.new_time
-                             else:
-                                 self.log (f" Error {j} has an invalid start time of {self.stations[j]['self.window_start']}")
-
-                             # self.log(f"{j} updated")
-                             # self.log(f" Station {self.stations[j]['self.number']}: window {self.stations[j]['self.window']} window_start: {self.stations[j]['self.window_start']} running time: {self.stations[j]['self.station_running_time'] } ")
+                         if int(self.stations[j]['self.number']) > int(self.stations[i]['self.number']):
+                               self.stations[j]['self.window_start'] = int(self.stations[j]['self.window_start']) - int(self.stations[i]['self.window'])
 
              # print report to log
              for i in self.stations:

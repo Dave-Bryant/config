@@ -31,12 +31,12 @@ irrigation1:
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.75
+  STATION_1_WEIGHT: 0.7
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.5
+  STATION_6_WEIGHT: 3.0
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -66,12 +66,12 @@ irrigation2:
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.75
+  STATION_1_WEIGHT: 0.7
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.5
+  STATION_6_WEIGHT: 3.0
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -101,12 +101,12 @@ irrigation3:
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
   STATION_7: 'switch.tinybacklawn'
-  STATION_1_WEIGHT: 0.75
+  STATION_1_WEIGHT: 0.7
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.5
+  STATION_6_WEIGHT: 3.0
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -136,12 +136,12 @@ irrigation4:              # Gardens
   STATION_5: 'switch.frontgarden'
   STATION_6: 'switch.backsidegarden'
   STATION_7: 'noswitch7'
-  STATION_1_WEIGHT: 0.75
+  STATION_1_WEIGHT: 0.7
   STATION_2_WEIGHT: 1.0631
   STATION_3_WEIGHT: 1.4644
   STATION_4_WEIGHT: 1.4644
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 1.5
+  STATION_6_WEIGHT: 3.0
   STATION_7_WEIGHT: 0.33     # check this
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -174,7 +174,7 @@ light_timer2:
 light_timer3:
   module: light_timer_code
   class: Light_Timer
-  LIGHT_SWITCH: "switch.lounge_room_light"
+  LIGHT_SWITCH: "light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off"
 
 home_presence_app:
   module: home_presence_app
@@ -233,6 +233,6 @@ home_presence_app:
       host: 10.0.0.98
       username: !secret ground_floor_monitor_username
       password: !secret ground_floor_monitor_password
-      # reboot_command: sudo /sbin/reboot now
+      reboot_command: sudo reboot
       auto_reboot_when_offline: True
       time: 02:00:01
