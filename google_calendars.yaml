@@ -47,3 +47,10 @@
     ignore_availability: true
     name: Weather
     track: true
+
+- cal_id: s1ck0kineqgajqttcdmhb8608o@group.calendar.google.com
+  entities:
+  - device_id: national_rugby_league
+    ignore_availability: true
+    name: National Rugby League
+    track: true

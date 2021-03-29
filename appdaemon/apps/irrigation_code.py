@@ -15,29 +15,6 @@ class Home_Irrigation(hass.Hass):
      self.no_of_schedules = self.args["NO_OF_SCHEDULES"]
      self.valve_lead_time = self.args["VALVE_LEAD_TIME"]
      self.master_valve_lead_time = self.args["MASTER_VALVE_LEAD_TIME"]
-     self.stations = {
-                self.args["STATION_1"]:{'self.number': '1','self.station_weight':self.args["STATION_1_WEIGHT"],'self.window': str(self.args["STATION_1_WINDOW"]), 'self.window_start':str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_2"]:{'self.number': '2','self.station_weight':self.args["STATION_2_WEIGHT"],'self.window': str(self.args["STATION_2_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_3"]:{'self.number': '3','self.station_weight':self.args["STATION_3_WEIGHT"],'self.window': str(self.args["STATION_3_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_4"]:{'self.number': '4','self.station_weight':self.args["STATION_4_WEIGHT"],'self.window': str(self.args["STATION_4_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_5"]:{'self.number': '5','self.station_weight':self.args["STATION_5_WEIGHT"],'self.window': str(self.args["STATION_5_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_6"]:{'self.number': '6','self.station_weight':self.args["STATION_6_WEIGHT"],'self.window': str(self.args["STATION_6_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"] + self.args["STATION_5_WINDOW"]),
-                                'self.station_running_time': ''
-                                },
-                self.args["STATION_7"]:{'self.number': '7','self.station_weight':self.args["STATION_7_WEIGHT"],'self.window': str(self.args["STATION_7_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"] + self.args["STATION_5_WINDOW"] + self.args["STATION_6_WINDOW"]  ),
-                                'self.station_running_time': ''
-                                }
-                 }
 
 
      self.run_daily(self.main_routine, self.start_time)
@@ -45,6 +22,31 @@ class Home_Irrigation(hass.Hass):
 
   def main_routine(self, *args):
      if self.dayz[datetime.datetime.today().weekday()] in self.start_days:
+
+         self.stations = {
+                    self.args["STATION_1"]:{'self.number': '1','self.station_weight':self.args["STATION_1_WEIGHT"],'self.window': str(self.args["STATION_1_WINDOW"]), 'self.window_start':str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_2"]:{'self.number': '2','self.station_weight':self.args["STATION_2_WEIGHT"],'self.window': str(self.args["STATION_2_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_3"]:{'self.number': '3','self.station_weight':self.args["STATION_3_WEIGHT"],'self.window': str(self.args["STATION_3_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_4"]:{'self.number': '4','self.station_weight':self.args["STATION_4_WEIGHT"],'self.window': str(self.args["STATION_4_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_5"]:{'self.number': '5','self.station_weight':self.args["STATION_5_WEIGHT"],'self.window': str(self.args["STATION_5_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_6"]:{'self.number': '6','self.station_weight':self.args["STATION_6_WEIGHT"],'self.window': str(self.args["STATION_6_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"] + self.args["STATION_5_WINDOW"]),
+                                    'self.station_running_time': ''
+                                    },
+                    self.args["STATION_7"]:{'self.number': '7','self.station_weight':self.args["STATION_7_WEIGHT"],'self.window': str(self.args["STATION_7_WINDOW"]), 'self.window_start': str(self.args["VALVE_LEAD_TIME"] + self.args["MASTER_VALVE_LEAD_TIME"] + self.args["STATION_1_WINDOW"] + self.args["STATION_2_WINDOW"] + self.args["STATION_3_WINDOW"] + self.args["STATION_4_WINDOW"] + self.args["STATION_5_WINDOW"] + self.args["STATION_6_WINDOW"]  ),
+                                    'self.station_running_time': ''
+                                    }
+                     }
+
 
          # if API is down then use base calculation
          if self.render_template("{{states('sensor.high_temperature_today') | int}}") == 0:

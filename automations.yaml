@@ -159,7 +159,7 @@
         - switch.upstairs_light
     - service: light.turn_on
       entity_id:
-        - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off      
+        - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
 
 ########
 - alias: Turn_off_lights_at_a_time_if_home      ###works
@@ -230,7 +230,7 @@
 - alias: Turn_off_AC_at_a_time
   trigger:
     platform: time
-    at: "23:00:00"
+    at: "23:59:00"
   condition:
     condition: state
     entity_id: climate.family_room
@@ -254,7 +254,7 @@
 - alias: Turn_off_Fam_Lamp_at_a_time
   trigger:
     platform: time
-    at: "23:00:00"
+    at: "23:59:00"
   condition:
     condition: state
     entity_id: switch.lounge_room_light
@@ -278,7 +278,7 @@
 - alias: Turn_off_TV_at_a_time
   trigger:
     platform: time
-    at: "23:00:00"
+    at: "23:59:00"
   condition:
     condition: state
     entity_id: switch.samsung_q80_series_65

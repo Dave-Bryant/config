@@ -230,7 +230,6 @@ views:
           - automation.turn_off_tv_at_a_time
           - automation.turn_off_ac_at_a_time
           - automation.wendy_ac_on_at_700pm_if_home
-          - automation.perform_auto_backup
           - automation.test
       - type: entities
         entities:
@@ -457,7 +456,7 @@ views:
           - sensor.wupws_weather_4d
           - sensor.wupws_weather_4n
 
-  
+
 
 
   - title: Cameras
