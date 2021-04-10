@@ -409,7 +409,7 @@ views:
             state_header: 'Garden'
             format: duration
             entities:
-              - entity: sensor.smart_irrigation_hourly_adjusted_run_time
+              - entity: sensor.smart_irrigation_hourly_adjusted_run_time_2
                 attribute: adjusted_run_time_minutes
               - entity: sensor.smart_irrigation_daily_adjusted_run_time
                 attribute: adjusted_run_time_minutes
@@ -428,16 +428,16 @@ views:
       - type: entities
         title: 'Daily Forecast'
         entities:
-          - sensor.wupws_temp
-          - sensor.wupws_preciptotal
-          - sensor.precip_chance
-          - sensor.wupws_precip_chance_2d
-          - sensor.wupws_windspeed
-          - sensor.wupws_humidity
-          - sensor.wupws_pressure
-          - sensor.wupws_dewpt
-          - sensor.wupws_solarradiation
-          - sensor.high_temperature_today
+          - sensor.precip_chance  # from config then PWS NOT USED BY Smart Irrigation
+          - sensor.wupws_precip_chance_2d # from PWS  NOT USED BY Smart Irrigation
+          - sensor.daily_rain_rate_2 # correct
+          - sensor.outdoor_temperature # Correct
+          - sensor.wind_speed_2  # correct
+          - sensor.humidity  # correct
+          - sensor.relative_pressure # correct
+          - sensor.dewpoint # correct
+          - sensor.solar_radiation # correct
+          - sensor.high_temperature_today # from config then Ecowitt
           - sensor.low_temperature_today
 
       - type: custom:card-templater

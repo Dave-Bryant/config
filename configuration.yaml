@@ -8,8 +8,8 @@ recorder:
   exclude:
     entity_globs:
       - sensor.wupws_weather*
-    entities:
-      - weather.dark_sky
+    # entities:
+    #   - weather.dark_sky
 
 frontend:
   themes: !include_dir_merge_named themes
@@ -88,12 +88,11 @@ google:
 #     - 10.0.0.20  #wens_iphone
 #     - 10.0.0.70  #davids_iphone
 
-speedtestdotnet:
 
-weather:
-  - platform: darksky
-    api_key: !secret dark_sky
-    mode: daily
+# weather:
+#   - platform: darksky
+#     api_key: !secret dark_sky
+#     mode: daily
 
 tplink:
   discovery: false
@@ -124,8 +123,6 @@ tts:
     #time_memory: 300
     #base_url: http://10.0.0.55:8123
 
-upnp:
-  local_ip: 10.0.0.55
 
 # Tasmoto
 panel_iframe:
@@ -256,7 +253,7 @@ sensor:
       - weather_4n
 
   - platform: statistics
-    entity_id: sensor.wupws_temp
+    entity_id: sensor.outdoor_temperature
     name: "temp_high_low"
     max_age:
       minutes: 1440
