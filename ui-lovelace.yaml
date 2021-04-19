@@ -428,8 +428,8 @@ views:
       - type: entities
         title: 'Daily Forecast'
         entities:
-          - sensor.precip_chance  # from config then PWS NOT USED BY Smart Irrigation
-          - sensor.wupws_precip_chance_2d # from PWS  NOT USED BY Smart Irrigation
+          - sensor.precip_chance_today # from REST PWS
+          - sensor.precip_chance_tomorrow # from REST PWS
           - sensor.daily_rain_rate_2 # correct
           - sensor.outdoor_temperature # Correct
           - sensor.wind_speed_2  # correct
@@ -445,19 +445,12 @@ views:
           type: entities
           title: 'Weather Overview'
         entities:
-          - entity: sensor.wupws_weather_1d
+          - entity: sensor.pws_forecast_narrative_today
             state_template: >-
-              {% if states('sensor.wupws_weather_1d') == 'unknown' %} . {% endif %}
-          - sensor.wupws_weather_1n
-          - sensor.wupws_weather_2d
-          - sensor.wupws_weather_2n
-          - sensor.wupws_weather_3d
-          - sensor.wupws_weather_3n
-          - sensor.wupws_weather_4d
-          - sensor.wupws_weather_4n
-
-
-
+              {% if states('sensor.pws_forecast_narrative_today') == 'unknown' %} . {% endif %}
+          - sensor.pws_forecast_narrative_tonight
+          - sensor.pws_forecast_narrative_tomorrow
+          - sensor.pws_forecast_narrative_tomorrownight
 
   - title: Cameras
     cards:

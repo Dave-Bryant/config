@@ -8,6 +8,7 @@ recorder:
   exclude:
     entity_globs:
       - sensor.wupws_weather*
+      - binary_sensor.ewelink*
     # entities:
     #   - weather.dark_sky
 
@@ -104,7 +105,6 @@ climate:
   - platform: sensibo
     api_key: !secret sensibo
 
-
 # Spotify
 spotify:
   client_id: !secret spotify_client_id
@@ -113,7 +113,6 @@ spotify:
 spotcast:
   sp_dc: !secret spotify_sp_dc
   sp_key: !secret spotify_sp_key
-
 
 # Text to speech
 tts:
@@ -164,13 +163,45 @@ sensor:
     resources:
       - type: memory_use_percent
       - type: processor_use
+  - platform: statistics
+    entity_id: sensor.outdoor_temperature
+    name: "temp_high_low"
+    max_age:
+      minutes: 1440
+    sampling_size: 1440
+  - platform: template
+    sensors:
+      high_temperature_today:
+        friendly_name: 'High Temperature Today'
+        unit_of_measurement: °C
+        icon_template: mdi:thermometer
+        value_template: "{{ state_attr('sensor.temp_high_low', 'max_value') }}"
+  - platform: template
+    sensors:
+      low_temperature_today:
+        friendly_name: 'Low Temperature Today'
+        unit_of_measurement: °C
+        icon_template: mdi:thermometer
+        value_template: "{{ state_attr('sensor.temp_high_low', 'min_value') }}"
+  - platform: min_max   # for the REST Forecast
+    name: "precip_chance_today"
+    type: max
+    entity_ids:
+      - sensor.pws_forecast_today
+      - sensor.pws_forecast_tonight
+  - platform: min_max
+    name: "precip_chance_tomorrow"
+    type: max
+    entity_ids:
+      - sensor.pws_forecast_tomorrow
+      - sensor.pws_forecast_tomorrow_tonight
 
   # irrigation
   - platform: template
     sensors:
       smart_irrigation_hourly_netto_precipitation:
         friendly_name: 'Smart Irrigation Netto Precipitation (updated hourly)'
-        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time','netto_precipitation')|float}}"
+        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time_2','netto_precipitation')|float}}"
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
       smart_irrigation_bucket:
@@ -226,61 +257,107 @@ sensor:
         device_class: humidity
         value_template: "{{ state_attr('climate.family_room', 'current_humidity') }}"
 
-  # Weather Underground
-  - platform: wundergroundpws
-    api_key: !secret Weather_Underground_API_Key
-    pws_id: !secret Weather_Underground_Station_ID
-    monitored_conditions:
-      - temp
-      - precipTotal
-      - pressure
-      - windSpeed
-      - dewpt
-      - humidity
-      - solarRadiation
-      - precip_chance_1d
-      - precip_chance_1n
-      - precip_chance_2d
-      - temp_high_1d
-      - temp_low_1d
-      - weather_1d
-      - weather_1n
-      - weather_2d
-      - weather_2n
-      - weather_3d
-      - weather_3n
-      - weather_4d
-      - weather_4n
 
-  - platform: statistics
-    entity_id: sensor.outdoor_temperature
-    name: "temp_high_low"
-    max_age:
-      minutes: 1440
-    sampling_size: 1440
 
-  - platform: template
-    sensors:
-      high_temperature_today:
-        friendly_name: 'High Temperature Today'
-        unit_of_measurement: °C
-        icon_template: mdi:thermometer
-        value_template: "{{ state_attr('sensor.temp_high_low', 'max_value') }}"
+# WUNDERGROUND_REST
+rest:
+  - authentication: basic
+    resource: !secret wunderground_url_forecast
+    scan_interval: 300
+    sensor:
+      - name: "pws_forecast_narrative_today"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_narrative_today','daypart')[0].daypartName[0]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[0]}}"
+      - name: "pws_forecast_narrative_tonight"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tonight','daypart')[0].daypartName[1]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[1]}}"
+      - name: "pws_forecast_narrative_tomorrow"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tomorrow','daypart')[0].daypartName[2]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[2]}}"
+      - name: "pws_forecast_narrative_tomorrownight"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tomorrownight','daypart')[0].daypartName[3]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[3]}}"
+      - name: "pws_forecast_today"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_today','daypart')[0].precipChance[0]}}"
+      - name: "pws_forecast_tonight"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_tonight','daypart')[0].precipChance[1]}}"
+      - name: "pws_forecast_tomorrow"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_tomorrow','daypart')[0].precipChance[2]}}"
+      - name: "pws_forecast_tomorrow_tonight"
+        json_attributes: "daypart"
+        value_template: "{{ state_attr('sensor.pws_forecast_tomorrow_tonight','daypart')[0].precipChance[3]}}"
 
-  - platform: template
-    sensors:
-      low_temperature_today:
-        friendly_name: 'Low Temperature Today'
-        unit_of_measurement: °C
-        icon_template: mdi:thermometer
-        value_template: "{{ state_attr('sensor.temp_high_low', 'min_value') }}"
 
-  - platform: min_max
-    name: "precip_chance"
-    type: max
-    entity_ids:
-      - sensor.wupws_precip_chance_1d
-      - sensor.wupws_precip_chance_1n
+# sensor:   # this works but i use Ecowitt for this info
+#   - platform: rest
+#     name: pws_report
+#     json_attributes:
+#       - observations
+#     value_template: '{{ value_json["observations"][0]["obsTimeLocal"].title() }}'
+#     resource: !secret wunderground_url_current
+#     scan_interval: 300
+#
+#   - platform: template
+#     sensors:
+#       pws_station_id:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].stationID }}'
+#         friendly_name: Station ID
+#       pws_obs_local:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].obsTimeLocal }}'
+#         friendly_name: Time Local
+#       pws_solar_radiation:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].solarRadiation }}'
+#         friendly_name: Solar Radiation
+#         unit_of_measurement: "W/m2"
+#       pws_wind_dir:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].winddir }}'
+#         friendly_name: Wind Direction
+#         unit_of_measurement: "°"
+#       pws_humidity:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].humidity }}'
+#         friendly_name: Humidity
+#         unit_of_measurement: "rH%"
+#       pws_temp:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.temp }}'
+#         friendly_name: Temperature
+#         unit_of_measurement: "°C"
+#       pws_heat_index:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.heatIndex }}'
+#         friendly_name: Heat Index
+#         unit_of_measurement: "°C"
+#       pws_dewpt:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.dewpt }}'
+#         friendly_name: Dew Point
+#         unit_of_measurement: "°C"
+#       pws_windchill:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windChill }}'
+#         friendly_name: Wind Chill
+#         unit_of_measurement: "°C"
+#       pws_wind_speed:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windSpeed }}'
+#         friendly_name: Wind Speed
+#         unit_of_measurement: "Km/h"
+#       pws_wind_gust:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windGust }}'
+#         friendly_name:  Wind Gust
+#         unit_of_measurement: "Km/h"
+#       pws_pressure:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.pressure }}'
+#         friendly_name: Pressure
+#         unit_of_measurement: "hPa"
+#       pws_precip_rate:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipRate }}'
+#         friendly_name: Rain Rate
+#         unit_of_measurement: "L/h"
+#       pws_precip_total:
+#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipTotal }}'
+#         friendly_name: Rain Total
+#         unit_of_measurement: "L"
+
+
 
 input_number:
   garden_watering_time:
@@ -319,33 +396,6 @@ input_boolean:
   force_irrigation:
     name: input_boolean.force_irrigation
 
-  # - platform: wunderground  # this is the official integration. I points to the wrong web address. Waiting to be fixed.
-  #   api_key: !secret Weather_Underground_API_Key
-  #   pws_id: !secret Weather_Underground_Station_ID
-  #   monitored_conditions:
-  #     - temp_c
-  #     - precip_today_metric
-  #     - pressure_mb
-  #     - wind_kph
-  #     - dewpoint_c
-  #     - relative_humidity
-  #     - solarradiation
-  #     - temp_high_record_c
-  #     - temp_low_record_c
-  #     - precip_1d_mm
-  #     - precip_1d
-  #     - weather_1d_metric
-  #     - weather_1n_metric
-  #     - weather_2d_metric
-  #     - weather_2n_metric
-  #     - weather_3d_metric
-  #     - weather_3n_metric
-  #     - weather_4d_metric
-  #     - weather_4n_metric
-  #     - temp_high_1d_c
-  #     - temp_low_1d_c
-  #     - wind_1d_kph
-  #     - alerts
 
 
 binary_sensor:

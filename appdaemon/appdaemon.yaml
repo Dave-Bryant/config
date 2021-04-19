@@ -1,5 +1,5 @@
 ---
-#  /config/secrets.yaml
+
 appdaemon:
   global_irrigation_cumulative_daily_adjusted_run_time: 0 # used for watering gardens twice a week
   latitude: -35.282
