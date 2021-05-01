@@ -5,13 +5,13 @@
   action:
     -  delay: '00:00:30'
     -  service: media_player.turn_on
-       entity_id: media_player.office_speaker
+       entity_id: media_player.study_display
     -  service: media_player.volume_set
        data:
-         entity_id: media_player.office_speaker
+         entity_id: media_player.study_display
          volume_level: '0.2'
     -  service: tts.cloud_say
-       entity_id: media_player.office_speaker
+       entity_id: media_player.study_display
        data:
          message: 'Home Assistant has started.'
 

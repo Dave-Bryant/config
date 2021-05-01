@@ -54,3 +54,10 @@
     ignore_availability: true
     name: National Rugby League
     track: true
+
+- cal_id: family01437576833476236188@group.calendar.google.com
+  entities:
+  - device_id: family
+    ignore_availability: true
+    name: Family
+    track: true

@@ -32,21 +32,26 @@ views:
       - entity: binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
     cards:
-      - type: glance
-        title: Switches
+      - type: entities
         entities:
-          - entity: switch.upstairs_light
-            tap_action:
-              action: light.toggle
-          - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
-            tap_action:
-              action: toggle
-          - entity: switch.spare_switch
-            tap_action:
-              action: toggle
-          - entity: switch.samsung_q80_series_65
-            tap_action:
-              action: toggle
+          - type: buttons
+            entities:
+              - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
+                name: Family Room Lamp
+              - entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
+                name: Holly Bedroom Light
+              - entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
+                name: Small Bedroom Light
+          - type: divider
+          - type: buttons
+            entities:
+              - entity: switch.upstairs_light
+                name: Upstairs Lamp
+                state_color: true
+              - entity: switch.spare_switch
+                name: Dining Room Lamp
+              - entity: switch.samsung_q80_series_65
+                name: Family Room TV
 
 
       - type: custom:spotify-card
@@ -444,13 +449,20 @@ views:
         card:
           type: entities
           title: 'Weather Overview'
-        entities:
+        entities:         # from REST
           - entity: sensor.pws_forecast_narrative_today
             state_template: >-
               {% if states('sensor.pws_forecast_narrative_today') == 'unknown' %} . {% endif %}
-          - sensor.pws_forecast_narrative_tonight
-          - sensor.pws_forecast_narrative_tomorrow
-          - sensor.pws_forecast_narrative_tomorrownight
+            name: .
+          - entity: sensor.pws_forecast_narrative_tonight
+            name: .
+          - entity: sensor.pws_forecast_narrative_tomorrow
+            name: .
+          - entity: sensor.pws_forecast_narrative_tomorrownight
+            name: .
+          - entity: sensor.pws_forecast_narrative_tomorrownight
+            name: .
+
 
   - title: Cameras
     cards:
