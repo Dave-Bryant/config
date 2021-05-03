@@ -267,28 +267,56 @@ rest:
     sensor:
       - name: "pws_forecast_narrative_today"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_narrative_today','daypart')[0].daypartName[0]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[0]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_today','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_narrative_today','daypart')[0].daypartName[0])}}
+                         {% endif %}
+                         {% if state_attr('sensor.pws_forecast_today','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_today','daypart')[0].narrative[0])}}
+                         {% endif %}"
       - name: "pws_forecast_narrative_tonight"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tonight','daypart')[0].daypartName[1]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[1]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_tonight','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_narrative_tonight','daypart')[0].daypartName[1])}}
+                         {% endif %}
+                         {% if state_attr('sensor.pws_forecast_tonight','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tonight','daypart')[0].narrative[1])}}
+                         {% endif %}"
       - name: "pws_forecast_narrative_tomorrow"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tomorrow','daypart')[0].daypartName[2]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[2]}}"
-      - name: "pws_forecast_narrative_tomorrownight"
+        value_template: "{% if state_attr('sensor.pws_forecast_tomorrow','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_narrative_tomorrow','daypart')[0].daypartName[2])}}
+                         {% endif %}
+                         {% if state_attr('sensor.pws_forecast_tomorrow','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tomorrow','daypart')[0].narrative[2])}}
+                         {% endif %}"
+      - name: "pws_forecast_narrative_tomorrow_tonight"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_narrative_tomorrownight','daypart')[0].daypartName[3]}} {{ state_attr('sensor.pws_forecast_today','daypart')[0].narrative[3]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_tomorrow_tonight','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_narrative_tomorrow_tonight','daypart')[0].daypartName[3])}}
+                         {% endif %}
+                         {% if state_attr('sensor.pws_forecast_tomorrow_tonight','daypart') == None %} {{'Waiting'}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tomorrow_tonight','daypart')[0].narrative[3])}}
+                         {% endif %}"
       - name: "pws_forecast_today"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_today','daypart')[0].precipChance[0]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_today','daypart') == None %} {{float('0')}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_today','daypart')[0].precipChance[0])}}
+                         {% endif %}"
       - name: "pws_forecast_tonight"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_tonight','daypart')[0].precipChance[1]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_tonight','daypart') == None %} {{float('0')}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tonight','daypart')[0].precipChance[1])}}
+                         {% endif %}"
       - name: "pws_forecast_tomorrow"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_tomorrow','daypart')[0].precipChance[2]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_tomorrow','daypart') == None %} {{float('0')}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tomorrow','daypart')[0].precipChance[2])}}
+                         {% endif %}"
       - name: "pws_forecast_tomorrow_tonight"
         json_attributes: "daypart"
-        value_template: "{{ state_attr('sensor.pws_forecast_tomorrow_tonight','daypart')[0].precipChance[3]}}"
+        value_template: "{% if state_attr('sensor.pws_forecast_tomorrow_tonight','daypart') == None %} {{float('0')}}
+                         {%- else -%} {{(state_attr('sensor.pws_forecast_tomorrow_tonight','daypart')[0].precipChance[3])}}
+                         {% endif %}"
 
 
 # sensor:   # this works but i use Ecowitt for this info

@@ -458,11 +458,8 @@ views:
             name: .
           - entity: sensor.pws_forecast_narrative_tomorrow
             name: .
-          - entity: sensor.pws_forecast_narrative_tomorrownight
+          - entity: sensor.pws_forecast_narrative_tomorrow_tonight
             name: .
-          - entity: sensor.pws_forecast_narrative_tomorrownight
-            name: .
-
 
   - title: Cameras
     cards:
