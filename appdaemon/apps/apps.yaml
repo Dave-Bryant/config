@@ -231,10 +231,8 @@ home_presence_app:
     disable: False
     ground_floor:
       host: 10.0.0.109
-      # username:  ground_floor_monitor_username
-      username: pi
-      # password:  ground_floor_monitor_password
-      password: Wendles2355
+      username:  ground_floor_monitor_username
+      password:  ground_floor_monitor_password
       reboot_command: sudo reboot
       auto_reboot_when_offline: True
-      time: 02:00:01
+      time: 16:30:00

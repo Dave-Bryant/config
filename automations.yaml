@@ -94,13 +94,13 @@
         state: 'on'
   action:
     -  service: media_player.turn_on
-       entity_id: media_player.family_room_display
+       entity_id: media_player.nesthub9e11
     # -  service: media_player.volume_set
     #    data:
-    #      entity_id: media_player.family_room_display
+    #      entity_id: media_player.nesthub9e11
     #      volume_level: '0.5'
     -  service: tts.cloud_say
-       entity_id: media_player.family_room_display
+       entity_id: media_player.nesthub9e11
        data:
          message: 'You need to put the recycling bin out on the road'
 
@@ -120,13 +120,13 @@
         state: 'on'
   action:
     -  service: media_player.turn_on
-       entity_id: media_player.family_room_display
+       entity_id: media_player.nesthub9e11
     # -  service: media_player.volume_set
     #    data:
-    #      entity_id: media_player.family_room_display
+    #      entity_id: media_player.nesthub9e11
     #      volume_level: '0.5'
     -  service: tts.cloud_say
-       entity_id: media_player.family_room_display
+       entity_id: media_player.nesthub9e11
        data:
          message: 'You need to put the green waste bin out on the road'
 
@@ -174,13 +174,13 @@
     - service: light.turn_off
       entity_id: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
     # - service: media_player.turn_on
-    #   entity_id: media_player.family_room_display
+    #   entity_id: media_player.nesthub9e11
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     # - service: tts.google_translate_say
-    #   entity_id: media_player.family_room_display
+    #   entity_id: media_player.nesthub9e11
     #   data:
     #     message: 'Time for bed Wendy.'
 
@@ -240,13 +240,13 @@
       entity_id:
         - climate.family_room
     - service: media_player.turn_on
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     - service: tts.google_translate_say
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
       data:
         message: 'Air Conditioner turned off automatically.'
 
@@ -264,13 +264,13 @@
       entity_id:
         - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
     - service: media_player.turn_on
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     - service: tts.google_translate_say
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
       data:
         message: 'Lamp turned off automatically.'
 
@@ -287,13 +287,13 @@
     - service: switch.turn_off
       entity_id: switch.samsung_q80_series_65
     - service: media_player.turn_on
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     - service: tts.google_translate_say
-      entity_id: media_player.family_room_display
+      entity_id: media_player.nesthub9e11
       data:
         message: 'Television turned off automatically.'
 
@@ -308,9 +308,9 @@
 #     for: "00:10:00"
 #   action:
 #     -  service: media_player.turn_on
-#        entity_id: media_player.family_room_display
+#        entity_id: media_player.nesthub9e11
 #     # -  service: tts.google_translate_say
-#     #    entity_id: media_player.family_room_display
+#     #    entity_id: media_player.nesthub9e11
 #     #    data:
 #     #      message: 'Welcome Home David'
 
@@ -325,9 +325,9 @@
 #     for: "00:10:00"
 #   action:
 #     -  service: media_player.turn_on
-#        entity_id: media_player.family_room_display
+#        entity_id: media_player.nesthub9e11
 #     -  service: tts.google_translate_say
-#        entity_id: media_player.family_room_display
+#        entity_id: media_player.nesthub9e11
 #        data:
 #          message: 'Welcome Home Wendy'
 
@@ -354,7 +354,7 @@
        entity_id: media_player.office_speaker
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     -  service: tts.google_translate_say
        entity_id: media_player.office_speaker
@@ -395,7 +395,7 @@
        entity_id: media_player.office_speaker
     # - service: media_player.volume_set
     #   data:
-    #     entity_id: media_player.family_room_display
+    #     entity_id: media_player.nesthub9e11
     #     volume_level: '0.5'
     -  service: tts.google_translate_say
        entity_id: media_player.office_speaker
