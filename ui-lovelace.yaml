@@ -2,9 +2,7 @@ resources:
   - type: module
     url: /hacsfiles/simple-thermostat/simple-thermostat.js
   - type: module
-    url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
-  - type: module
-    url: /hacsfiles/weather-card/weather-card.js
+    url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js  
   - type: module
     url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
   - type: module
@@ -47,7 +45,6 @@ views:
             entities:
               - entity: switch.upstairs_light
                 name: Upstairs Lamp
-                state_color: true
               - entity: switch.spare_switch
                 name: Dining Room Lamp
               - entity: switch.samsung_q80_series_65

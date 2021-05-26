@@ -9,7 +9,7 @@
     -  service: media_player.volume_set
        data:
          entity_id: media_player.study_display
-         volume_level: '0.2'
+         volume_level: '0.4'
     -  service: tts.cloud_say
        entity_id: media_player.study_display
        data:

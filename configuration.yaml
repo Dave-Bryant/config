@@ -69,13 +69,13 @@ ffmpeg:
 media_player:
   - platform: yamaha_musiccast
     host: 10.0.0.136
-  - platform: samsungtv_tizen
-    host: 10.0.0.130
-    mac: "D0:D0:03:A2:D9:8E"
-    name: Samsung Smart TV
-    update_method: "smartthings"
-    api_key: !secret smartthings_API_key
-    device_id: !secret smartthings_device_id
+  # - platform: samsungtv_tizen
+  #   host: 10.0.0.130
+  #   mac: "D0:D0:03:A2:D9:8E"
+  #   name: Samsung Smart TV
+  #   update_method: "smartthings"
+  #   api_key: !secret smartthings_API_key
+  #   device_id: !secret smartthings_device_id
 
 google:
   client_id: !secret google_client_id
