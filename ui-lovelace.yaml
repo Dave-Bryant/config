@@ -2,13 +2,15 @@ resources:
   - type: module
     url: /hacsfiles/simple-thermostat/simple-thermostat.js
   - type: module
-    url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js  
+    url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
   - type: module
     url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
   - type: module
     url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
   - type: module
     url: /hacsfiles/spotify-card/spotify-card.js
+  - type: module
+    url: /hacsfiles/button-card/button-card.js
 
 
 no-top-header:
@@ -30,26 +32,137 @@ views:
       - entity: binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
     cards:
-      - type: entities
-        entities:
-          - type: buttons
-            entities:
-              - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
-                name: Family Room Lamp
-              - entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
-                name: Holly Bedroom Light
-              - entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
-                name: Small Bedroom Light
-          - type: divider
-          - type: buttons
-            entities:
-              - entity: switch.upstairs_light
-                name: Upstairs Lamp
-              - entity: switch.spare_switch
-                name: Dining Room Lamp
-              - entity: switch.samsung_q80_series_65
-                name: Family Room TV
+      # - type: entities
+      #   entities:
+      #     - type: buttons
+      #       entities:
+      #         - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
+      #           name: Family Room Lamp
+      #         - entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
+      #           name: Holly Bedroom Light
+      #         - entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
+      #           name: Small Bedroom Light
+      #     - type: divider
+      #     - type: buttons
+      #       entities:
+      #         - entity: switch.upstairs_light
+      #           name: Upstairs Lamp
+      #         - entity: switch.spare_switch
+      #           name: Dining Room Lamp
+      #         - entity: switch.samsung_q80_series_65
+      #           name: Family Room TV
 
+      - type: vertical-stack
+        cards:
+        - type: horizontal-stack
+          cards:
+            - type: 'custom:button-card'
+              entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
+
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+              label: |
+                [[[
+                    var bri = (states['light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                ]]]
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+            - type: 'custom:button-card'
+              entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+              label: |
+                [[[
+                    var bri = (states['light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                ]]]
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+            - type: 'custom:button-card'
+              entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+              label: |
+                [[[
+                    var bri = (states['light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                ]]]
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+        - type: horizontal-stack
+          cards:
+            - type: 'custom:button-card'
+              entity: switch.upstairs_light
+              name: Upstairs Lamp
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+            - type: 'custom:button-card'
+              entity: switch.spare_switch
+              name: Dining Room Lamp
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+            - type: 'custom:button-card'
+              entity: switch.samsung_q80_series_65
+              name: Samsung TV
+              icon: 'mdi:television'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
 
       - type: custom:spotify-card
       # account: <optional> which account to use for spotcast. Defaults to "default"
