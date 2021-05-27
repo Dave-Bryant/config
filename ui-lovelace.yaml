@@ -68,7 +68,10 @@ views:
               label: |
                 [[[
                     var bri = (states['light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
-                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                    if (isNaN(bri))
+                      return 'Brightness: ' + '0' + '%';
+                    else
+                      return 'Brightness: ' + (bri ? bri : '0') + '%';
                 ]]]
               show_label: true
               size: 30%
@@ -87,7 +90,10 @@ views:
               label: |
                 [[[
                     var bri = (states['light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
-                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                    if (isNaN(bri))
+                      return 'Brightness: ' + '0' + '%';
+                    else
+                      return 'Brightness: ' + (bri ? bri : '0') + '%';
                 ]]]
               show_label: true
               size: 30%
@@ -106,7 +112,10 @@ views:
               label: |
                 [[[
                     var bri = (states['light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
-                    return 'Brightness: ' + (bri ? bri : '0') + '%';
+                    if (isNaN(bri))
+                      return 'Brightness: ' + '0' + '%';
+                    else
+                      return 'Brightness: ' + (bri ? bri : '0') + '%';     
                 ]]]
               show_label: true
               size: 30%
