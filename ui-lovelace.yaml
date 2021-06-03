@@ -115,7 +115,7 @@ views:
                     if (isNaN(bri))
                       return 'Brightness: ' + '0' + '%';
                     else
-                      return 'Brightness: ' + (bri ? bri : '0') + '%';     
+                      return 'Brightness: ' + (bri ? bri : '0') + '%';
                 ]]]
               show_label: true
               size: 30%
@@ -436,6 +436,7 @@ views:
         title: 'Irrigation Status'
         entities:
           - entity: switch.frlawnwest
+            icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawnwest
             toggle: true
@@ -449,6 +450,7 @@ views:
                 name: run dur.
                 format: duration
           - entity: switch.frlawneast
+            icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawneast
             toggle: true
@@ -462,6 +464,7 @@ views:
                 name: false
                 format: duration
           - entity: switch.bklawnsouth
+            icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: bklawnsouth
             toggle: true
@@ -475,6 +478,7 @@ views:
                 name: false
                 format: duration
           - entity: switch.bklawnnorth
+            icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: bklawnnorth
             toggle: true
@@ -489,6 +493,7 @@ views:
                 format: duration
           - type: section
           - entity: switch.frontgarden
+            icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
             name: frontgarden
             toggle: true
@@ -502,6 +507,7 @@ views:
                 name: false
                 format: duration
           - entity: switch.backsidegarden
+            icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
             name: backsidegarden
             toggle: true
@@ -515,6 +521,7 @@ views:
                 name: false
                 format: duration
           - entity: switch.tinybacklawn
+            icon: 'mdi:water-pump-off'
             type: custom:multiple-entity-row
             name: tinybacklawn
             toggle: true
@@ -547,13 +554,13 @@ views:
               - attribute: base_schedule_index_minutes
                 entity: sensor.smart_irrigation_base_schedule_index
 
-
-
       - type: entities
         title: 'Daily Forecast'
         entities:
-          - sensor.precip_chance_today # from REST PWS
-          - sensor.precip_chance_tomorrow # from REST PWS
+          - entity: sensor.precip_chance_today # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.precip_chance_tomorrow # from REST PWS
+            icon: 'mdi:weather-pouring'
           - sensor.daily_rain_rate_2 # correct
           - sensor.outdoor_temperature # Correct
           - sensor.wind_speed_2  # correct
@@ -564,21 +571,55 @@ views:
           - sensor.high_temperature_today # from config then Ecowitt
           - sensor.low_temperature_today
 
-      - type: custom:card-templater
+      - type: 'custom:card-templater'
         card:
           type: entities
-          title: 'Weather Overview'
-        entities:         # from REST
+          title: Weather Overview
+          entities:
+            - entity: sensor.pws_forecast_narrative_today
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ')
+                }}
+            - entity: sensor.pws_forecast_narrative_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tonight") | truncate(10,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow") | truncate(11,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+                truncate(20,true,' ') }}
+        entities:
           - entity: sensor.pws_forecast_narrative_today
             state_template: >-
-              {% if states('sensor.pws_forecast_narrative_today') == 'unknown' %} . {% endif %}
-            name: .
+              {% set first_word =  states("sensor.pws_forecast_narrative_today") |  truncate(8,true,' ')%}
+              {% if first_word | trim  == 'Waiting' %}
+              {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ') | trim }}
+              {%- else -%}
+              {{states("sensor.pws_forecast_narrative_today") | regex_replace(find='Today', replace=' ', ignorecase=False) }}
+              {% endif %}
           - entity: sensor.pws_forecast_narrative_tonight
-            name: .
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tonight") |
+              regex_replace(find='Tonight', replace=' ', ignorecase=False)   }}
           - entity: sensor.pws_forecast_narrative_tomorrow
-            name: .
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow") |
+              regex_replace(find='Tomorrow', replace=' ', ignorecase=False)  }}
           - entity: sensor.pws_forecast_narrative_tomorrow_tonight
-            name: .
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+              regex_replace(find='Tomorrow night', replace=' ', ignorecase=False)  }}
+        entity: sensor.pws_forecast_narrative_tonight
+
+
 
   - title: Cameras
     cards:

@@ -35,14 +35,14 @@ discovery:
     - homekit
     - harmony
 
-# samsungtv:
-#   - host: 10.0.0.130
-#     name: Samsung Smart TV
-#     turn_on_action:
-#       - service: wake_on_lan.send_magic_packet
-#         data:
-#           mac: "D0:D0:03:A2:D9:8E"
-# wake_on_lan:
+samsungtv:
+  - host: 10.0.0.130
+    name: Samsung Smart TV
+    turn_on_action:
+      - service: wake_on_lan.send_magic_packet
+        data:
+          mac: "D0:D0:03:A2:D9:8E"
+wake_on_lan:
 
 zha:
   zigpy_config:
@@ -124,12 +124,16 @@ tts:
     #base_url: http://10.0.0.55:8123
 
 
-# Tasmoto
+# Tasmoto and MDI icons
 panel_iframe:
   tasmoadmin:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
     url: http://10.0.0.55:9541
+  mdiindex:
+    title: MDI Icon Index
+    icon: mdi:vector-square
+    url: https://cdn.rawgit.com/james-fry/home-assistant-mdi/efd95d7a/home-assistant-mdi.html
 
 sensor:
   - platform: mqtt
