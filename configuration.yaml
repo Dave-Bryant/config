@@ -66,9 +66,9 @@ zha:
 
 ffmpeg:
 
-media_player:
-  - platform: yamaha_musiccast
-    host: 10.0.0.136
+# media_player:
+  # - platform: yamaha_musiccast  MusicCast is now configured in UI
+  #   host: 10.0.0.136
   # - platform: samsungtv_tizen
   #   host: 10.0.0.130
   #   mac: "D0:D0:03:A2:D9:8E"
@@ -435,25 +435,25 @@ binary_sensor:
   - platform: threshold
     entity_id: sensor.study_temp
     lower: 19.0
-    upper: 25.0
+    upper: 22.0
     hysteresis: 0.0
     name: study_temp_thres_on
   - platform: threshold
     entity_id: sensor.study_temp
     lower: 20.0
-    upper: 23.0
+    upper: 22.0
     hysteresis: 0.0
     name: study_temp_thres_off
   - platform: threshold
     entity_id: sensor.hollys_bedroom_temp
     lower: 19.0
-    upper: 24.0
+    upper: 22.0
     hysteresis: 0.0
     name: hollys_bedroom_temp_thres_on
   - platform: threshold
     entity_id: sensor.hollys_bedroom_temp
     lower: 20.0
-    upper: 23.0
+    upper: 22.0
     hysteresis: 0.0
     name: hollys_bedroom_temp_thres_off
 

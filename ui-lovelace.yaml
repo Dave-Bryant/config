@@ -11,7 +11,7 @@ resources:
     url: /hacsfiles/spotify-card/spotify-card.js
   - type: module
     url: /hacsfiles/button-card/button-card.js
-
+  
 
 no-top-header:
   card-mod-theme: no-top-header
