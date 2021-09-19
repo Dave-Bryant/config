@@ -23,6 +23,7 @@ logger:
   default: info
   logs:
     custom_components.samsungtv_tizen: error
+    custom_components.smart_irrigation: info
     homeassistant.components.media_player: error
     homeassistant.components.pychromecast: error
 
@@ -105,15 +106,6 @@ tplink:
 climate:
   - platform: sensibo
     api_key: !secret sensibo
-
-# Spotify
-spotify:
-  client_id: !secret spotify_client_id
-  client_secret: !secret spotify_client_secret
-
-spotcast:
-  sp_dc: !secret spotify_sp_dc
-  sp_key: !secret spotify_sp_key
 
 # Text to speech
 tts:
@@ -206,7 +198,7 @@ sensor:
     sensors:
       smart_irrigation_hourly_netto_precipitation:
         friendly_name: 'Smart Irrigation Netto Precipitation (updated hourly)'
-        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time_2','netto_precipitation')|float}}"
+        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time','netto_precipitation')|float}}"
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
       smart_irrigation_bucket:

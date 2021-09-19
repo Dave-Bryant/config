@@ -59,7 +59,7 @@ class Home_Irrigation(hass.Hass):
          self.chance_of_precipitation = self.render_template("{{states('sensor.precip_chance_today') | int}}")
          self.chance_of_precipitation_48hrs = self.render_template("{{states('sensor.precip_chance_today') | int}}")
          self.precipitation = self.render_template("{{states('sensor.daily_rain_rate_2') | int}}")
-         self.hourly_adjusted_running_time = int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))
+         self.hourly_adjusted_running_time = int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))
 
          # Find first switch then remove master valve times from all other switches
          for i in self.stations:

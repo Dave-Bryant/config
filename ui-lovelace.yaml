@@ -8,10 +8,8 @@ resources:
   - type: module
     url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
   - type: module
-    url: /hacsfiles/spotify-card/spotify-card.js
-  - type: module
     url: /hacsfiles/button-card/button-card.js
-  
+
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -156,44 +154,12 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
-            - type: 'custom:button-card'
-              entity: switch.samsung_q80_series_65
-              name: Samsung TV
-              icon: 'mdi:television'
-              aspect_ratio: 1.5/1
-              color: auto
-              state:
-                - value: 'on'
-                  color: rgb(255, 255, 0)
-
-              show_label: true
-              size: 30%
-              styles:
-                card:
-                  - height: 60px
-                  - font-size: 12px
-
-      - type: custom:spotify-card
-      # account: <optional> which account to use for spotcast. Defaults to "default"
-      # height: <optional pixels height for the playlist element. If content is larger scrolling will be enabled>
-        limit: 5
-      # device: <optional name of a device to pre-select>
-      # playlist_type: <optional featured|discover-weekly> Change type of playlists shown. Default are your normal playlists.
-      # always_play_random_song: <optional true> Set to start playlists from a random song.
-      # country_code: <optional country code to show featured playlist relevent to a particular country. https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2 >
-      # hide_warning: <optional true> Hide warnings if they are displayed.
-      # name: <optional name> Custom title. Leave empty to hide.
-      # display_style: <optional Grid> Change default display style.
-      # grid_covers_per_row: <optional number> Number of covers per row (default 3) in Grid-view.
-      # spotify_entity: <optional> Name of your spotify media player entity if it doesn't start with "spotify"
-        default_device: Yamaha Study Speaker
-        filter_devices:
-          - .*display
-          - SHIELD*
 
       - type: entities
         entities:
-          - sensor.auto_backup
+          - media_player.samsung_q80_series_65
+        title: Television
+
 
       - type: horizontal-stack
         cards:
@@ -323,6 +289,10 @@ views:
         type: entities
       - type: entities
         entities:
+          - sensor.auto_backup
+        title: Snapshot
+      - type: entities
+        entities:
           - sensor.australia_coronavirus_confirmed
           - sensor.australia_coronavirus_current
           - sensor.australia_coronavirus_deaths
@@ -361,10 +331,8 @@ views:
           - script.study_speaker_off
           - automation.home_assistant_has_started
           - automation.study_ac_on_at_800am_if_home
-          - automation.study_spotify_on_at_800am_if_home
           - automation.study_ac_after_800am_and_before_500pm_if_home
           - automation.study_ac_off_when_temp_20_225_or_1700_or_not_home
-          - automation.study_spotify_off_when_1700_or_not_home
           - automation.holly_ac_on_at_500am_if_not_19_24_or_not_home
           - automation.holly_ac_off_when_temp_20_225_or_800am_or_930pm
           - automation.holly_ac_after_500am_and_before_800am_if_home
@@ -540,7 +508,7 @@ views:
             state_header: 'Garden'
             format: duration
             entities:
-              - entity: sensor.smart_irrigation_hourly_adjusted_run_time_2
+              - entity: sensor.smart_irrigation_hourly_adjusted_run_time
                 attribute: adjusted_run_time_minutes
               - entity: sensor.smart_irrigation_daily_adjusted_run_time
                 attribute: adjusted_run_time_minutes

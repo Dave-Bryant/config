@@ -334,7 +334,7 @@
 #        data:
 #          message: 'Welcome Home Wendy'
 
-########   STUDY AC & Spotify
+########   STUDY AC 
 
 - alias: study_ac_on_at_800am_if_home  ###triggers
   trigger:
@@ -368,9 +368,9 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.study
-        temperature: 21
+        temperature: 19
         target_temp_high: 22
-        target_temp_low: 20
+        target_temp_low: 19
         hvac_mode: heat
     - service: climate.set_hvac_mode
       data_template:
@@ -382,77 +382,6 @@
           cool
           {% endif %}
 
-
-- alias: study_spotify_on_at_800am_if_home  ## testing
-  trigger:
-    platform: time
-    at: "08:00:00"
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: person.david_bryant
-        state: 'home'
-  action:
-    -  service: media_player.turn_on
-       entity_id: media_player.office_speaker
-    # - service: media_player.volume_set
-    #   data:
-    #     entity_id: media_player.nesthub9e11
-    #     volume_level: '0.5'
-    -  service: tts.google_translate_say
-       entity_id: media_player.office_speaker
-       data:
-         message: 'Spotify starting.'
-    - service: script.turn_on
-      entity_id: script.study_speaker
-
-- alias: study_spotify_off_when_1700_or_not_home    ###works
-  trigger:
-    - platform: time
-      at: "17:00:00"
-    - platform: state
-      entity_id: person.david_bryant
-      from: "home"
-      to: "not_home"
-      for: "00:10:00"
-  condition:
-    condition: or
-    conditions:
-      - condition: template
-        value_template: '{{ states("media_player.spotify_david_bryant") != "off" }}'
-      - condition: template
-        value_template: '{{ states("media_player.yamaha_study_speaker_main") != "off" }}'
-  action:
-    - service: script.turn_on
-      entity_id: script.study_speaker_off
-    - service: media_player.turn_on
-      entity_id: media_player.office_speaker
-    # - service: media_player.volume_set
-    #   data:
-    #     entity_id: media_player.office_speaker
-        # volume_level: '0.3'
-    - service: tts.google_translate_say
-      entity_id: media_player.office_speaker
-      data:
-        message: 'Turning Spotify off.'
-
-- alias: study_spotify_off_when_work_scheduled       ###works
-  trigger:
-    platform: state
-    entity_id: calendar.test_work
-    from: "off"
-    to: "on"
-  condition:
-    condition: or
-    conditions:
-      - condition: template
-        value_template: '{{ states("media_player.spotify_david_bryant") != "off" }}'
-      - condition: template
-        value_template: '{{ states("media_player.yamaha_study_speaker_main") != "off" }}'
-  action:
-    - service: script.turn_on
-      entity_id: script.study_speaker_off
 
 
 - alias: study_ac_after_800am_and_before_500pm_if_home
@@ -479,9 +408,9 @@
     - service: climate.set_temperature
       data:
         entity_id: climate.study
-        temperature: 21
+        temperature: 19
         target_temp_high: 23
-        target_temp_low: 20
+        target_temp_low: 19
         hvac_mode: heat
     - service: climate.set_hvac_mode
       data_template:
