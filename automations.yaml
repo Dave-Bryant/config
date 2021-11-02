@@ -284,13 +284,13 @@
     at: "23:59:00"
   condition:
     condition: state
-    entity_id: switch.samsung_q80_series_65
+    entity_id: media_player.samsung_q80_series_65
     state: 'on'
   action:
-    - service: switch.turn_off
-      entity_id: switch.samsung_q80_series_65
-    - service: media_player.turn_on
-      entity_id: media_player.nesthub9e11
+    - service: media_player.turn_off
+      entity_id: media_player.samsung_q80_series_65
+    # - service: media_player.turn_on
+    #   entity_id: media_player.nesthub9e11
     # - service: media_player.volume_set
     #   data:
     #     entity_id: media_player.nesthub9e11
@@ -334,7 +334,7 @@
 #        data:
 #          message: 'Welcome Home Wendy'
 
-########   STUDY AC 
+########   STUDY AC
 
 - alias: study_ac_on_at_800am_if_home  ###triggers
   trigger:
@@ -647,31 +647,13 @@
           cool
           {% endif %}
 
-# - alias: create_weekly_backup   ### works
-#   trigger:
-#     - platform: time
-#       at: "18:00:00"
-#   condition:
-#     - condition: time
-#       weekday:
-#         - mon
-#   action:
-#     - service: logbook.log
-#       data:
-#         message: Weekly Backup 💾 is created!
-#         name: automation.create_weekly_backup
-#     - service: hassio.snapshot_full
-#       data_template:
-#         name: >
-#           Backup_{{ now().strftime('%d-%m-%YT%H-%M-%S') }}
-
 
 - alias: Perform Auto Backup
   trigger:
     platform: time_pattern # Perform backup every 3 hours.
     hours: "/3"
   action:
-    service: auto_backup.snapshot_partial # Only perform a partial snapshot to save storage.
+    service: auto_backup.backup_partial # Only perform a partial snapshot to save storage.
     data_template:
       name: "AutoBackup: {{ now().strftime('%a, %-I:%M %p (%d/%m/%Y)') }}"
       addons:
@@ -699,7 +681,7 @@
       - sat
       - sun
   action:
-    service: auto_backup.snapshot_full
+    service: auto_backup.backup_full
     data_template:
       name: "DailyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
       keep_days: 7
@@ -713,7 +695,7 @@
     weekday:
       - mon
   action:
-    service: auto_backup.snapshot_full
+    service: auto_backup.backup_full
     data_template:
       name: "WeeklyBackup: {{ now().strftime('%A, %B %-d, %Y') }}"
       keep_days: 28 # Store backup for a month, basically perform 1 backup each week and store for 4 weeks.
@@ -721,7 +703,7 @@
 - alias: Notify Snapshot Failure
   trigger:
     platform: event
-    event_type: auto_backup.snapshot_failed
+    event_type: auto_backup.backup_failed
   action:
     service: persistent_notification.create
     data_template:

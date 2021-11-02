@@ -6,6 +6,10 @@ class Light_Timer(hass.Hass):
 
   def initialize(self):
      self.run_at_sunset(self.before_sunset_cb, offset=+900) #15 minutes after sunset
+     # if home assistant restarts during the night
+     if self.now_is_between("sunset + 00:15:00", "sunrise - 00:15:00"): #15 minutes after sunset
+        self.before_sunset_cb(offset=0)
+
      # self.run_at(self.before_sunset_cb, "09:05:00") test
   def before_sunset_cb(self, kwargs):
      if self.get_state('group.bryant_family') == 'not_home':
@@ -14,7 +18,7 @@ class Light_Timer(hass.Hass):
          self.log("Starting %s", self.Target_Light)
          self.flashing_light('dummy') # function needs an argument for entity_id but I cant pass it as the iteration will blank it out
      else:
-         self.sleep(120)
+         #self.sleep(120)
          self.log("Everyone is home")
          exit
   def flashing_light(self, *args):
