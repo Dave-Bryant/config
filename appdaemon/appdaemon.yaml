@@ -9,6 +9,8 @@ appdaemon:
   plugins:
     HASS:
       type: hass
+      # appdaemon_startup_conditions:
+      #    delay: 90 # to allow home status to be registered for lights
     MQTT:
        type: mqtt
        namespace: mqtt

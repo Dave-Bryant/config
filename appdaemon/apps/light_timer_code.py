@@ -4,11 +4,16 @@ import random as random
 #
 class Light_Timer(hass.Hass):
 
-  def initialize(self):
+  def initialize(self):     
+     self.run_in(self.delay_for_person_monitor, 90)
+
+  def delay_for_person_monitor(self, kwargs):
+     self.log("started %s", self.args["LIGHT_SWITCH"])
      self.run_at_sunset(self.before_sunset_cb, offset=+900) #15 minutes after sunset
+     self.first_pass = True
      # if home assistant restarts during the night
      if self.now_is_between("sunset + 00:15:00", "sunrise - 00:15:00"): #15 minutes after sunset
-        self.before_sunset_cb(offset=0)
+        self.before_sunset_cb('offset=+900') # kwarg not used
 
      # self.run_at(self.before_sunset_cb, "09:05:00") test
   def before_sunset_cb(self, kwargs):
@@ -25,11 +30,20 @@ class Light_Timer(hass.Hass):
      if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == True and self.get_state('group.bryant_family') == 'not_home':
          self.duration_of_light = random.randint(3, 9) * 600 # 30-90 minutes
          self.toggle(entity_id = self.Target_Light)
+         self.first_pass = True
          self.log('Light is %s for %s minutes.', self.get_state(entity_id = self.Target_Light), self.duration_of_light/60)
          self.run_in(self.flashing_light, self.duration_of_light)
      else:
-         if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
-         self.log("%s has finished", self.Target_Light)
-         if self.get_state('group.bryant_family') == 'home':
-             self.toggle(entity_id = self.Target_Light) # turn on light if finished because I came home
-             self.log("%s has been turned on as someone has arrived home", self.Target_Light)
+         if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == False:
+             if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
+             self.log("%s has finished naturally", self.Target_Light)
+         if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == True and self.get_state('group.bryant_family') == 'home':
+             if self.first_pass:    # first pass
+                 if self.get_state(entity_id = self.Target_Light) == 'off': self.turn_on(entity_id = self.Target_Light)
+                 self.duration_of_light = 1800
+                 self.first_pass = False
+                 self.log("%s first pass has started as someone arrived home", self.Target_Light)
+                 self.run_in(self.flashing_light, self.duration_of_light)
+             else:
+                if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
+                self.log("%s has finished 30 mins after someone has arrived home", self.Target_Light)

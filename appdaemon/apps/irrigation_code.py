@@ -144,6 +144,8 @@ class Home_Irrigation(hass.Hass):
 
          else:
              self.log("Irrigation not needed")
+             self.set_value("input_number.garden_watering_time", 0)
+             self.log(f"Reset Cumulative Garden Run Time to zero")
      else:
          self.log("Wrong day")
 # Methods

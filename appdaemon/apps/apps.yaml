@@ -36,7 +36,7 @@ irrigation1:
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
   STATION_4_WEIGHT: 0.5  # reduced because in the shade
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 3.0
+  STATION_6_WEIGHT: 0.4
   STATION_7_WEIGHT: 0.1  # not used
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -71,7 +71,7 @@ irrigation2:
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
   STATION_4_WEIGHT: 0.5  # reduced because in the shade
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 3.0
+  STATION_6_WEIGHT: 0.4
   STATION_7_WEIGHT: 0.1  # not used
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -106,7 +106,7 @@ irrigation3:
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
   STATION_4_WEIGHT: 0.5  # reduced because in the shade
   STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 3.0
+  STATION_6_WEIGHT: 0.4
   STATION_7_WEIGHT: 0.1  # not used
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -140,8 +140,8 @@ irrigation4:              # Gardens
   STATION_2_WEIGHT: 0.9 # Was 1.0631 reduced because grass was always moist
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
   STATION_4_WEIGHT: 0.5  # reduced because in the shade
-  STATION_5_WEIGHT: 0.33
-  STATION_6_WEIGHT: 3.0
+  STATION_5_WEIGHT: 0.33  # this results in 4 minutes of watering delivering half a litre
+  STATION_6_WEIGHT: 0.4  # as a result of the above, this should be set to .2 (as 2.5 mins delivered half a bottle) but I want twice as much
   STATION_7_WEIGHT: 0.1  # not used
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
@@ -159,7 +159,7 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
 irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
   module: irrigation_force_code
   class: Home_Irrigation_Force
-  FORCE_TIME: '00:45:00'  # should be 00:45:00
+  
 
 light_timer1:
   module: light_timer_code

@@ -504,14 +504,14 @@ views:
                 format: duration
           - type: section
           - entity: input_number.garden_watering_time
-            type: custom:multiple-entity-row
-            state_header: 'Garden'
+            #type: custom:multiple-entity-row
+            #state_header: 'Garden'
             format: duration
-            entities:
-              - entity: sensor.smart_irrigation_hourly_adjusted_run_time
-                attribute: adjusted_run_time_minutes
-              - entity: sensor.smart_irrigation_daily_adjusted_run_time
-                attribute: adjusted_run_time_minutes
+            #entities:
+          - entity: sensor.smart_irrigation_daily_adjusted_run_time
+          #      attribute: adjusted_run_time_minutes
+          - entity: sensor.smart_irrigation_hourly_adjusted_run_time_2
+              #  attribute: adjusted_run_time_minutes
           - entity: input_boolean.force_irrigation
             type: custom:multiple-entity-row
             name: Force irrigation

@@ -21,10 +21,10 @@ class Home_Irrigation_rain_monitor(hass.Hass):
 
       if int(str(self.time())[:2]) < 22: # needs to stop while the irrigation program calculates new daily run time
 
-          if self.render_template("{{states('sensor.wupws_preciptotal') | int}}") >= self.precipitation_threshold:
+          if self.render_template("{{states('sensor.event_rain_rate_2') | int(0)}}") >= self.precipitation_threshold:
                # Reset Gardening run time
                Garden_watering_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
-               Precipitation = self.render_template("{{states('sensor.wupws_preciptotal') | int}}")
+               Precipitation = self.render_template("{{states('sensor.event_rain_rate_2') | int(0)}}")
                if  Garden_watering_time != 0:
                    self.set_value("input_number.garden_watering_time", 0)
                    self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
