@@ -14,9 +14,11 @@ class HelloWorld(hass.Hass):
 
      self.run_in(self.main_routine, 0)
 
+   # testing
+
   def main_routine(self, *args):
 
-            
+
       #x = self.get_state('sensor.smart_irrigation_daily_adjusted_run_time')
       #self.set_state('sensor.smart_irrigation_daily_adjusted_run_time', state = x, attribute = {'force_mode_duration': 15})
       #self.set_value("input_number.garden_watering_time",self.cumulative_total) # store
