@@ -49,7 +49,7 @@ irrigation1:
 irrigation2:
   module: irrigation_code
   class: Home_Irrigation
-  START_TIME: '05:00:00'
+  START_TIME: '10:35:00'
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   PRECIPITATION_THRESHOLD: 80
   PRECIPITATION_THRESHOLD_48: 90
@@ -159,11 +159,7 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
 irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
   module: irrigation_force_code
   class: Home_Irrigation_Force
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
 
 light_timer1:
   module: light_timer_code

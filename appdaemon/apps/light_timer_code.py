@@ -4,11 +4,8 @@ import random as random
 #
 class Light_Timer(hass.Hass):
 
-<<<<<<< HEAD
   def initialize(self):
-=======
-  def initialize(self):     
->>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
+
      self.run_in(self.delay_for_person_monitor, 90)
 
   def delay_for_person_monitor(self, kwargs):
@@ -30,7 +27,7 @@ class Light_Timer(hass.Hass):
          #self.sleep(120)
          self.log("Everyone is home")
          exit
-  def flashing_light(self, *args):     
+  def flashing_light(self, *args):
      if self.get_state('sun.sun') == 'above_horizon' and self.get_state('group.bryant_family') == 'not_home':
          self.duration_of_light = random.randint(3, 9) * 600 # 30-90 minutes
          self.toggle(entity_id = self.Target_Light)
@@ -38,17 +35,10 @@ class Light_Timer(hass.Hass):
          self.log('Light is %s for %s minutes.', self.get_state(entity_id = self.Target_Light), self.duration_of_light/60)
          self.run_in(self.flashing_light, self.duration_of_light)
      else:
-<<<<<<< HEAD
          if self.get_state('sun.sun') == 'below_horizon':
              if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
              self.log("%s has finished naturally", self.Target_Light)
          if self.get_state('sun.sun') == 'above_horizon' and self.get_state('group.bryant_family') == 'home':
-=======
-         if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == False:
-             if self.get_state(entity_id = self.Target_Light) == 'on': self.turn_off(entity_id = self.Target_Light)
-             self.log("%s has finished naturally", self.Target_Light)
-         if self.render_template("{{ is_state('sun.sun', 'below_horizon') }}") == True and self.get_state('group.bryant_family') == 'home':
->>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
              if self.first_pass:    # first pass
                  if self.get_state(entity_id = self.Target_Light) == 'off': self.turn_on(entity_id = self.Target_Light)
                  self.duration_of_light = 1800

@@ -47,7 +47,6 @@ class Home_Irrigation(hass.Hass):
                                     }
                      }
 
-
          # if API is down then use base calculation
          if self.get_state("sensor.high_temperature_today") == 0:
              self.running_time = float(self.get_state('sensor.smart_irrigation_base_schedule_index'))
