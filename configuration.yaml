@@ -183,6 +183,7 @@ sensor:
     entity_id: sensor.outdoor_temperature
     name: "high_temperature_today"
     state_characteristic: value_max
+<<<<<<< HEAD
     max_age:
       minutes: 1440
     sampling_size: 1440
@@ -193,6 +194,18 @@ sensor:
     max_age:
       minutes: 1440
     sampling_size: 1440
+=======
+    max_age:
+      minutes: 1440
+    sampling_size: 1440
+  - platform: statistics
+    entity_id: sensor.outdoor_temperature
+    name: "low_temperature_today"
+    state_characteristic: value_min
+    max_age:
+      minutes: 1440
+    sampling_size: 1440        
+>>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
     type: max

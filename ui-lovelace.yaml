@@ -496,8 +496,11 @@ views:
           #      attribute: adjusted_run_time_minutes
           - entity: sensor.smart_irrigation_hourly_adjusted_run_time_2
               #  attribute: adjusted_run_time_minutes
+<<<<<<< HEAD
           - entity: input_select.irrigation_status
             #name: false
+=======
+>>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
           - entity: input_boolean.force_irrigation
             type: custom:multiple-entity-row
             name: Force irrigation

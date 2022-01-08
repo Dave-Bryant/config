@@ -159,7 +159,11 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
 irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
   module: irrigation_force_code
   class: Home_Irrigation_Force
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
 
 light_timer1:
   module: light_timer_code

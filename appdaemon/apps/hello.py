@@ -16,8 +16,11 @@ class HelloWorld(hass.Hass):
 
      self.run_in(self.main_routine, 0)
 
+   # testing
+
   def main_routine(self, *args):
 
+<<<<<<< HEAD
      #self.log(self.render_template("{{ states('sensor.smart_irrigation_hourly_adjusted_run_time_2') }}"))
 
      #state = self.get_state("sensor.smart_irrigation_hourly_adjusted_run_time_2")
@@ -27,6 +30,8 @@ class HelloWorld(hass.Hass):
      if float(self.get_state("sensor.smart_irrigation_hourly_adjusted_run_time_2")) > 360: self.log("Works......")
 
       #self.select_option("input_select.irrigation_status", "Irrigation has completed")
+=======
+>>>>>>> f587c86160bcb35daa63b0d9c7b664551d9fee37
 
       #x = self.get_state('sensor.smart_irrigation_daily_adjusted_run_time')
       #self.set_state('sensor.smart_irrigation_daily_adjusted_run_time', state = x, attribute = {'force_mode_duration': 15})
