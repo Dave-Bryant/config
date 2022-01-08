@@ -5,11 +5,13 @@ default_config:
 
 recorder:
   db_url: !secret mariadb_password
+  purge_keep_days: 5
   exclude:
     entity_globs:
       - sensor.wupws_weather* # old sensors
       - sensor.pws_forecast_narrative* # just words
       - binary_sensor.ewelink*  # motion sensors
+      - sensor.spare_switch_2* #power consumption
     # entities:
     #   - weather.dark_sky
 
@@ -97,12 +99,12 @@ google:
 #     api_key: !secret dark_sky
 #     mode: daily
 
-tplink:
-  discovery: false
-  switch:
-    - host: 10.0.0.1
-    - host: 10.0.0.95
-    - host: 10.0.0.96
+# tplink:
+#   discovery: false
+#   switch:
+#     - host: 10.0.0.1
+#     - host: 10.0.0.95
+#     - host: 10.0.0.96
 climate:
   - platform: sensibo
     api_key: !secret sensibo
@@ -116,16 +118,13 @@ tts:
     #base_url: http://10.0.0.55:8123
 
 
-# Tasmoto and MDI icons
+# Tasmoto
 panel_iframe:
   tasmoadmin:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
     url: http://10.0.0.55:9541
-  mdiindex:
-    title: MDI Icon Index
-    icon: mdi:vector-square
-    url: https://cdn.rawgit.com/james-fry/home-assistant-mdi/efd95d7a/home-assistant-mdi.html
+
 
 sensor:
   - platform: mqtt
@@ -160,26 +159,40 @@ sensor:
     resources:
       - type: memory_use_percent
       - type: processor_use
+  # - platform: statistics
+  #   entity_id: sensor.outdoor_temperature
+  #   name: "temp_high_low"
+  #   max_age:
+  #     minutes: 1440
+  #   sampling_size: 1440
+  # - platform: template
+  #   sensors:
+  #     high_temperature_today:
+  #       friendly_name: 'High Temperature Today'
+  #       unit_of_measurement: °C
+  #       icon_template: mdi:thermometer
+  #       value_template: "{{ state_attr('sensor.temp_high_low', 'value_max') }}"
+  # - platform: template
+  #   sensors:
+  #     low_temperature_today:
+  #       friendly_name: 'Low Temperature Today'
+  #       unit_of_measurement: °C
+  #       icon_template: mdi:thermometer
+  #       value_template: "{{ state_attr('sensor.temp_high_low', 'value_min') }}"
   - platform: statistics
     entity_id: sensor.outdoor_temperature
-    name: "temp_high_low"
+    name: "high_temperature_today"
+    state_characteristic: value_max
     max_age:
       minutes: 1440
     sampling_size: 1440
-  - platform: template
-    sensors:
-      high_temperature_today:
-        friendly_name: 'High Temperature Today'
-        unit_of_measurement: °C
-        icon_template: mdi:thermometer
-        value_template: "{{ state_attr('sensor.temp_high_low', 'max_value') }}"
-  - platform: template
-    sensors:
-      low_temperature_today:
-        friendly_name: 'Low Temperature Today'
-        unit_of_measurement: °C
-        icon_template: mdi:thermometer
-        value_template: "{{ state_attr('sensor.temp_high_low', 'min_value') }}"
+  - platform: statistics
+    entity_id: sensor.outdoor_temperature
+    name: "low_temperature_today"
+    state_characteristic: value_min
+    max_age:
+      minutes: 1440
+    sampling_size: 1440
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
     type: max
@@ -198,12 +211,12 @@ sensor:
     sensors:
       smart_irrigation_hourly_netto_precipitation:
         friendly_name: 'Smart Irrigation Netto Precipitation (updated hourly)'
-        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time','netto_precipitation')|float}}"
+        value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time','netto_precipitation')|float('0')}}"
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
       smart_irrigation_bucket:
         friendly_name: 'Smart Irrigation Bucket'
-        value_template: "{{state_attr('sensor.smart_irrigation_daily_adjusted_run_time','bucket')|float}}"
+        value_template: "{{state_attr('sensor.smart_irrigation_daily_adjusted_run_time','bucket')|float('0')}}"
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
 
@@ -388,10 +401,10 @@ input_number:
   garden_watering_time:
     name: "Garden Watering Time"
     min: 0
-    max: 10000
+    max: 3000
     step: 10
     mode: box
-    unit_of_measurement: sec
+    unit_of_measurement: s
 input_text:
   frlawnwest_run_time:
   frlawneast_run_time:
@@ -414,6 +427,17 @@ input_text:
   frontgarden_run_duration:
   backsidegarden_run_duration:
   tinybacklawn_run_duration:
+
+input_select:
+  irrigation_status:
+    name: 'Irrigation Status'
+    options:
+      - Normal
+      - Rain is coming
+      - No moisture lost yesterday
+      - Irrigation run time too small
+      - It has rained
+    initial: "Normal"
 
 input_boolean:
   check_act_garbage:

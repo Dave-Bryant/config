@@ -49,17 +49,17 @@ class Home_Irrigation(hass.Hass):
 
 
          # if API is down then use base calculation
-         if self.render_template("{{states('sensor.high_temperature_today') | int}}") == 0:
-             self.running_time = self.render_template("{{states('sensor.smart_irrigation_base_schedule_index') | int}}")
+         if self.get_state("sensor.high_temperature_today") == 0:
+             self.running_time = float(self.get_state('sensor.smart_irrigation_base_schedule_index'))
              self.log("WU API is down, using Base Calculation")
          else:
-             self.running_time = self.render_template("{{states('sensor.smart_irrigation_daily_adjusted_run_time') | int}}")
+             self.running_time = float(self.get_state('sensor.smart_irrigation_daily_adjusted_run_time'))
 
          # set up all the variables
-         self.chance_of_precipitation = self.render_template("{{states('sensor.precip_chance_today') | int}}")
-         self.chance_of_precipitation_48hrs = self.render_template("{{states('sensor.precip_chance_today') | int}}")
-         self.precipitation = self.render_template("{{states('sensor.daily_rain_rate_2') | int}}")
-         self.hourly_adjusted_running_time = int(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))
+         self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
+         self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_today'))
+         self.precipitation = float(self.get_state('sensor.daily_rain_rate_2'))
+         self.hourly_adjusted_running_time =                float(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))
 
          # Find first switch then remove master valve times from all other switches
          for i in self.stations:
@@ -74,11 +74,18 @@ class Home_Irrigation(hass.Hass):
          self.log(f"Daily is: {self.running_time} seconds. Hourly is: {self.hourly_adjusted_running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. ")
 
          # conditions to proceed
+         if self.running_time <= self.watering_threshold: self.select_option("input_select.irrigation_status", "Irrigation run time too small")
+         if self.running_time == 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
+         if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
+         if self.chance_of_precipitation > self.precipitation_threshold: self.select_option("input_select.irrigation_status", "Rain is coming")
+         if self.chance_of_precipitation_48hrs > self.precipitation_threshold_48: self.select_option("input_select.irrigation_status", "Rain is coming")
+         if self.precipitation != 0: self.select_option("input_select.irrigation_status", "It has rained")
+
          if self.hourly_adjusted_running_time > 0 and self.running_time > self.watering_threshold and self.chance_of_precipitation <= self.precipitation_threshold and self.chance_of_precipitation_48hrs <= self.precipitation_threshold_48 and self.precipitation == 0:
 
              # allocate run time across schedules
              self.running_time = self.running_time / self.no_of_schedules
-             self.garden_running_time = self.render_template("{{states('input_number.garden_watering_time') | int}}")
+             self.garden_running_time = int(self.get_state('input_number.garden_watering_time'))
 
              # If Garden Run then set garden run time, else store run time for gardens
              if self.garden_run:
@@ -89,7 +96,7 @@ class Home_Irrigation(hass.Hass):
                  self.set_value("input_number.garden_watering_time", 0)
                  self.log(f"Reset Cumulative Garden Run Time to zero")
              else:
-                 self.cumulative_total = round(self.running_time + self.render_template("{{states('input_number.garden_watering_time') | int}}"),0)
+                 self.cumulative_total = round(self.running_time + int(self.get_state('input_number.garden_watering_time')),0)
                  self.set_value("input_number.garden_watering_time",self.cumulative_total) # store persistently
                  self.log(f"Cumulative Garden Run Time: {self.cumulative_total}secs")
 
@@ -142,8 +149,13 @@ class Home_Irrigation(hass.Hass):
 
              self.log("Irrigation schedule set")
 
+             # update irrigation status for Lovelace
+             self.select_option("input_select.irrigation_status", "Normal")
+
          else:
              self.log("Irrigation not needed")
+             self.set_value("input_number.garden_watering_time", 0)
+             self.log(f"Reset Cumulative Garden Run Time to zero")
      else:
          self.log("Wrong day")
 # Methods

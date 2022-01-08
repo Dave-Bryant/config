@@ -30,25 +30,6 @@ views:
       - entity: binary_sensor.ewelink_ms01_ecec6622_ias_zone
 
     cards:
-      # - type: entities
-      #   entities:
-      #     - type: buttons
-      #       entities:
-      #         - entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
-      #           name: Family Room Lamp
-      #         - entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
-      #           name: Holly Bedroom Light
-      #         - entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
-      #           name: Small Bedroom Light
-      #     - type: divider
-      #     - type: buttons
-      #       entities:
-      #         - entity: switch.upstairs_light
-      #           name: Upstairs Lamp
-      #         - entity: switch.spare_switch
-      #           name: Dining Room Lamp
-      #         - entity: switch.samsung_q80_series_65
-      #           name: Family Room TV
 
       - type: vertical-stack
         cards:
@@ -159,6 +140,7 @@ views:
         entities:
           - media_player.samsung_q80_series_65
         title: Television
+
 
 
       - type: horizontal-stack
@@ -293,11 +275,13 @@ views:
         title: Snapshot
       - type: entities
         entities:
-          - sensor.australia_coronavirus_confirmed
-          - sensor.australia_coronavirus_current
-          - sensor.australia_coronavirus_deaths
-          - sensor.australia_coronavirus_recovered
-        title: Corona Virus
+          - sensor.hp_officejet_pro_9020_series
+          - sensor.hp_officejet_pro_9020_series_black_cartridge
+          - sensor.hp_officejet_pro_9020_series_cyan_cartridge
+          - sensor.hp_officejet_pro_9020_series_magenta_cartridge
+          - sensor.hp_officejet_pro_9020_series_yellow_cartridge
+        state_color: true
+        title: Printer Status
       - type: entities
         entities:
           - sensor.act_garbage_last_updated
@@ -504,14 +488,16 @@ views:
                 format: duration
           - type: section
           - entity: input_number.garden_watering_time
-            type: custom:multiple-entity-row
-            state_header: 'Garden'
+            #type: custom:multiple-entity-row
+            #state_header: 'Garden'
             format: duration
-            entities:
-              - entity: sensor.smart_irrigation_hourly_adjusted_run_time
-                attribute: adjusted_run_time_minutes
-              - entity: sensor.smart_irrigation_daily_adjusted_run_time
-                attribute: adjusted_run_time_minutes
+            #entities:
+          - entity: sensor.smart_irrigation_daily_adjusted_run_time
+          #      attribute: adjusted_run_time_minutes
+          - entity: sensor.smart_irrigation_hourly_adjusted_run_time_2
+              #  attribute: adjusted_run_time_minutes
+          - entity: input_select.irrigation_status
+            #name: false
           - entity: input_boolean.force_irrigation
             type: custom:multiple-entity-row
             name: Force irrigation
