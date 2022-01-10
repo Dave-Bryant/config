@@ -15,9 +15,7 @@ class Home_Irrigation_Force(hass.Hass):
      self.log("FORCE started")
      self.run_in(self.turn_it_off, 3)
      self.call_service("smart_irrigation/smart_irrigation_enable_force_mode")
-     self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
-     self.call_service("smart_irrigation/smart_irrigation_calculate_daily_adjusted_run_time")
-     self.log("FORCE completed ie bucket reset, daily adjusted run time calculated and force set")
+     self.log("FORCE completed ie force set")
 
   def turn_it_off(self,kwargs):
       self.turn_off("input_boolean.force_irrigation")

@@ -11,7 +11,7 @@ class Home_Irrigation_rain_monitor(hass.Hass):
 
   def initialize(self):
      self.log("Starting Home Irrigation rain monitor")
-     self.precipitation_threshold = int(self.args["PRECIPITATION_THRESHOLD"])
+     self.precipitation_threshold = float(self.args["PRECIPITATION_THRESHOLD"])
 
      runtime = datetime.time(0, 0, 0)
      self.run_hourly(self.main_routine, runtime)
@@ -20,8 +20,8 @@ class Home_Irrigation_rain_monitor(hass.Hass):
   def main_routine(self, *args):
 
       if int(str(self.time())[:2]) < 22: # needs to stop while the irrigation program calculates new daily run time
-         
-          if int(self.get_state("sensor.daily_rain_rate_2")) >= self.precipitation_threshold:
+
+          if float(self.get_state("sensor.daily_rain_rate_2")) >= self.precipitation_threshold:
                # Reset Gardening run time
                Garden_watering_time = int(self.get_state("input_number.garden_watering_time"))
                Precipitation = int(self.get_state("sensor.daily_rain_rate_2"))
