@@ -23,8 +23,8 @@ class Home_Irrigation_rain_monitor(hass.Hass):
 
           if float(self.get_state("sensor.daily_rain_rate_2")) >= self.precipitation_threshold:
                # Reset Gardening run time
-               Garden_watering_time = int(self.get_state("input_number.garden_watering_time"))
-               Precipitation = int(self.get_state("sensor.daily_rain_rate_2"))
+               Garden_watering_time = float(self.get_state("input_number.garden_watering_time"))
+               Precipitation = float(self.get_state("sensor.daily_rain_rate_2"))
                if  Garden_watering_time != 0:
                    self.set_value("input_number.garden_watering_time", 0)
                    self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")

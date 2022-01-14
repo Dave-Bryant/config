@@ -3,7 +3,7 @@ import datetime
 
 #
 # Home Irrigation Force
-#
+#                       Doesnt work properly
 #
 
 class Home_Irrigation_Force(hass.Hass):

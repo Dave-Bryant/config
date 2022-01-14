@@ -12,6 +12,7 @@ recorder:
       - sensor.pws_forecast_narrative* # just words
       - binary_sensor.ewelink*  # motion sensors
       - sensor.spare_switch_2* #power consumption
+      - number.* #musicast
     entities:
       - media_player.left_speaker
       - media_player.right_speaker
@@ -124,7 +125,7 @@ panel_iframe:
   tasmoadmin:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
-    url: http://10.0.0.55:9541
+    url: http://homeassistant:9541/devices
 
 
 sensor:

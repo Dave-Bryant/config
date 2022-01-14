@@ -58,7 +58,7 @@ class Home_Irrigation(hass.Hass):
          self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
          self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_today'))
          self.precipitation = float(self.get_state('sensor.daily_rain_rate_2'))
-         self.hourly_adjusted_running_time =                float(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time_2'))
+         self.hourly_adjusted_running_time =  float(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))
 
          # Find first switch then remove master valve times from all other switches
          for i in self.stations:
@@ -75,7 +75,7 @@ class Home_Irrigation(hass.Hass):
          # conditions to proceed
          if self.running_time <= self.watering_threshold: self.select_option("input_select.irrigation_status", "Irrigation run time too small")
          if self.running_time == 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
-         if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
+         if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "It has rained")
          if self.chance_of_precipitation > self.precipitation_threshold: self.select_option("input_select.irrigation_status", "Rain is coming")
          if self.chance_of_precipitation_48hrs > self.precipitation_threshold_48: self.select_option("input_select.irrigation_status", "Rain is coming")
          if self.precipitation != 0: self.select_option("input_select.irrigation_status", "It has rained")
@@ -84,7 +84,7 @@ class Home_Irrigation(hass.Hass):
 
              # allocate run time across schedules
              self.running_time = self.running_time / self.no_of_schedules
-             self.garden_running_time = int(self.get_state('input_number.garden_watering_time'))
+             self.garden_running_time = float(self.get_state('input_number.garden_watering_time'))
 
              # If Garden Run then set garden run time, else store run time for gardens
              if self.garden_run:
@@ -95,7 +95,7 @@ class Home_Irrigation(hass.Hass):
                  self.set_value("input_number.garden_watering_time", 0)
                  self.log(f"Reset Cumulative Garden Run Time to zero")
              else:
-                 self.cumulative_total = round(self.running_time + int(self.get_state('input_number.garden_watering_time')),0)
+                 self.cumulative_total = round(self.running_time + float(self.get_state('input_number.garden_watering_time')),0)
                  self.set_value("input_number.garden_watering_time",self.cumulative_total) # store persistently
                  self.log(f"Cumulative Garden Run Time: {self.cumulative_total}secs")
 
@@ -133,7 +133,7 @@ class Home_Irrigation(hass.Hass):
              # Turn on stations after waiting window seconds
              for i in self.stations:  # the station variable assigned e.g. switch.frlawneast
                  if i[0:8] != 'noswitch' and float(self.stations[i]['self.station_running_time']) > 0.0001:
-                      self.running_time = int(self.stations[i]['self.window_start'])
+                      self.running_time = float(self.stations[i]['self.window_start'])
                       # self.log(f" Station: {i} will start in {self.running_time} secs")
                       self.run_in(self.turn_on_station_cb, self.running_time, current_station = i)
                       self.running_time = round(float(self.stations[i]['self.station_running_time']) + float(self.running_time))
@@ -153,8 +153,10 @@ class Home_Irrigation(hass.Hass):
 
          else:
              self.log("Irrigation not needed")
-             self.set_value("input_number.garden_watering_time", 0)
-             self.log(f"Reset Cumulative Garden Run Time to zero")
+             if self.precipitation != 0:            # the rain monitor should do this but this caters for rain within the hour
+                self.set_value("input_number.garden_watering_time", 0)
+                self.log(f"Reset Cumulative Garden Run Time to zero as it has rained")
+
      else:
          self.log("Wrong day")
 # Methods
