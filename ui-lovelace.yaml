@@ -9,6 +9,8 @@ resources:
     url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
   - type: module
     url: /hacsfiles/button-card/button-card.js
+  - type: module
+    url: /hacsfiles/history-explorer-card/history-explorer-card.js
 
 
 no-top-header:
@@ -506,8 +508,9 @@ views:
             toggle: true
             format: duration
             entities:
-              - attribute: base_schedule_index_minutes
-                entity: sensor.smart_irrigation_base_schedule_index
+              - attribute: force_mode_duration
+                name: Force Mode Duration
+                entity: sensor.smart_irrigation_daily_adjusted_run_time
 
       - type: entities
         title: 'Daily Forecast'
@@ -595,5 +598,12 @@ views:
           service_data:
             entity_id: camera.back_camera
             filename: '/media/back_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
+
+
+  - title: History
+    card:
+      - type: 'custom:history-explorer-card'
+        recordedEntitiesOnly: true
+
 
     path: default_view

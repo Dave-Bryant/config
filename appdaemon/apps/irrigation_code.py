@@ -70,11 +70,11 @@ class Home_Irrigation(hass.Hass):
                 self.stations[i]['self.window_start'] = int(self.stations[i]['self.window_start']) - int(self.master_valve_lead_time)
 
          # print report to log
-         self.log(f"Daily is: {self.running_time} seconds. Hourly is: {self.hourly_adjusted_running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. ")
+         self.log(f"Daily is: {self.running_time} seconds. Hourly is: {self.hourly_adjusted_running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. Garden Watering time: {self.get_state('input_number.garden_watering_time')} sec.")
 
          # conditions to proceed
          if self.running_time <= self.watering_threshold: self.select_option("input_select.irrigation_status", "Irrigation run time too small")
-         if self.running_time == 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
+         if int(self.running_time) == 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
          if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "It has rained")
          if self.chance_of_precipitation > self.precipitation_threshold: self.select_option("input_select.irrigation_status", "Rain is coming")
          if self.chance_of_precipitation_48hrs > self.precipitation_threshold_48: self.select_option("input_select.irrigation_status", "Rain is coming")

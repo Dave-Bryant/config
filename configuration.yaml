@@ -5,7 +5,7 @@ default_config:
 
 recorder:
   db_url: !secret mariadb_password
-  purge_keep_days: 5
+  purge_keep_days: 7
   exclude:
     entity_globs:
       - sensor.wupws_weather* # old sensors
@@ -107,9 +107,9 @@ google:
 #     - host: 10.0.0.1
 #     - host: 10.0.0.95
 #     - host: 10.0.0.96
-climate:
-  - platform: sensibo
-    api_key: !secret sensibo
+# climate:
+#   - platform: sensibo
+#     api_key: !secret sensibo
 
 # Text to speech
 tts:
@@ -119,8 +119,6 @@ tts:
     #time_memory: 300
     #base_url: http://10.0.0.55:8123
 
-
-# Tasmoto
 panel_iframe:
   tasmoadmin:
     title: TasmoAdmin
@@ -192,9 +190,6 @@ sensor:
     entity_id: sensor.outdoor_temperature
     name: "low_temperature_today"
     state_characteristic: value_min
-    max_age:
-      minutes: 1440
-    sampling_size: 1440
     max_age:
       minutes: 1440
     sampling_size: 1440
@@ -449,7 +444,7 @@ input_select:
       - No moisture lost yesterday
       - Irrigation run time too small
       - It has rained
-    initial: "Normal"
+    #initial: "Normal"
 
 input_boolean:
   check_act_garbage:
