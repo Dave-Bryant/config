@@ -29,7 +29,8 @@ views:
       - entity: person.wendy_bryant
       - entity: group.bryant_family
       - entity: sun.sun
-      - entity: binary_sensor.ewelink_ms01_ecec6622_ias_zone
+      - entity: sensor.front_camera_motion_cam
+   
 
     cards:
 
@@ -599,11 +600,10 @@ views:
             entity_id: camera.back_camera
             filename: '/media/back_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
 
-
   - title: History
-    card:
-      - type: 'custom:history-explorer-card'
-        recordedEntitiesOnly: true
-
+    type: custom:history-explorer-card
+    cardName: historycard-95223723
+    recordedEntitiesOnly: true
+    defaultTimeRange: 7d
 
     path: default_view

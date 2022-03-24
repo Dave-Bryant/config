@@ -3,6 +3,8 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+updater:
+
 recorder:
   db_url: !secret mariadb_password
   purge_keep_days: 7
@@ -46,7 +48,8 @@ samsungtv:
     turn_on_action:
       - service: wake_on_lan.send_magic_packet
         data:
-          mac: "D0:D0:03:A2:D9:8E"
+          mac: '38-68-A4-36-AF-5D'
+          #mac: "D0:D0:03:A2:D9:8E"
 wake_on_lan:
 
 zha:
@@ -68,6 +71,8 @@ zha:
 #     name: Back Camera
 #     username: !secret back_cam_user
 #     password: !secret back_cam_pw
+
+
 
 ffmpeg:
 
@@ -159,26 +164,15 @@ sensor:
     resources:
       - type: memory_use_percent
       - type: processor_use
-  # - platform: statistics
-  #   entity_id: sensor.outdoor_temperature
-  #   name: "temp_high_low"
-  #   max_age:
-  #     minutes: 1440
-  #   sampling_size: 1440
-  # - platform: template
-  #   sensors:
-  #     high_temperature_today:
-  #       friendly_name: 'High Temperature Today'
-  #       unit_of_measurement: °C
-  #       icon_template: mdi:thermometer
-  #       value_template: "{{ state_attr('sensor.temp_high_low', 'value_max') }}"
-  # - platform: template
-  #   sensors:
-  #     low_temperature_today:
-  #       friendly_name: 'Low Temperature Today'
-  #       unit_of_measurement: °C
-  #       icon_template: mdi:thermometer
-  #       value_template: "{{ state_attr('sensor.temp_high_low', 'value_min') }}"
+    # for FOSCAM Camera Motion Detection
+  - platform: command_line
+    command: !secret front_cam_motion_detection
+    name: "Front Camera Motion Cam"
+    value_template: >
+      {% set status = value | regex_findall_index('Alarm>(\d+)</motion') %}
+      {% set values = {'0':'Disabled', '1':'None', '2':'Detected'} %}
+      {{ values[status] if status in values.keys() else 'Not Determined'}}
+    scan_interval: 5
   - platform: statistics
     entity_id: sensor.outdoor_temperature
     name: "high_temperature_today"
@@ -479,7 +473,6 @@ binary_sensor:
     upper: 22.0
     hysteresis: 0.0
     name: hollys_bedroom_temp_thres_off
-
 
 group: !include groups.yaml
 automation: !include automations.yaml
