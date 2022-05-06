@@ -16,7 +16,7 @@ class Home_Irrigation(hass.Hass):
      self.valve_lead_time = self.args["VALVE_LEAD_TIME"]
      self.master_valve_lead_time = self.args["MASTER_VALVE_LEAD_TIME"]
 
-
+     self.start_time = self.parse_time(self.start_time, aware=True) # Should not adjust for DST with this fix
      self.run_daily(self.main_routine, self.start_time)
      # self.run_in(self.main_routine, 0)
 

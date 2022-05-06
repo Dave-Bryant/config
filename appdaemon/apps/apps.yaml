@@ -37,7 +37,7 @@ irrigation1:
   STATION_4_WEIGHT: 0.5  # reduced because in the shade
   STATION_5_WEIGHT: 0.33
   STATION_6_WEIGHT: 0.4
-  STATION_7_WEIGHT: 0.1  # not used
+  STATION_7_WEIGHT: 0.1  # not used at all
   STATION_1_WINDOW: 900 # 15 mins for the window
   STATION_2_WINDOW: 900 # 15 mins for the window
   STATION_3_WINDOW: 1200 # 20 mins for the window
@@ -222,11 +222,11 @@ home_presence_app:
   home_motion_sensors: None
 
   known_devices:
-    - 'D4:61:DA:52:DA:5B davidbluetooth'
+    - '28:EA:2D:C2:F8:0F davidbluetooth'
     - 'D8:1C:79:B4:C1:E3 wendybluetooth'
 
   known_beacons:
-    - 'D4:61:DA:52:DA:5B davidbluebeacon'
+    - '28:EA:2D:C2:F8:0F davidbluebeacon'
     - 'D8:1C:79:B4:C1:E3 wendybluebeacon'
 
   remote_monitors:

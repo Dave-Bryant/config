@@ -3,11 +3,9 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-updater:
-
 recorder:
   db_url: !secret mariadb_password
-  purge_keep_days: 7
+  purge_keep_days: 14
   exclude:
     entity_globs:
       - sensor.wupws_weather* # old sensors
@@ -90,15 +88,6 @@ ffmpeg:
 google:
   client_id: !secret google_client_id
   client_secret: !secret google_client_secret
-
-# ios:
-
-# device_tracker:     # using iphone
-#   platform: nmap_tracker
-#   home_interval: 10
-#   hosts:
-#     - 10.0.0.20  #wens_iphone
-#     - 10.0.0.70  #davids_iphone
 
 
 # weather:

@@ -1,7 +1,8 @@
 ---
 
 appdaemon:
-  global_irrigation_cumulative_daily_adjusted_run_time: 0 # used for watering gardens twice a week
+  global_irrigation_cumulative_daily_adjusted_run_time: 10 # used for watering gardens twice a week
+  global_DST_Switch: False
   latitude: -35.282
   longitude: 149.1287
   elevation: 571
