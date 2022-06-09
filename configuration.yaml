@@ -3,6 +3,16 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
+# homeassistant:
+#   media_dirs:
+#     media: /media
+#   allowlist_external_dirs:
+#     - /config
+#     - /share
+#     - /media
+#   allowlist_external_urls:
+#     - http://10.0.0.55:8123/media
+
 recorder:
   db_url: !secret mariadb_password
   purge_keep_days: 14
@@ -85,9 +95,9 @@ ffmpeg:
   #   api_key: !secret smartthings_API_key
   #   device_id: !secret smartthings_device_id
 
-google:
-  client_id: !secret google_client_id
-  client_secret: !secret google_client_secret
+# google: depracated
+#   client_id: !secret google_client_id
+#   client_secret: !secret google_client_secret
 
 
 # weather:
@@ -119,18 +129,18 @@ panel_iframe:
     icon: mdi:lightbulb-on
     url: http://homeassistant:9541/devices
 
+mqtt:
+  sensor:
+    - name: 'ground_floor_david'
+      state_topic: 'monitor/ground_floor/davidbluetooth'
+      value_template: '{{ value_json.confidence }}'
+      unit_of_measurement: '%'
+    - name: 'ground_floor_wendy'
+      state_topic: 'monitor/ground_floor/wendybluetooth'
+      value_template: '{{ value_json.confidence }}'
+      unit_of_measurement: '%'
 
 sensor:
-  - platform: mqtt
-    state_topic: 'monitor/ground_floor/davidbluetooth'
-    value_template: '{{ value_json.confidence }}'
-    unit_of_measurement: '%'
-    name: 'ground_floor_david'
-  - platform: mqtt
-    state_topic: 'monitor/ground_floor/wendybluetooth'
-    value_template: '{{ value_json.confidence }}'
-    unit_of_measurement: '%'
-    name: 'ground_floor_wendy'
   - platform: min_max
     name: "david_occupancy_confidence"
     type: max
