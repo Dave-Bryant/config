@@ -13,8 +13,10 @@ resources:
     url: /hacsfiles/history-explorer-card/history-explorer-card.js
   - type: module
     url: /hacsfiles/bom-radar-card/bom-radar-card.js
-
-
+  - type: module
+    url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js
+  - type: module
+    url: /hacsfiles/uptime-card/uptime-card.js
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -22,6 +24,12 @@ no-top-header:
     app-toolbar {
       display: none;
     }
+
+swipe_nav:
+  wrap: true
+  animate: swipe
+  prevent_default: true
+  swipe_amount: 15
 
 views:
   - title: Home
@@ -305,7 +313,26 @@ views:
           - binary_sensor.act_greenwaste_tomorrow
         title: ACT Garbage Collection
         show_header_toggle: false
-  
+
+  - title: Helium
+    cards:
+      - type: custom:uptime-card
+        entity: sensor.helium_Shallow Marmalade Scorpion
+        icon: mdi:router-wireless
+        ok: online
+        ko: offline
+        ko_icon: mdi:router-wireless-off
+        hours_to_show: 24
+        status_adaptive_color: true
+        color:
+          icon: grey
+        show:
+          icon: true
+          status: false
+          timeline: true
+          average: true
+        title_adaptive_color: true
+        name: Shallow Marmalade Scorpion
   - title: Irrigation
     cards:
       - type: entities

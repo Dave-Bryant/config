@@ -1,5 +1,8 @@
-import appdaemon.plugins.hass.hassapi as hass
 import datetime
+
+import appdaemon.plugins.hass.hassapi as hass
+
+
 #
 class Home_Irrigation(hass.Hass):
 
