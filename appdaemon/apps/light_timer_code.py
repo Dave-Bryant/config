@@ -5,7 +5,7 @@ import appdaemon.plugins.hass.hassapi as hass
 class Light_Timer(hass.Hass):
     def initialize(self):
 
-        self.run_in(self.delay_for_person_monitor, 90)
+        self.run_in(self.delay_for_person_monitor, 180)
 
     def delay_for_person_monitor(self, kwargs):
         self.log("started %s", self.args["LIGHT_SWITCH"])

@@ -15,7 +15,7 @@ default_config:
 
 recorder:
   db_url: !secret mariadb_password
-  purge_keep_days: 14
+  purge_keep_days: 60
   exclude:
     entity_globs:
       - sensor.wupws_weather* # old sensors
@@ -140,6 +140,17 @@ mqtt:
       value_template: '{{ value_json.confidence }}'
       unit_of_measurement: '%'
 
+utility_meter:
+  helium_wallet_today:
+    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
+    cycle: daily
+  helium_wallet_weekly:
+    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
+    cycle: weekly
+  helium_wallet_monthly:
+    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
+    cycle: monthly
+
 sensor:
   - platform: min_max
     name: "david_occupancy_confidence"
@@ -220,6 +231,19 @@ sensor:
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
 
+   # helium
+  - platform: openexchangerates
+    api_key: !secret openexchangeapi
+    base: USD
+    quote: AUD
+    name: australian currency
+  - platform: template
+    sensors:
+      helium_wallet_value:
+        value_template: "{{ ((states('sensor.helium_hnt_oracle_price') | float(0)  * states('sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu') | float(0)) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+        unit_of_measurement: "AUD"
+
+
  # A/C sensors
   - platform: template
     sensors:
@@ -273,6 +297,7 @@ sensor:
       - 1126RsdmKRMKrmjuUuR5DUWKBkejr5oAhQD56HaerDqbaGbsUexr
     wallets:
       - 14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
+
 
 
 # WUNDERGROUND_REST
