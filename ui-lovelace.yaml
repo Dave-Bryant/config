@@ -402,10 +402,7 @@ views:
             - seriesName: HNT
               decimalsInFloat: 0
             - seriesName: Helium
-              show: false
-        # tooltip:
-        #   x:
-        #     format: ddd dd MMM - HH:mm
+              show: false         
         experimental:
           color_threshold: true
         graph_span: 7d

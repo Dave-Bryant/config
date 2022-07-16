@@ -23,6 +23,7 @@ recorder:
       - binary_sensor.ewelink*  # motion sensors
       - sensor.spare_switch_2* #power consumption
       - number.* #musicast
+      - sensor.watchman*
     entities:
       - media_player.left_speaker
       - media_player.right_speaker
