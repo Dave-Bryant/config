@@ -28,6 +28,32 @@ recorder:
       - media_player.left_speaker
       - media_player.right_speaker
 
+influxdb:
+  # host: a0d7b954-influxdb
+  host: 10.0.0.55
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: !secret influxdb_password
+  max_retries: 3
+  default_measurement: state
+  include:
+    # entities:
+    #   - sensor.helium_wallet_14rtp7ja84zcvwsu6nuf6kbbfwam3qezuulzgvypk1n3jpkdqqu
+    #   - sensor.helium_hnt_oracle_price
+    #   - sensor.helium_wallet_today
+    #   - sensor.helium_wallet_weekly
+    #   - sensor.helium_wallet_monthly
+    #   - sensor.helium_wallet_value
+    domains:
+      - sensor
+  exclude:
+    entity_globs:
+     - sensor.wupws_weather* # old sensors
+     - sensor.pws_forecast_narrative* # just words
+     - sensor.spare_switch_2* #power consumption
+     - sensor.watchman*
+
 frontend:
   themes: !include_dir_merge_named themes
 

@@ -393,6 +393,20 @@ views:
              name: Wallet Total
              icon: 'mdi:cash'
 
+      # - type: custom:apexcharts-card
+      #   header:
+      #     show: true
+      #     title: Total Helium Tokens
+      #     show_states: true
+      #     colorize_states: true
+      #   series:
+      #     - entity: sensor.helium_wallet_14rtp7ja84zcvwsu6nuf6kbbfwam3qezuulzgvypk1n3jpkdqqu
+      #       name: Wallet Total
+      #       stroke_width: 2
+      #       extend_to: false
+      #   graph_span: 60d
+      #   span:
+      #     end: day
 
       - type: custom:apexcharts-card
         all_series_config:
@@ -402,7 +416,7 @@ views:
             - seriesName: HNT
               decimalsInFloat: 0
             - seriesName: Helium
-              show: false         
+              show: false
         experimental:
           color_threshold: true
         graph_span: 7d
@@ -446,6 +460,9 @@ views:
         span:
           end: day
 
+      - type: iframe
+        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
+        aspect_ratio: 85%
 
   - title: Irrigation
     cards:
@@ -705,4 +722,10 @@ views:
     recordedEntitiesOnly: true
     defaultTimeRange: 7d
 
+  - title: Grafana
+    cards:
+      - type: iframe
+        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/GcoR4m6EiZ5E3Aoe5379EyjuY4H0eM6L?orgId=1&kiosk
+        aspect_ratio: 100%
+      
     path: default_view
