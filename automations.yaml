@@ -124,10 +124,12 @@
   id: 9a7057a1e3ae45869406105bf57888a8
 - alias: Turn_on_lights_at_sundown_if_home
   trigger:
-    platform: numeric_state
-    entity_id: sun.sun
-    value_template: '{{ state_attr(''sun.sun'', ''elevation'') }}'
-    below: 3.0
+    - platform: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state_attr(''sun.sun'', ''elevation'') }}'
+      below: 3.0
+    # - platform: time
+    #   at: '17:00:00'
   condition:
     condition: and
     conditions:

@@ -2,7 +2,7 @@
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
+bluetooth:
 # homeassistant:
 #   media_dirs:
 #     media: /media
@@ -259,17 +259,20 @@ sensor:
         unit_of_measurement: 'mm'
 
    # helium
-  - platform: openexchangerates
-    api_key: !secret openexchangeapi
-    base: USD
-    quote: AUD
-    name: australian currency
+  # - platform: openexchangerates
+  #   api_key: !secret openexchangeapi
+  #   base: USD
+  #   quote: AUD
+  #   name: australian currency
   - platform: template
     sensors:
       helium_wallet_value:
         value_template: "{{ ((states('sensor.helium_hnt_oracle_price') | float(0)  * states('sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu') | float(0)) * states('sensor.australian_currency') | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
+      helium_staked_wallet_value:
+        value_template: "{{ ((states('sensor.helium_hnt_oracle_price') | float(0)  * states('sensor.helium_wallet_13qsJya4Usq5i5VbWqkmaHYz6xKmW4SqQywMftNZ9m7cwpc23KG') | float(0)) * states('sensor.australian_currency') | float(0)) | round(2) }}"
 
+        unit_of_measurement: "AUD"
 
  # A/C sensors
   - platform: template
@@ -324,6 +327,7 @@ sensor:
       - 1126RsdmKRMKrmjuUuR5DUWKBkejr5oAhQD56HaerDqbaGbsUexr
     wallets:
       - 14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
+      - 13qsJya4Usq5i5VbWqkmaHYz6xKmW4SqQywMftNZ9m7cwpc23KG
 
 
 

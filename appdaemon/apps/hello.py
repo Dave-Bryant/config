@@ -38,7 +38,7 @@ class HelloWorld(hass.Hass):
      #################################################
      # Test cases
      #################################################
-
+     
      # DST in Australia ends April 3, 2022 at 2 am
      self.timezone_eastern = 'Australia/Sydney'
      self.datetime_dst_eastern = pytz.timezone(self.timezone_eastern).localize(datetime(year=2022, month=10, day=5))
@@ -52,7 +52,7 @@ class HelloWorld(hass.Hass):
 
      self.log(self.config["global_DST_Switch"])
 
-     self.nowtime = datetime.now() 
+     self.nowtime = datetime.now()
      self.target = self.nowtime.replace(hour=17, minute=50, second=0, microsecond=0)
      if self.nowtime == self.target: self.log('quit')
      #quit()

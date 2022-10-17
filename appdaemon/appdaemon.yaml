@@ -23,3 +23,4 @@ http:
 admin:
 api:
 hadashboard:
+secrets: /config/secrets.yaml
