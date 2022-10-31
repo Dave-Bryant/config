@@ -394,26 +394,6 @@ views:
              icon: 'mdi:cash'
 
       - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Helium Staked AUD
-          show_states: true
-          colorize_states: true
-        series:
-          - entity: sensor.helium_staked_wallet_value
-            color: green
-            type: line
-            stroke_width: 4
-            fill_raw: 'last'
-            extend_to: false
-            group_by:
-              duration: 24h
-              func: max
-        graph_span: 7d
-        span:
-          end: day
-
-      - type: custom:apexcharts-card
         all_series_config:
           float_precision: 3
         apex_config:

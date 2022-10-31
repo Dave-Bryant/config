@@ -72,33 +72,38 @@ class Home_Irrigation_Force(hass.Hass):
         for i in range(len(self.result)):
             self.result[i] = float(self.result[i][0])  # strip off time
 
-        self.log(
-            f"The bucket levels for the last {self.no_of_days} days are: {self.result}"
-        )
-
-        self.diff_list = []  # calculate differences between daily bucket levels
-        for i in range(1, len(self.result)):
-            self.diff_list.append(self.result[i] - self.result[i - 1])
-
-        self.average_evapo = self.average_evapo[1:-1].split(
-            ","
-        )  # convert string to list
-        for i in range(len(self.average_evapo)):
-            self.average_evapo[i] = float(self.average_evapo[i])
-        self.curr_evapo = (
-            self.average_evapo[int(datetime.now().strftime("%m")) - 1] * self.factor
-        )
-
-        if (
-            min(self.result) > 0
-            and abs(mean(self.diff_list)) > self.curr_evapo
-            and self.result[len(self.result) - 1] > self.curr_evapo
-        ):
+        if self.result == []: # when the irrigation system hasnt operated for the period
             self.log(
-                f"Force mode will be triggered as there has been no irrigation for {self.no_of_days} days, the average bucket reduction of {abs(mean(self.diff_list))} is greater than the baseline of {self.curr_evapo} (i.e. hotter than average days) and the bucket of {self.result[len(self.result)-1]} is greater than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
+                f"Force mode will not be triggered as there has been no evapotranspiration ie shitloads of rain."
             )
-            self.call_service("smart_irrigation/smart_irrigation_enable_force_mode")
         else:
             self.log(
-                f"Force mode not triggered as 1) there has been irrigation within the last {self.no_of_days} days or 2) the average bucket reduction of {abs(mean(self.diff_list))} is less than the baseline of {self.curr_evapo} (i.e. colder than average days) or 3) the bucket of {self.result[len(self.result)-1]} is less than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
+                f"The bucket levels for the last {self.no_of_days} days are: {self.result}"
             )
+
+            self.diff_list = []  # calculate differences between daily bucket levels
+            for i in range(1, len(self.result)):
+                self.diff_list.append(self.result[i] - self.result[i - 1])
+
+            self.average_evapo = self.average_evapo[1:-1].split(
+                ","
+            )  # convert string to list
+            for i in range(len(self.average_evapo)):
+                self.average_evapo[i] = float(self.average_evapo[i])
+            self.curr_evapo = (
+                self.average_evapo[int(datetime.now().strftime("%m")) - 1] * self.factor
+            )
+
+            if (
+                min(self.result) > 0
+                and abs(mean(self.diff_list)) > self.curr_evapo
+                and self.result[len(self.result) - 1] > self.curr_evapo
+            ):
+                self.log(
+                    f"Force mode will be triggered as there has been no irrigation for {self.no_of_days} days, the average bucket reduction of {abs(mean(self.diff_list))} is greater than the baseline of {self.curr_evapo} (i.e. hotter than average days) and the bucket of {self.result[len(self.result)-1]} is greater than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
+                )
+                self.call_service("smart_irrigation/smart_irrigation_enable_force_mode")
+            else:
+                self.log(
+                    f"Force mode not triggered as 1) there has been irrigation within the last {self.no_of_days} days or 2) the average bucket reduction of {abs(mean(self.diff_list))} is less than the baseline of {self.curr_evapo} (i.e. colder than average days) or 3) the bucket of {self.result[len(self.result)-1]} is less than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
+                )

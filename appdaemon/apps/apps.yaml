@@ -16,6 +16,33 @@ act_garbage:
   SUBURB: "NICHOLLS"
   SPLIT_SUBURB: ""
 
+internet_health_monitor:
+  module: auto_internet_rebooter
+  class: AutoInternetRebooter
+  internet:
+    download: sensor.speedtest_download
+    upload: sensor.speedtest_upload
+    ping: sensor.speedtest_ping
+    switch: light.router_switch_light
+  thresholds:
+    download_mbps: 1.0
+    upload_mbps: 3.5
+    ping_ms: 75
+    # download_mbps: 50
+    # upload_mbps: 3.5
+    # ping_ms: 0.1
+  schedule:
+    - "01:00:00"  # this is not needed as HA calls speedtest evevry 3 mins
+  debug: True
+  delay: 300 # Seconds between recycling
+  #OPTIONAL SPEECH NOTIFICATIONS
+  notify:
+    #google: media_player.nesthub9e11
+    google: media_player.office_speaker
+    start_time: "00:01:00"
+    end_time: "23:59:00"
+  #OPTIONAL SPEECH NOTIFICATIONS
+
 irrigation1:
   module: irrigation_code
   class: Home_Irrigation

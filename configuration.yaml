@@ -504,6 +504,8 @@ input_select:
 input_boolean:
   check_act_garbage:
     name: input_boolean.check_act_garbage
+  check_dams:
+    name: input_boolean.check_dams
   force_irrigation:
     name: input_boolean.force_irrigation
 

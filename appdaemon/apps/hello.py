@@ -34,11 +34,18 @@ class HelloWorld(hass.Hass):
 
 
   def main_routine(self, *args):
+     #self.turn_on(entity_id='light.tz3000_tqlv4ug4_ts0001_light')
+     #self.get_state(entity_id="sensor.speedtest_ping")
+     #self.call_service("homeassistant/update_entity", entity_id = "sensor.speedtest_ping")
+     # self.call_service("tts/google_translate_say",
+     #                    entity_id = "media_player.study_display",
+     #                    message = "Your attention please, internet power cycle in 30 seconds!"
+     #                     )
 
      #################################################
      # Test cases
      #################################################
-     
+
      # DST in Australia ends April 3, 2022 at 2 am
      self.timezone_eastern = 'Australia/Sydney'
      self.datetime_dst_eastern = pytz.timezone(self.timezone_eastern).localize(datetime(year=2022, month=10, day=5))
