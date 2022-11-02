@@ -4,10 +4,10 @@ from datetime import datetime, time
 #
 # Auto Crappy Internet Rebooter
 # Developed by @UbhiTS on GitHub
-#
+# Modified by DB
 # Args:
 #internet_health_monitor:
-#  module: auto_internet_rebooter
+#  module: auto_internet_rebooter_DBMods
 #  class: AutoInternetRebooter
 #  internet:
 #    download: sensor.speedtest_download
@@ -18,9 +18,6 @@ from datetime import datetime, time
 #    download_mbps: 50.0
 #    upload_mbps: 3.5
 #    ping_ms: 75
-#  schedule:
-#    - "04:00:00"
-#    - "16:00:00"
 #  notify:
 #    alexa: media_player.upper_big_bedroom_alexa
 #    start_time: "08:00:00"
@@ -44,7 +41,6 @@ class AutoInternetRebooter(hass.Hass):
     self.threshold_upload = float(self.args["thresholds"]["upload_mbps"])
     self.threshold_ping = float(self.args["thresholds"]["ping_ms"])
 
-    self.schedule = self.args["schedule"]
 
     self.notify = False
 
@@ -54,23 +50,14 @@ class AutoInternetRebooter(hass.Hass):
       self.notify_start_time = datetime.strptime(self.args["notify"]["start_time"], '%H:%M:%S').time()
       self.notify_end_time = datetime.strptime(self.args["notify"]["end_time"], '%H:%M:%S').time()
 
-    for schedule in self.schedule:
-      time = datetime.strptime(schedule, '%H:%M:%S').time()
-      self.run_daily(self.run_speedtest, time)
 
     # we just need to monitor ping as ping has a precision of 3 (20.943 ms)
     # highly unlikely that 2 tests will result in same ping speed
     self.listen_handle = self.listen_state(self.evaluate_internet_health, self.sensor_ping, attribute = "state")
-    #self.listen_handle_unavail = self.listen_state(self.evaluate_internet_health, self.sensor_ping, attribute = "state", new = "unavailable")
 
     self.debug_log(f"\n**** INIT - AUTO 'CRAPPY INTERNET' REBOOTER ****\n  D/L  {self.threshold_download}\n  U/L   {self.threshold_upload}\n  PING {self.threshold_ping}")
 
     self.debug = bool(self.args["debug"]) if "debug" in self.args else self.debug
-
-
-  async def run_speedtest(self, kwargs):
-    self.debug_log("INTERNET SPEED TEST IN PROGRESS")
-    self.call_service("homeassistant/update_entity", entity_id = "sensor.speedtest_ping")
 
 
   def evaluate_internet_health(self, entity, attribute, old, new, kwargs):
@@ -84,7 +71,9 @@ class AutoInternetRebooter(hass.Hass):
       speed_upload = float(self.get_state(self.sensor_upload))
       speed_ping = float(self.get_state(self.sensor_ping))
     except ValueError:
-      self.debug_log("UNAVAILABLE")
+      self.debug_log("UNAVAILABLE") # will check again
+      self.call_service("homeassistant/update_entity", entity_id = "sensor.speedtest_ping")
+      if self.get_state(self.sensor_ping) != 'unavailable': pass
     except:
       self.debug_log("PASSED")
       pass
@@ -113,7 +102,6 @@ class AutoInternetRebooter(hass.Hass):
 
       self.counter = self.counter + 1
       self.cancel_listen_state(self.listen_handle) # stop listening during the delay
-      #self.cancel_listen_state(self.listen_handle_unavail)
 
       if self.counter == 1:                # on the first pass recycle Router
           self.debug_log("PASS 1 RECYCLING ROUTER")
@@ -126,7 +114,7 @@ class AutoInternetRebooter(hass.Hass):
 
 
     else:
-      #self.debug_log("INTERNET SPEED TEST IS OK")
+      self.debug_log("INTERNET SPEED TEST IS OK")
       self.counter = 0
 
 
@@ -148,7 +136,6 @@ class AutoInternetRebooter(hass.Hass):
 
     if self.counter >= 1:  #Start listening again
         self.listen_handle = self.listen_state(self.evaluate_internet_health, self.sensor_ping, attribute = "state")
-        #self.listen_handle_unavail = self.listen_state(self.evaluate_internet_health, self.sensor_ping, attribute = "state", new = "unavailable")
 
     if self.get_state(self.switch) == 'off':
         self.turn_on(entity_id=self.switch)
