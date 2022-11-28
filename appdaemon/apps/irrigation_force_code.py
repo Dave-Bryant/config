@@ -39,7 +39,7 @@ class Home_Irrigation_Force(hass.Hass):
             "sensor.smart_irrigation_base_schedule_index",
             attribute="reference_evapotranspiration",
         )
-        self.no_of_days = self.args["NO_OF_DAYS"]  # look back N days
+        self.no_of_days = self.args["NO_OF_DAYS"]  # look back N x days
         self.factor = self.args["FACTOR"]  # increase baseline by a factor
 
         # Connect to History Database
