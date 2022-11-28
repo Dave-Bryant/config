@@ -106,20 +106,26 @@ class AutoInternetRebooter(hass.Hass):
                 log += [f"PING {self.threshold_ping}|{speed_ping}"]
             if v:
                 log += [f"INTERNET UNAVAILABLE"]
-            self.log(
-                "INTERNET HEALTH ERROR, ROUTER WILL BE RECYCLED: " + ", ".join(log)
-            )
-            self.debug_log("INTERNET POWER CYCLE SOON")
 
-            if self.notify and self.is_time_okay(
-                self.notify_start_time, self.notify_end_time
-            ):
-                self.call_service(
-                    "tts/google_translate_say",
-                    entity_id=self.google,
-                    message="Your attention please Wendy, internet connection has been lost. The router will be recycled!",
+            if self.unavailable_count > 1:
+                pass # looping through unavailable loop
+            else:
+                self.log(
+                    "INTERNET HEALTH ERROR, ROUTER WILL BE RECYCLED: " + ", ".join(log)
                 )
-                pass
+                self.debug_log("INTERNET POWER CYCLE SOON")
+
+            if self.unavailable_count <= self.unavailable_threshold:
+                pass # no messages while checking unavailability
+            else:
+                if self.notify and self.is_time_okay(
+                    self.notify_start_time, self.notify_end_time
+                ):
+                    self.call_service(
+                        "tts/google_translate_say",
+                        entity_id=self.google,
+                        message="Your attention please Wendy, internet connection has been lost. The router will be recycled!",
+                    )
 
             self.counter = self.counter + 1
             if self.unavailable_count > 1:
@@ -140,7 +146,7 @@ class AutoInternetRebooter(hass.Hass):
                 self.run_in(self.turn_off_switch, (30 + self.delay))
                 self.run_in(self.turn_on_switch, (45 + self.delay))
         else:
-            # self.debug_log("INTERNET SPEED TEST IS OK")
+            self.debug_log("INTERNET SPEED TEST IS OK")
             if self.get_state(self.switch) == "off":
                 self.turn_on(
                     entity_id=self.switch
@@ -170,7 +176,7 @@ class AutoInternetRebooter(hass.Hass):
             if self.get_state(self.sensor_ping) == "unavailable":
                 self.run_in(self.evaluate_internet_health, 0)
             else:
-                self.debug_log(f"NO LONGER UNAVAILABLE BACK TO NORMAL")
+                self.log(f"NO LONGER UNAVAILABLE BACK TO NORMAL")
                 self.listen_handle = self.listen_state(
                     self.evaluate_internet_health, self.sensor_ping, attribute="state"
                 )
@@ -186,6 +192,7 @@ class AutoInternetRebooter(hass.Hass):
                 self.turn_on(entity_id=self.switch)
                 if self.get_state(self.switch) == "off":  # making sure it works
                     self.turn_on(entity_id=self.switch)
+                self.log(f"RESET COMPLETE: BACK TO NORMAL")
             else:
                 self.debug_log("ERROR ROUTER ALREADY ON")
 

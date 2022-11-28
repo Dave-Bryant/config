@@ -74,7 +74,7 @@ class Home_Irrigation_Force(hass.Hass):
 
         if self.result == []: # when the irrigation system hasnt operated for the period
             self.log(
-                f"Force mode will not be triggered as there has been no evapotranspiration ie shitloads of rain."
+                f"Force mode will not be triggered as there has been no evapotranspiration ie shitloads of rain...may need a FORCE from you to restart."
             )
         else:
             self.log(

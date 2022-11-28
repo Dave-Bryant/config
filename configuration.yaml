@@ -209,7 +209,8 @@ sensor:
       {% set status = value | regex_findall_index('Alarm>(\d+)</motion') %}
       {% set values = {'0':'Disabled', '1':'None', '2':'Detected'} %}
       {{ values[status] if status in values.keys() else 'Not Determined'}}
-    scan_interval: 5
+    scan_interval: 20
+    command_timeout: 20
   - platform: statistics
     entity_id: sensor.outdoor_temperature
     name: "high_temperature_today"

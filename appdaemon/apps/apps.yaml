@@ -25,11 +25,11 @@ internet_health_monitor:
     ping: sensor.speedtest_ping
     switch: light.router_switch_light
   thresholds:
-    download_mbps: 1.0
+    download_mbps: 10.0
     upload_mbps: 1.0
     ping_ms: 75
     unavailable_threshold : 2
-  debug: True
+  debug: False
   delay: 300 # Seconds between recycling
   #OPTIONAL SPEECH NOTIFICATIONS
   notify:
