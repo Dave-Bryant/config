@@ -29,7 +29,7 @@ internet_health_monitor:
     upload_mbps: 1.0
     ping_ms: 75
     unavailable_threshold : 2
-  debug: False
+  debug: True
   delay: 300 # Seconds between recycling
   #OPTIONAL SPEECH NOTIFICATIONS
   notify:

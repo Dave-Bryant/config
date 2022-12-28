@@ -64,7 +64,7 @@ class AutoInternetRebooter(hass.Hass):
         )
 
         self.debug_log(
-            f"\n**** INIT - AUTO 'CRAPPY INTERNET' REBOOTER ****\n  D/L  {self.threshold_download}\n  U/L   {self.threshold_upload}\n  PING {self.threshold_ping}"
+            f"\n**** INIT - AUTO 'CRAPPY INTERNET' REBOOTER ****  D/L  {self.threshold_download}  U/L   {self.threshold_upload}  PING {self.threshold_ping}"
         )
 
         self.debug = bool(self.args["debug"]) if "debug" in self.args else self.debug
@@ -146,7 +146,7 @@ class AutoInternetRebooter(hass.Hass):
                 self.run_in(self.turn_off_switch, (30 + self.delay))
                 self.run_in(self.turn_on_switch, (45 + self.delay))
         else:
-            self.debug_log("INTERNET SPEED TEST IS OK")
+            #self.debug_log("INTERNET SPEED TEST IS OK")
             if self.get_state(self.switch) == "off":
                 self.turn_on(
                     entity_id=self.switch

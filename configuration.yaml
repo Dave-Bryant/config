@@ -24,9 +24,8 @@ recorder:
       - sensor.spare_switch_2* #power consumption
       - number.* #musicast
       - sensor.watchman*
-    entities:
-      - media_player.left_speaker
-      - media_player.right_speaker
+    # entities:
+      
 
 influxdb:
   # host: a0d7b954-influxdb
