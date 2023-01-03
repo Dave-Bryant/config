@@ -66,6 +66,7 @@ logger:
     custom_components.smart_irrigation: info
     homeassistant.components.media_player: error
     homeassistant.components.pychromecast: error
+    custom_components.mbapi2020: debug
 
 auto_backup:
   auto_purge: true
