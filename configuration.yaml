@@ -60,7 +60,7 @@ lovelace:
   mode: yaml
 
 logger:
-  default: info
+  default: warn
   logs:
     custom_components.samsungtv_tizen: error
     custom_components.smart_irrigation: info
