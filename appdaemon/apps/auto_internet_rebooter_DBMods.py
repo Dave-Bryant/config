@@ -57,7 +57,7 @@ class AutoInternetRebooter(hass.Hass):
                 self.args["notify"]["end_time"], "%H:%M:%S"
             ).time()
 
-        # we just need to monitor ping as ping has a precision of 3 (20.943 ms)
+        # we just need to monitor ping as ping has a precision of 3 (20.943 ms )
         # highly unlikely that 2 tests will result in same ping speed
         self.listen_handle = self.listen_state(
             self.evaluate_internet_health, self.sensor_ping, attribute="state"

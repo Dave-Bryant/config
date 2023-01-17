@@ -449,120 +449,7 @@ views:
         #url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
         url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
         aspect_ratio: 85%
-  - title: Weather
-    cards:
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Nett Precipitation & Temperature
-          show_states: true
-          colorize_states: true
-        series:
-          - entity: sensor.smart_irrigation_hourly_netto_precipitation
-            name: 'Precipitation - Evapotranspiration'
-            color: blue
-            type: line
-            stroke_width: 2
-            extend_to: false
-            group_by:
-              duration: 1d
-              func: avg
-          - entity: sensor.outdoor_temperature
-            color: red
-            type: line
-            stroke_width: 2
-            extend_to: false
-        graph_span: 28d
-        span:
-          end: day
-      - type: entities
-        title: 'Daily Forecast'
-        entities:
-          - entity: sensor.precip_chance_today # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - entity: sensor.precip_chance_tomorrow # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - sensor.daily_rain_rate_2 # correct
-          - sensor.outdoor_temperature # Correct
-          - sensor.wind_speed_2  # correct
-          - sensor.humidity  # correct
-          - sensor.relative_pressure # correct
-          - sensor.dewpoint # correct
-          - sensor.solar_radiation # correct
-          - sensor.high_temperature_today # from config then Ecowitt
-          - sensor.low_temperature_today
-
-      - type: 'custom:card-templater'
-        card:
-          type: entities
-          title: Weather Overview
-          entities:
-            - entity: sensor.pws_forecast_narrative_today
-              icon: 'mdi:weather-sunny'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ')
-                }}
-            - entity: sensor.pws_forecast_narrative_tonight
-              icon: 'mdi:weather-night'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tonight") | truncate(10,true,'
-                ')  }}
-            - entity: sensor.pws_forecast_narrative_tomorrow
-              icon: 'mdi:weather-sunny'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tomorrow") | truncate(11,true,'
-                ')  }}
-            - entity: sensor.pws_forecast_narrative_tomorrow_tonight
-              icon: 'mdi:weather-night'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
-                truncate(20,true,' ') }}
-        entities:
-          - entity: sensor.pws_forecast_narrative_today
-            state_template: >-
-              {% set first_word =  states("sensor.pws_forecast_narrative_today") |  truncate(8,true,' ')%}
-              {% if first_word | trim  == 'Waiting' %}
-              {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ') | trim }}
-              {%- else -%}
-              {{states("sensor.pws_forecast_narrative_today") | regex_replace(find='Today', replace=' ', ignorecase=False) }}
-              {% endif %}
-          - entity: sensor.pws_forecast_narrative_tonight
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tonight") |
-              regex_replace(find='Tonight', replace=' ', ignorecase=False)   }}
-          - entity: sensor.pws_forecast_narrative_tomorrow
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tomorrow") |
-              regex_replace(find='Tomorrow', replace=' ', ignorecase=False)  }}
-          - entity: sensor.pws_forecast_narrative_tomorrow_tonight
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
-              regex_replace(find='Tomorrow night', replace=' ', ignorecase=False)  }}
-        entity: sensor.pws_forecast_narrative_tonight
-
-      - type: entities
-        title: 'Canberra Dams'
-        entities:
-           - entity: input_boolean.check_dams
-           - entity: sensor.act_dam_bendora_dam
-           - entity: sensor.act_dam_corin_dam
-           - entity: sensor.act_dam_cotter_dam
-           - entity: sensor.act_dam_googong_dam
-           - entity: sensor.act_dam_combined_volume
-           - entity: sensor.act_dam_last_updated
-
-      - type: 'custom:bom-radar-card'
-        frame_count: 10
-        center_latitude: -35.282000
-        center_longitude: 149.1287
-        show_marker: true
-        show_range: true
-        show_zoom: true
-        show_recenter: true
-        show_playback: true
-        map_style: 'satellite'
-        zoom_level: 8
-
+  
 
   - title: Irrigation
     cards:
@@ -695,6 +582,119 @@ views:
               - attribute: force_mode_duration
                 name: Force Mode Duration
                 entity: sensor.smart_irrigation_daily_adjusted_run_time
+  - title: Weather
+    cards:
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: Nett Precipitation & Temperature
+          show_states: true
+          colorize_states: true
+        series:
+          - entity: sensor.smart_irrigation_hourly_netto_precipitation
+            name: 'Precipitation - Evapotranspiration'
+            color: blue
+            type: line
+            stroke_width: 2
+            extend_to: false
+            group_by:
+              duration: 1d
+              func: avg
+          - entity: sensor.outdoor_temperature
+            color: red
+            type: line
+            stroke_width: 2
+            extend_to: false
+        graph_span: 28d
+        span:
+          end: day
+      - type: entities
+        title: 'Daily Forecast'
+        entities:
+          - entity: sensor.precip_chance_today # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.precip_chance_tomorrow # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - sensor.daily_rain_rate_2 # correct
+          - sensor.outdoor_temperature # Correct
+          - sensor.wind_speed_2  # correct
+          - sensor.humidity  # correct
+          - sensor.relative_pressure # correct
+          - sensor.dewpoint # correct
+          - sensor.solar_radiation # correct
+          - sensor.high_temperature_today # from config then Ecowitt
+          - sensor.low_temperature_today
+
+      - type: 'custom:card-templater'
+        card:
+          type: entities
+          title: Weather Overview
+          entities:
+            - entity: sensor.pws_forecast_narrative_today
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ')
+                }}
+            - entity: sensor.pws_forecast_narrative_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tonight") | truncate(10,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow") | truncate(11,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+                truncate(20,true,' ') }}
+        entities:
+          - entity: sensor.pws_forecast_narrative_today
+            state_template: >-
+              {% set first_word =  states("sensor.pws_forecast_narrative_today") |  truncate(8,true,' ')%}
+              {% if first_word | trim  == 'Waiting' %}
+              {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ') | trim }}
+              {%- else -%}
+              {{states("sensor.pws_forecast_narrative_today") | regex_replace(find='Today', replace=' ', ignorecase=False) }}
+              {% endif %}
+          - entity: sensor.pws_forecast_narrative_tonight
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tonight") |
+              regex_replace(find='Tonight', replace=' ', ignorecase=False)   }}
+          - entity: sensor.pws_forecast_narrative_tomorrow
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow") |
+              regex_replace(find='Tomorrow', replace=' ', ignorecase=False)  }}
+          - entity: sensor.pws_forecast_narrative_tomorrow_tonight
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+              regex_replace(find='Tomorrow night', replace=' ', ignorecase=False)  }}
+        entity: sensor.pws_forecast_narrative_tonight
+
+      - type: entities
+        title: 'Canberra Dams'
+        entities:
+           - entity: input_boolean.check_dams
+           - entity: sensor.act_dam_bendora_dam
+           - entity: sensor.act_dam_corin_dam
+           - entity: sensor.act_dam_cotter_dam
+           - entity: sensor.act_dam_googong_dam
+           - entity: sensor.act_dam_combined_volume
+           - entity: sensor.act_dam_last_updated
+
+      - type: 'custom:bom-radar-card'
+        frame_count: 10
+        center_latitude: -35.282000
+        center_longitude: 149.1287
+        show_marker: true
+        show_range: true
+        show_zoom: true
+        show_recenter: true
+        show_playback: true
+        map_style: 'satellite'
+        zoom_level: 8
 
 
   - title: Cameras
