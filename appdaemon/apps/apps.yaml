@@ -4,6 +4,14 @@ hello_world:
   class: HelloWorld
   START_DAYS: 'mon,wed,sun'
 
+mercedes_tyre_check:
+  module: mercedes_check
+  class: mercedes_tyre_check
+  percent_tolerance: 10 # +/- 10%
+  distance_before: 10000 # tyre realignment every 10k
+  ODOMETER: "sensor.ayaf94h_odometer"
+  tyre_check_switch : "input_boolean.check_odometer"
+
 canberra_dams:
   module: canberradams
   class: Get_ACT_Dams

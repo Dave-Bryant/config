@@ -175,6 +175,29 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
+            - type: 'custom:button-card'
+              entity: input_boolean.check_odometer
+              name: Odometer
+              icon: 'mdi:power'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)
+              label: >
+                [[[
+                  var dist = states['sensor.ayaf94h_odometer'].state;
+                  if (isNaN(dist))
+                    return 'Dist: ' + '0';
+                  else
+                    return 'Dist: ' + (dist ? dist : '0');
+                ]]]               
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
 
       - type: entities
         entities:
@@ -337,7 +360,11 @@ views:
           - binary_sensor.act_greenwaste_tomorrow
         title: ACT Garbage Collection
         show_header_toggle: false
-
+  - title: Energy
+    cards:
+      - type: iframe          
+        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d-solo/E-rczO-4z/ev-charging?orgId=1&from=1677898376335&to=1678503176336&panelId=6&kiosk
+        aspect_ratio: 100%
   - title: Helium
     cards:
       - type: custom:uptime-card

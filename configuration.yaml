@@ -76,15 +76,15 @@ discovery:
     - homekit
     - harmony
 
-samsungtv:
-  - host: 10.0.0.130
-    name: Samsung Smart TV
-    turn_on_action:
-      - service: wake_on_lan.send_magic_packet
-        data:
-          mac: '38-68-A4-36-AF-5D'
-          #mac: "D0:D0:03:A2:D9:8E"
-wake_on_lan:
+# samsungtv:   Depracated
+#   - host: 10.0.0.130
+#     name: Samsung Smart TV
+#     turn_on_action:
+#       - service: wake_on_lan.send_magic_packet
+#         data:
+#           mac: '38-68-A4-36-AF-5D'
+#           #mac: "D0:D0:03:A2:D9:8E"
+# wake_on_lan:
 
 zha:
   zigpy_config:
@@ -271,7 +271,7 @@ sensor:
   - platform: template
     sensors:
       ev_charge_cost:
-        value_template: "{{ (states('sensor.spare_switch_2_today_s_consumption') | float(0)  * 0.25778 | float(0)) | round(2) }}"
+        value_template: "{{ (states('sensor.spare_switch_2_total_consumption') | float(0)  * 0.16812 | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
 
  # A/C sensors
@@ -508,6 +508,8 @@ input_boolean:
     name: input_boolean.check_dams
   force_irrigation:
     name: input_boolean.force_irrigation
+  check_odometer:
+    name: input_boolean.check_odometer
 
 
 

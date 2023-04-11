@@ -512,25 +512,25 @@
 
         '
   id: 66c73d3dd1654fa0ab4c51483b761900
-- alias: Perform Auto Backup
-  trigger:
-    platform: time_pattern
-    hours: /3
-  action:
-    service: auto_backup.backup_partial
-    data_template:
-      name: 'AutoBackup: {{ now().strftime(''%a, %-I:%M %p (%d/%m/%Y)'') }}'
-      addons:
-      - core_mariadb
-      - core_mosquitto
-      - core_samba
-      folders:
-      - homeassistant
-      - share
-      - ssl
-      - Local add-ons
-      keep_days: 2
-  id: 3edbaa4f4dec4be49770f606654fb48a
+# - alias: Perform Auto Backup
+#   trigger:
+#     platform: time_pattern
+#     hours: /3
+#   action:
+#     service: auto_backup.backup_partial
+#     data_template:
+#       name: 'AutoBackup: {{ now().strftime(''%a, %-I:%M %p (%d/%m/%Y)'') }}'
+#       addons:
+#       - core_mariadb
+#       - core_mosquitto
+#       - core_samba
+#       folders:
+#       - homeassistant
+#       - share
+#       - ssl
+#       - Local add-ons
+#       keep_days: 2
+#   id: 3edbaa4f4dec4be49770f606654fb48a
 - alias: Perform Daily Backup
   trigger:
     platform: time
