@@ -152,6 +152,8 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
+        - type: horizontal-stack
+          cards:
             - type: 'custom:button-card'
               entity: switch.spare_2
               name: EV Charging
