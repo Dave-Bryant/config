@@ -651,7 +651,7 @@ views:
             group_by:
               duration: 1d
               func: avg
-          - entity: sensor.outdoor_temperature
+          - entity: sensor.temp
             color: red
             type: line
             stroke_width: 2
@@ -666,13 +666,13 @@ views:
             icon: 'mdi:weather-pouring'
           - entity: sensor.precip_chance_tomorrow # from REST PWS
             icon: 'mdi:weather-pouring'
-          - sensor.daily_rain_rate_2 # correct
-          - sensor.outdoor_temperature # Correct
-          - sensor.wind_speed_2  # correct
+          - sensor.dailyrain # correct
+          - sensor.temp # Correct
+          - sensor.windspeed  # correct
           - sensor.humidity  # correct
-          - sensor.relative_pressure # correct
+          - sensor.baromrel # correct
           - sensor.dewpoint # correct
-          - sensor.solar_radiation # correct
+          - sensor.solarradiation # correct
           - sensor.high_temperature_today # from config then Ecowitt
           - sensor.low_temperature_today
 

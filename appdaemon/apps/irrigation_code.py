@@ -60,7 +60,7 @@ class Home_Irrigation(hass.Hass):
          # set up all the variables
          self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
          self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_today'))
-         self.precipitation = float(self.get_state('sensor.daily_rain_rate_2'))
+         self.precipitation = float(self.get_state('sensor.dailyrain'))
          self.hourly_adjusted_running_time =  float(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))
 
          # Find first switch then remove master valve times from all other switches

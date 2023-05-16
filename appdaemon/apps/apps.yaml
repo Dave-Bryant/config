@@ -233,7 +233,7 @@ home_presence_app:
   system_check: 300
   system_timeout: 400
   home_gateway_sensors:
-    - binary_sensor.ewelink_ms01_ecec6622_ias_zone
+    - binary_sensor.motion_sensor_garage_iaszone
 
   log_level: INFO
   # reboot the all nodes at 12 midnight

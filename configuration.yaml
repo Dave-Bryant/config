@@ -211,26 +211,26 @@ sensor:
     scan_interval: 20
     command_timeout: 20
   - platform: statistics
-    entity_id: sensor.outdoor_temperature
+    entity_id: sensor.temp
     name: "high_temperature_today"
     state_characteristic: value_max
     max_age:
       minutes: 1440
     sampling_size: 1440
   - platform: statistics
-    entity_id: sensor.outdoor_temperature
+    entity_id: sensor.temp
     name: "low_temperature_today"
     state_characteristic: value_min
     max_age:
       minutes: 1440
     sampling_size: 1440
-  - platform: statistics
-    entity_id: sensor.outdoor_temperature
-    name: "low_temperature_today"
-    state_characteristic: value_min
-    max_age:
-      minutes: 1440
-    sampling_size: 1440
+  # - platform: statistics
+  #   entity_id: sensor.outdoor_temperature
+  #   name: "low_temperature_today"
+  #   state_characteristic: value_min
+  #   max_age:
+  #     minutes: 1440
+  #   sampling_size: 1440
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
     type: max
