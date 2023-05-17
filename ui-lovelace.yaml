@@ -659,22 +659,9 @@ views:
         graph_span: 28d
         span:
           end: day
-      - type: entities
-        title: 'Daily Forecast'
-        entities:
-          - entity: sensor.precip_chance_today # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - entity: sensor.precip_chance_tomorrow # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - sensor.dailyrain # correct
-          - sensor.temp # Correct
-          - sensor.windspeed  # correct
-          - sensor.humidity  # correct
-          - sensor.baromrel # correct
-          - sensor.dewpoint # correct
-          - sensor.solarradiation # correct
-          - sensor.high_temperature_today # from config then Ecowitt
-          - sensor.low_temperature_today
+      
+          
+          
 
       - type: 'custom:card-templater'
         card:
@@ -734,6 +721,47 @@ views:
            - entity: sensor.act_dam_googong_dam
            - entity: sensor.act_dam_combined_volume
            - entity: sensor.act_dam_last_updated
+
+      - type: entities
+        title: 'Daily Forecast'
+        entities:
+          - entity: sensor.precip_chance_today # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.precip_chance_tomorrow # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.dailyrain # correct
+            name: 'daily rain'
+          - entity: sensor.eventrain
+            name: 'rain event precipitation'
+          - type: section
+          - entity: sensor.temp # Correct
+            name: 'outside temperature'
+          - entity: sensor.feelslike
+            name: 'outside temperature feels like'
+          - entity: sensor.thermalperception
+            name: 'perception of temperature'          
+          - entity: sensor.high_temperature_today # from config then Ecowitt
+            name: 'maximum temperature today'
+          - entity: sensor.low_temperature_today
+            name: 'minimum temperature today'
+          - type: section
+          - entity: sensor.safe_exposure_time_skin_type_2
+            name: 'safe sun exposure time'
+          - entity: sensor.uv
+            name: 'UV index(>3 needs protection)'
+          - entity: sensor.solarradiation # correct
+            name: 'solar radiation'
+          - type: section
+          - entity: sensor.frostrisk
+            name: 'risk of frost' 
+          - entity: sensor.dewpoint # correct
+            name: 'dew point'          
+          - entity: sensor.windspeed  # correct          
+            name: 'wind speed'
+          - entity: sensor.humidity  # correct
+            name: 'humidity'
+          - entity: sensor.baromrel # correct
+            name: 'relative air pressure'
 
       - type: 'custom:bom-radar-card'
         frame_count: 10

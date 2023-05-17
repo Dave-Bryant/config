@@ -210,6 +210,7 @@ sensor:
       {{ values[status] if status in values.keys() else 'Not Determined'}}
     scan_interval: 20
     command_timeout: 20
+    
   - platform: statistics
     entity_id: sensor.temp
     name: "high_temperature_today"
@@ -224,13 +225,7 @@ sensor:
     max_age:
       minutes: 1440
     sampling_size: 1440
-  # - platform: statistics
-  #   entity_id: sensor.outdoor_temperature
-  #   name: "low_temperature_today"
-  #   state_characteristic: value_min
-  #   max_age:
-  #     minutes: 1440
-  #   sampling_size: 1440
+  
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
     type: max
@@ -499,7 +494,7 @@ input_select:
       - No moisture lost yesterday
       - Irrigation run time too small
       - It has rained
-    #initial: "Normal"
+    
 
 input_boolean:
   check_act_garbage:
