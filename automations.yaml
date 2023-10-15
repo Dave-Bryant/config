@@ -562,6 +562,8 @@
     service: auto_backup.backup_full
     data_template:
       name: 'WeeklyBackup: {{ now().strftime(''%A, %B %-d, %Y'') }}'
+      # store backup for a month
+      # i.e. backup each week and store for 4 weeks
       keep_days: 28
   id: b851090681cd4c4fa352139e38dea57b
 - alias: Notify Snapshot Failure
@@ -572,7 +574,5 @@
     service: persistent_notification.create
     data_template:
       title: Snapshot Failed.
-      message: 'Name: {{ trigger.event.data.name }}
-
-        Error: {{ trigger.event.data.error }}'
+      message: 'Name: {{ trigger.event.data.name }} Error: {{ trigger.event.data.error }}'
   id: e11bdbb2d5434582bc24852415565b99

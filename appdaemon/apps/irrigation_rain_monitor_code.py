@@ -29,5 +29,5 @@ class Home_Irrigation_rain_monitor(hass.Hass):
                        self.set_value("input_number.garden_watering_time", 0)
                        self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
                    # reset Watering System so daily calaculation is set to zero
-                   # self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
-                   # self.log("Reset complete")
+                   self.call_service("smart_irrigation/reset_bucket", entityid = "sensor.smart_irrigation_lawns")
+                   self.log("Reset complete")

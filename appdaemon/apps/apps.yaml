@@ -31,7 +31,7 @@ internet_health_monitor:
     download: sensor.speedtest_download
     upload: sensor.speedtest_upload
     ping: sensor.speedtest_ping
-    switch: light.router_switch_light
+    switch: switch.switch_for_router_in_garage
   thresholds:
     download_mbps: 10.0
     upload_mbps: 1.0
@@ -120,7 +120,7 @@ irrigation2:
 irrigation3:
   module: irrigation_code
   class: Home_Irrigation
-  START_TIME: '21:00:00'
+  START_TIME: '21:00:00' 
   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
   PRECIPITATION_THRESHOLD: 80
   PRECIPITATION_THRESHOLD_48: 90
@@ -233,21 +233,23 @@ home_presence_app:
   system_check: 300
   system_timeout: 400
   home_gateway_sensors:
-    - binary_sensor.motion_sensor_garage_iaszone
+    - binary_sensor.motion_sensor_1_garage_occupancy
+    - binary_sensor.motion_sensor_2_garage_occupancy
+    - binary_sensor.motion_sensor_3_garage_occupancy
 
   log_level: INFO
   # reboot the all nodes at 12 midnight
-  scheduled_restart:
-    time: '00:00:09'
-    days:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-      - sat
-      - sun
-    location: all
+  # scheduled_restart:
+  #   time: '00:00:09'
+  #   days:
+  #     - mon
+  #     - tue
+  #     - wed
+  #     - thu
+  #     - fri
+  #     - sat
+  #     - sun
+  #   location: all
 
   # other location configuration options
     #location: living_room, kitchen
@@ -265,12 +267,12 @@ home_presence_app:
     - '28:EA:2D:C2:F8:0F davidbluebeacon'
     - 'D8:1C:79:B4:C1:E3 wendybluebeacon'
 
-  remote_monitors:
-    disable: False
-    ground_floor:
-      host: 10.0.0.109
-      username:  !secret ground_floor_monitor_username
-      password:  !secret ground_floor_monitor_password
-      reboot_command: sudo reboot
-      auto_reboot_when_offline: True
-      time: '01:00:00'  # time doesnt seem to work
+  # remote_monitors:
+  #   disable: True   # not used
+  #   ground_floor:
+  #     host: 10.0.0.109
+  #     username:  !secret ground_floor_monitor_username
+  #     password:  !secret ground_floor_monitor_password
+  #     reboot_command: sudo reboot
+  #     auto_reboot_when_offline: True
+  #     time: '01:00:00'  

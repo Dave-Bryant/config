@@ -19,6 +19,11 @@ resources:
     url: /hacsfiles/uptime-card/uptime-card.js
   - type: module
     url: /hacsfiles/apexcharts-card/apexcharts-card.js?v=2.0.1
+  - type: module
+    url: /hacsfiles/vacuum-card/vacuum-card.js
+  - type: module
+    url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.21
+
 
 no-top-header:
   card-mod-theme: no-top-header
@@ -42,9 +47,9 @@ views:
       - entity: person.david_bryant
       - entity: person.wendy_bryant
       - entity: group.bryant_family
-      - entity: sun.sun
-      - entity: binary_sensor.tz3000_mcxw5ehu_ts0202_iaszone
-      - entity: light.garage_light_switch_on_off
+      - entity: sun.sun  
+      - entity: binary_sensor.motion_sensor_4_porch_occupancy   
+         
 
 
     cards:
@@ -152,6 +157,23 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
+            - type: 'custom:button-card'
+              entity: switch.light_switch_garage
+              name: Garage Light
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)              
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+
+                  
         - type: horizontal-stack
           cards:
             - type: 'custom:button-card'
@@ -209,9 +231,10 @@ views:
 
 
       - type: horizontal-stack
+        title: Local
         cards:
           - type: custom:canvas-gauge-card
-            entity: sensor.cpu_temperature
+            entity: sensor.processor_temperature
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -307,26 +330,167 @@ views:
               animationDuration: 1500
               animationRule: "linear"
 
-      - entity: climate.study
-        sensors:
-          - entity: sensor.study_humidity
-            name: Humidity
-        type: 'custom:simple-thermostat'
-      - entity: climate.hollys_bedroom
-        sensors:
-          - entity: sensor.hollys_bedroom_humidity
-            name: Humidity
-        type: 'custom:simple-thermostat'
-      - entity: climate.wendys_bedroom
-        sensors:
-          - entity: sensor.wendys_bedroom_humidity
-            name: Humidity
-        type: 'custom:simple-thermostat'
-      - entity: climate.family_room
-        sensors:
-          - entity: sensor.family_room_humidity
-            name: Humidity
-        type: 'custom:simple-thermostat'
+      - type: horizontal-stack
+        title: Remote
+        cards:
+          - type: custom:canvas-gauge-card
+            entity: sensor.garage_pi_sensors_garage_pi_temperature
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: CPU Temperature
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.garage_pi_sensors_garage_pi_memory_use
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Memory Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.garage_pi_sensors_garage_pi_cpu_usage
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Processor Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+
+      - type: custom:mini-climate
+        entity: climate.study
+        toggle: hide
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.study_humidity
+
+      # - entity: climate.study
+      #   sensors:
+      #     - entity: sensor.study_humidity
+      #       name: Humidity
+      #   type: 'custom:simple-thermostat'
+      - type: custom:mini-climate
+        entity: climate.hollys_bedroom
+        toggle: hide
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.hollys_bedroom_humidity
+      # - entity: climate.hollys_bedroom
+      #   sensors:
+      #     - entity: sensor.hollys_bedroom_humidity
+      #       name: Humidity
+      #   type: 'custom:simple-thermostat'
+      - type: custom:mini-climate
+        entity: climate.wendys_bedroom
+        toggle: hide
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.wendys_bedroom_humidity
+      # - entity: climate.wendys_bedroom
+      #   sensors:
+      #     - entity: sensor.wendys_bedroom_humidity
+      #       name: Humidity
+      #   type: 'custom:simple-thermostat'
+      - type: custom:mini-climate
+        entity: climate.family_room
+        toggle: hide
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.family_room_humidity
+      # - entity: climate.family_room
+      #   sensors:
+      #     - entity: sensor.family_room_humidity
+      #       name: Humidity
+      #   type: 'custom:simple-thermostat'
       - entities:
           - entity: sensor.speedtest_download
           - entity: sensor.speedtest_upload
@@ -362,144 +526,239 @@ views:
           - binary_sensor.act_greenwaste_tomorrow
         title: ACT Garbage Collection
         show_header_toggle: false
-  - title: Energy
+  - title: Ecovac
     cards:
-      - type: iframe          
-        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d-solo/E-rczO-4z/ev-charging?orgId=1&from=1677898376335&to=1678503176336&panelId=6&kiosk
-        aspect_ratio: 100%
-  - title: Helium
-    cards:
-      - type: custom:uptime-card
-        entity: sensor.shallow_marmalade_scorpion
-        icon: mdi:router-wireless
-        ok: online
-        ko: offline
-        ko_icon: mdi:router-wireless-off
-        hours_to_show: 24
-        status_adaptive_color: true
-        color:
-          icon: grey
-        show:
-          icon: true
-          status: false
-          timeline: true
-          average: true
-        title_adaptive_color: true
-        name: Shallow Marmalade Scorpion
+      - type: custom:vacuum-card
+        entity: vacuum.daves_deebot_n8
+        image: default
+        compact_view: false
+        show_name: true
+        show_toolbar: true
+        show_status: true 
+        stats:
+          default:
+            - entity_id: sensor.daves_deebot_n8_life_span_brush
+              subtitle: Main brush
+              unit: '%'              
+            - entity_id: sensor.daves_deebot_n8_life_span_side_brush              
+              unit: '%'
+              subtitle: Side brush
+            - entity_id: sensor.daves_deebot_n8_life_span_brush
+              unit: '%'
+              subtitle: Filter 
+        my-custom-theme:
+          - vc-background: '#17A8F4'
+            vc-spacing: 5px 
+        shortcuts:          
+          - name: Clean bedroom
+            service: script.clean_bedroom
+            icon: 'mdi:bed-empty'       
+        map: camera.daves_deebot_n8_live_map
+        
+      - type: grid
+        square: false
+        columns: 1
+        cards:
+          - type: entities
+            entities:
+              - entity: sensor.daves_deebot_n8_last_cleaning
+                name: Last cleaning
+              - type: section
+              - entity: sensor.daves_deebot_n8_stats_area
+                name: Stats area
+              - entity: sensor.daves_deebot_n8_stats_time
+                name: Stats time
+              - entity: sensor.daves_deebot_n8_stats_total_area
+                name: Stats total area
+              - entity: sensor.daves_deebot_n8_stats_total_cleanings
+                name: Stats total cleanings
+              - entity: sensor.daves_deebot_n8_stats_total_time
+                name: Stats total time              
+              - entity: number.daves_deebot_n8_clean_count
+                name: Clean count
+            title: Deebot N8 Stats
+      - type: grid
+        square: false        
+        columns: 1
+        cards:
+          - type: entities
+            show_header_toggle: false
+            entities:
+              - entity: switch.daves_deebot_n8_advanced_mode
+                name: Advanced mode
+              - entity: switch.daves_deebot_n8_carpet_auto_fan_speed_boost
+                name: Carpet auto fan speed boost
+              - entity: switch.daves_deebot_n8_clean_preference
+                name: Clean preference
+              - entity: switch.daves_deebot_n8_continuous_cleaning
+                name: Continuous cleaning
+              - entity: switch.daves_deebot_n8_true_detect
+                name: True detect
+              - entity: number.daves_deebot_n8_volume
+                name: Volume
+              - entity: button.daves_deebot_n8_life_span_filter_reset
+                name: Life span filter reset
+              - entity: button.daves_deebot_n8_life_span_side_brush_reset
+                name: Life span side brush reset 
+              - entity: select.daves_deebot_n8_water_amount
+                name: Water amount 
+              - entity: button.daves_deebot_n8_life_span_brush_reset
+                name: Life span brush reset  
+            title: Deebot N8 Configuration    
+
+  - title: Energy & Helium
+    cards:        
       - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Helium AUD
-          show_states: true
-          colorize_states: true
-        series:
-          - entity: sensor.helium_wallet_value
-            color: green
-            type: line
-            stroke_width: 4
-            fill_raw: 'last'
-            extend_to: false
-            group_by:
-              duration: 24h
-              func: max
         graph_span: 7d
-        span:
-          end: day
-      - type: custom:apexcharts-card
+        # span:
+        #   start: day
+        #   offset: +18h
         header:
-          title: '24 hr Growth in Wallet (AUD)'
+          title: 'Energy for EV (AUD)'
           show: true
         series:
          # data from today
-          - entity: sensor.helium_wallet_value
+          - entity: sensor.ev_charge_cost
             fill_raw: 'last'
             group_by:
               duration: 24h
               func: max
-         # data from yesterday offsetted to be displayed today
-          - entity: sensor.helium_wallet_value
-            fill_raw: 'last'
-            group_by:
-              duration: 24h
-              func: max
-            offset: -1d
-        graph_span: 7d
-        span:
-          end: day
+      # - type: iframe          
+      #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d-solo/E-rczO-4z/ev-charging?orgId=1&from=1677898376335&to=1678503176336&panelId=6&kiosk
+      #   aspect_ratio: 100%
+  # - title: Helium
+  #   cards:      
+      # - type: custom:apexcharts-card
+      #   header:
+      #     show: true
+      #     title: Helium AUD
+      #     show_states: true
+      #     colorize_states: true
+      #   series:
+      #     - entity: sensor.helium_wallet_value
+      #       color: green
+      #       type: line
+      #       stroke_width: 4
+      #       fill_raw: 'last'
+      #       extend_to: false
+      #       group_by:
+      #         duration: 24h
+      #         func: max
+      #   graph_span: 7d
+      #   span:
+      #     end: day
+      # - type: custom:apexcharts-card
+      #   header:
+      #     title: '24 hr Growth in Wallet (AUD)'
+      #     show: true
+      #   series:
+      #    # data from today
+      #     - entity: sensor.helium_wallet_value
+      #       fill_raw: 'last'
+      #       group_by:
+      #         duration: 24h
+      #         func: max
+      #    # data from yesterday offsetted to be displayed today
+      #     - entity: sensor.helium_wallet_value
+      #       fill_raw: 'last'
+      #       group_by:
+      #         duration: 24h
+      #         func: max
+      #       offset: -1d
+      #   graph_span: 7d
+      #   span:
+      #     end: day
 
 
-      - type: entities
-        title: 'Helium Tokens available'
-        entities:
-           - entity: sensor.helium_wallet_today
-             name: Wallet Today
-             icon: 'mdi:cash'
-           - entity: sensor.helium_wallet_weekly
-             name: Wallet this Week
-             icon: 'mdi:cash'
-           - entity: sensor.helium_wallet_monthly
-             name: Wallet this month
-             icon: 'mdi:cash'
-           - entity: sensor.helium_wallet_14rtp7ja84zcvwsu6nuf6kbbfwam3qezuulzgvypk1n3jpkdqqu
-             name: Wallet Total
-             icon: 'mdi:cash'
+      # - type: entities
+      #   title: 'Helium Tokens balances'
+      #   entities:
+      #      - entity: sensor.helium_wallet_hvhi_hnt_balance
+      #        name: HNT Account
+      #      - entity: sensor.helium_wallet_hvhi_iot_balance
+      #        name: IOT Account 
+      #      - entity: sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards
+      #        name: IOT Unclaimed               
+      #      - entity: sensor.helium_wallet_hvhi_sol_balance
+      #        name: SOL Account
+
+      # - type: custom:apexcharts-card
+      #   all_series_config:
+      #     float_precision: 3
+      #   apex_config:
+      #     yaxis:
+      #       - seriesName: HNT
+      #         decimalsInFloat: 0
+      #       - seriesName: Helium
+      #         show: false
+      #   experimental:
+      #     color_threshold: true
+      #   graph_span: 7d
+      #   span:
+      #     end: day
+      #   show:
+      #     last_updated: true
+      #   header:
+      #     show: true
+      #     show_states: true
+      #     colorize_states: true
+      #     title: Total HNT per day
+      #   series:
+      #     - entity: sensor.helium_wallet_today
+      #       show:
+      #         header_color_threshold: true
+      #         extremas: true
+      #       type: column
+      #       name: Today
+      #       group_by:
+      #         func: last
+      #         duration: 1d
+      #     - entity: sensor.helium_wallet_today
+      #       name: Yesterday
+      #       offset: '-1d'
+      #       show:
+      #         in_header: true
+      #         in_chart: false
 
       - type: custom:apexcharts-card
+        header:
+          show: true
+          title: Total Earnings ($A)
+          show_states: true
+          colorize_states: true
         all_series_config:
-          float_precision: 3
-        apex_config:
-          yaxis:
-            - seriesName: HNT
-              decimalsInFloat: 0
-            - seriesName: Helium
-              show: false
-        experimental:
-          color_threshold: true
-        graph_span: 7d
+          stroke_width: 2
+          extend_to: false
+          type: 'line'          
+        series:
+          - entity: sensor.aus_wallet_total
+          - entity: sensor.helium_wallet_value                     
+          - entity: sensor.iot_wallet_value            
+          - entity: sensor.iot_wallet_value_unclaimed                      
+          - entity: sensor.sol_wallet_value                                
+        graph_span: 30d
         span:
           end: day
-        show:
-          last_updated: true
-        header:
-          show: true
-          show_states: true
-          colorize_states: true
-          title: Total HNT per day
-        series:
-          - entity: sensor.helium_wallet_today
-            show:
-              header_color_threshold: true
-              extremas: true
-            type: column
-            name: Today
-            group_by:
-              func: last
-              duration: 1d
-          - entity: sensor.helium_wallet_today
-            name: Yesterday
-            offset: '-1d'
-            show:
-              in_header: true
-              in_chart: false
-
       - type: custom:apexcharts-card
         header:
           show: true
-          title: Helium HNT/USD
+          title: HotSpot Performance (IoT)
           show_states: true
           colorize_states: true
-        series:
-          - entity: sensor.helium_hnt_oracle_price
-            stroke_width: 2
-            extend_to: false
-        graph_span: 7d
+        all_series_config:
+          stroke_width: 2
+          extend_to: false
+          type: 'line'          
+        series:       
+          - entity: sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards 
+        graph_span: 30d
         span:
           end: day
 
-      - type: iframe
-        #url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
-        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
-        aspect_ratio: 85%
+      # - type: iframe
+      #   #url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
+      #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
+      #   aspect_ratio: 85%
   
 
   - title: Irrigation
@@ -612,10 +871,10 @@ views:
             #state_header: 'Garden'
             format: duration
             #entities:
-          - entity: sensor.smart_irrigation_daily_adjusted_run_time
+          - entity: sensor.smart_irrigation_lawns
             name: Daily Adjusted Run Time
           #      attribute: adjusted_run_time_minutes
-          - entity: sensor.smart_irrigation_hourly_adjusted_run_time
+          #- entity: sensor.smart_irrigation_hourly_adjusted_run_time
               #  attribute: adjusted_run_time_minutes
           - entity: input_select.irrigation_status
             #name: false
@@ -638,12 +897,12 @@ views:
       - type: custom:apexcharts-card
         header:
           show: true
-          title: Nett Precipitation & Temperature
+          title: Precipitation & Temperature
           show_states: true
           colorize_states: true
         series:
-          - entity: sensor.smart_irrigation_hourly_netto_precipitation
-            name: 'Precipitation - Evapotranspiration'
+          - entity: sensor.dailyrain
+            name: 'Precipitation' 
             color: blue
             type: line
             stroke_width: 2
@@ -652,6 +911,7 @@ views:
               duration: 1d
               func: avg
           - entity: sensor.temp
+            name: 'Temperature'
             color: red
             type: line
             stroke_width: 2

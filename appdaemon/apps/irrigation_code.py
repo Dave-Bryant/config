@@ -50,18 +50,22 @@ class Home_Irrigation(hass.Hass):
                                     }
                      }
 
-         # if API is down then use base calculation
+         # if API is down then set variables to zero and 100 to ensure Irrigation not needed
          if self.get_state("sensor.high_temperature_today") == 0:
-             self.running_time = float(self.get_state('sensor.smart_irrigation_base_schedule_index'))
-             self.log("WU API is down, using Base Calculation")
+            self.running_time = 0.0
+            # set up all the variables
+            self.chance_of_precipitation = 100.0
+            self.chance_of_precipitation_48hrs = 100.0
+            self.precipitation = 10.0
+            # self.hourly_adjusted_running_time =  0.0
+            self.log("WU API is down, set variables to zero and 100 to ensure Irrigation not needed")
          else:
-             self.running_time = float(self.get_state('sensor.smart_irrigation_daily_adjusted_run_time'))
-
-         # set up all the variables
-         self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
-         self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_today'))
-         self.precipitation = float(self.get_state('sensor.dailyrain'))
-         self.hourly_adjusted_running_time =  float(self.get_state('sensor.smart_irrigation_hourly_adjusted_run_time'))
+            self.running_time = float(self.get_state('sensor.smart_irrigation_lawns'))
+            # set up all the variables
+            self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
+            self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_tomorrow'))
+            self.precipitation = float(self.get_state('sensor.dailyrain'))
+            # self.hourly_adjusted_running_time =  float(self.get_state('sensor.smart_irrigation_hourly_netto_precipitation'))
 
          # Find first switch then remove master valve times from all other switches
          for i in self.stations:
@@ -73,17 +77,17 @@ class Home_Irrigation(hass.Hass):
                 self.stations[i]['self.window_start'] = int(self.stations[i]['self.window_start']) - int(self.master_valve_lead_time)
 
          # print report to log
-         self.log(f"Daily is: {self.running_time} seconds. Hourly is: {self.hourly_adjusted_running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. Garden Watering time: {self.get_state('input_number.garden_watering_time')} sec.")
+         self.log(f"Daily is: {self.running_time} seconds. Probability of Rain: {self.chance_of_precipitation}%. Probability of Rain 24hrs: {self.chance_of_precipitation_48hrs}%. Watering Threshold: {self.watering_threshold}sec. Precipitation: {self.precipitation}mm. Garden Watering time: {self.get_state('input_number.garden_watering_time')} sec.")
 
          # conditions to proceed
          if self.running_time <= self.watering_threshold: self.select_option("input_select.irrigation_status", "Irrigation run time too small")
          if int(self.running_time) == 0: self.select_option("input_select.irrigation_status", "No moisture lost yesterday")
-         if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "It has rained")
+         # if self.hourly_adjusted_running_time <= 0: self.select_option("input_select.irrigation_status", "It has rained")
          if self.chance_of_precipitation > self.precipitation_threshold: self.select_option("input_select.irrigation_status", "Rain is coming")
          if self.chance_of_precipitation_48hrs > self.precipitation_threshold_48: self.select_option("input_select.irrigation_status", "Rain is coming")
          if self.precipitation != 0: self.select_option("input_select.irrigation_status", "It has rained")
 
-         if self.hourly_adjusted_running_time > 0 and self.running_time > self.watering_threshold and self.chance_of_precipitation <= self.precipitation_threshold and self.chance_of_precipitation_48hrs <= self.precipitation_threshold_48 and self.precipitation == 0:
+         if self.running_time > self.watering_threshold and self.chance_of_precipitation <= self.precipitation_threshold and self.chance_of_precipitation_48hrs <= self.precipitation_threshold_48 and self.precipitation == 0:
 
              # allocate run time across schedules
              self.running_time = self.running_time / self.no_of_schedules
@@ -145,8 +149,9 @@ class Home_Irrigation(hass.Hass):
                  # else: self.stations[i]['self.window_start'] = 0
 
              if self.reset_bucket:
-                 self.call_service("smart_irrigation/smart_irrigation_reset_bucket", entityid = "sensor.smart_irrigation_bucket")
-                 self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
+                 self.call_service("smart_irrigation/reset_bucket", entityid = "sensor.smart_irrigation_lawns")
+                 # self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
+                 # reset Watering System so daily calaculation is set to zero                 
                  self.log("Reset complete")
 
              self.log("Irrigation schedule set")

@@ -30,6 +30,7 @@ class mercedes_tyre_check(hass.Hass):
     if self.tyre_check_switch == 'on' and self.Check_Kilometers(self.ODOMETER, self.percent_tolerance, self.distance_before):
       self.notify("Reminder to get tyres checked", title = "Tyre Alignment", name = "notify")
       self.log ("Reminder to get tyres checked")
+      self.msg_sent = True
     if self.tyre_check_switch == 'on' and not self.Check_Kilometers(self.ODOMETER, self.percent_tolerance, self.distance_before):
       self.turn_off(entity_id="input_boolean.check_odometer")      
       self.log("turned switch off as service not due")

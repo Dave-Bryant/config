@@ -20,6 +20,11 @@ class HelloWorld(hass.Hass):
 
   def initialize(self):
      self.log("Hello from AppDaemon")
+     #self.log(self.list_services(namespace="global"))
+     #self.irrigation_entity = self.get_entity("sensor.smart_irrigation_garden")
+     #self.irrigation_entity.call_service("smart_irrigation/reset_bucket")
+     #self.call_service("smart_irrigation/reset_bucket", entityid = "sensor.smart_irrigation_garden")
+     self.log("Reset complete")
 
 
      #self.run_every(self.main_routine,"now", 15)

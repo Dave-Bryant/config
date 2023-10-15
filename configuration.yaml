@@ -67,16 +67,12 @@ logger:
     homeassistant.components.pychromecast: error
     custom_components.mbapi2020: error
 
-auto_backup:
-  auto_purge: true
+#auto_backup:
+  #auto_purge: true
 
-discovery:
-  ignore:
-    - apple_tv
-    - homekit
-    - harmony
 
-# samsungtv:   Depracated
+
+# samsungtv:   Deprecated
 #   - host: 10.0.0.130
 #     name: Samsung Smart TV
 #     turn_on_action:
@@ -86,11 +82,11 @@ discovery:
 #           #mac: "D0:D0:03:A2:D9:8E"
 # wake_on_lan:
 
-zha:
-  zigpy_config:
-    network:
-      channel: 26             # What channel the radio should try to use.
-      channels: [26, 24, 25]  # Channel mask
+# zha:
+#   zigpy_config:  # this was being ignored. Need to repair to change these channels
+#     network:
+#       channel: 26             # What channel the radio should try to use.
+#       channels: [26, 24, 25]  # Channel mask
 
 # camera:                  Now supported through Configuration interface
 #   - platform: foscam
@@ -149,11 +145,11 @@ tts:
     #time_memory: 300
     #base_url: http://10.0.0.55:8123
 
-panel_iframe:
-  tasmoadmin:
-    title: TasmoAdmin
-    icon: mdi:lightbulb-on
-    url: http://homeassistant:9541/devices
+# panel_iframe:
+#   tasmoadmin:
+#     title: TasmoAdmin
+#     icon: mdi:lightbulb-on
+#     url: http://homeassistant:9541/devices
 
 mqtt:
   sensor:
@@ -166,17 +162,35 @@ mqtt:
       value_template: '{{ value_json.confidence }}'
       unit_of_measurement: '%'
 
-utility_meter:
-  helium_wallet_today:
-    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
-    cycle: daily
-  helium_wallet_weekly:
-    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
-    cycle: weekly
-  helium_wallet_monthly:
-    source: sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
-    cycle: monthly
+# utility_meter:
+#   helium_wallet_today:
+#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
+#     cycle: daily
+#   helium_wallet_weekly:
+#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
+#     cycle: weekly
+#   helium_wallet_monthly:
+#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
+#     cycle: monthly
 
+command_line:
+  - binary_sensor:
+      name: CPU Temperature
+      command: "cat /sys/class/thermal/thermal_zone0/temp"
+      # If errors occur, make sure configuration file is encoded as UTF-8
+      #unit_of_measurement: "°C"
+      value_template: '{{ value | multiply(0.001) | round(1) }}'
+  
+    # for FOSCAM Camera Motion Detection
+  - binary_sensor:
+      command: !secret front_cam_motion_detection
+      name: "Front Camera Motion Cam"
+      value_template: >
+        {% set status = value | regex_findall_index('Alarm>(\d+)</motion') %}
+        {% set values = {'0':'Disabled', '1':'None', '2':'Detected'} %}
+        {{ values[status] if status in values.keys() else 'Not Determined'}}
+      scan_interval: 20
+      command_timeout: 20 
 sensor:
   - platform: min_max
     name: "david_occupancy_confidence"
@@ -190,26 +204,13 @@ sensor:
     round_digits: 0
     entity_ids:
       - sensor.ground_floor_wendy
-  - platform: command_line
-    name: CPU Temperature
-    command: "cat /sys/class/thermal/thermal_zone0/temp"
-    # If errors occur, make sure configuration file is encoded as UTF-8
-    unit_of_measurement: "°C"
-    value_template: '{{ value | multiply(0.001) | round(1) }}'
   - platform: systemmonitor
     resources:
       - type: memory_use_percent
       - type: processor_use
-    # for FOSCAM Camera Motion Detection
-  - platform: command_line
-    command: !secret front_cam_motion_detection
-    name: "Front Camera Motion Cam"
-    value_template: >
-      {% set status = value | regex_findall_index('Alarm>(\d+)</motion') %}
-      {% set values = {'0':'Disabled', '1':'None', '2':'Detected'} %}
-      {{ values[status] if status in values.keys() else 'Not Determined'}}
-    scan_interval: 20
-    command_timeout: 20
+      - type: processor_temperature
+
+  
     
   - platform: statistics
     entity_id: sensor.temp
@@ -253,20 +254,30 @@ sensor:
         icon_template: "mdi:sprinkler-variant"
         unit_of_measurement: 'mm'
 
-   # helium  
+  # helium  
   - platform: template
     sensors:
       helium_wallet_value:
-        value_template: "{{ ((states('sensor.helium_hnt_oracle_price') | float(0)  * states('sensor.helium_wallet_14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu') | float(0)) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+        value_template: "{{ (states('sensor.helium_price_hnt') | float(0) * states('sensor.helium_wallet_hvhi_hnt_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
-      helium_staked_wallet_value:
-        value_template: "{{ ((states('sensor.helium_hnt_oracle_price') | float(0)  * states('sensor.helium_wallet_13qsJya4Usq5i5VbWqkmaHYz6xKmW4SqQywMftNZ9m7cwpc23KG') | float(0)) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+      iot_wallet_value:
+        value_template: "{{ (states('sensor.helium_price_iot') | float(0) * states('sensor.helium_wallet_hvhi_iot_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
+      iot_wallet_value_unclaimed:
+        value_template: "{{ (states('sensor.helium_price_iot') | float(0) * states('sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+        unit_of_measurement: "AUD"
+      sol_wallet_value:
+        value_template: "{{ (states('sensor.helium_price_solana') | float(0) * states('sensor.helium_wallet_hvhi_sol_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+        unit_of_measurement: "AUD"
+      aus_wallet_total:
+        value_template: "{{ (states('sensor.helium_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.sol_wallet_value') | float(0)) | round(2) }}"
+        unit_of_measurement: "AUD"
+ 
  # EV Charging
   - platform: template
     sensors:
       ev_charge_cost:
-        value_template: "{{ (states('sensor.spare_switch_2_total_consumption') | float(0)  * 0.16812 | float(0)) | round(2) }}"
+        value_template: "{{ (states('sensor.spare_switch_2_today_s_consumption') | float(0)  * 0.16812 | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
 
  # A/C sensors
@@ -317,13 +328,13 @@ sensor:
         value_template: "{{ state_attr('climate.family_room', 'current_humidity') }}"
 
 
-  - platform: helium
-    hotspots:
-      - 1126RsdmKRMKrmjuUuR5DUWKBkejr5oAhQD56HaerDqbaGbsUexr
-    wallets:
-      - 14rTP7Ja84zcVWsU6nuF6kbbfwaM3qEzuuLzGvYPK1N3jpkdqQu
-      - 13qsJya4Usq5i5VbWqkmaHYz6xKmW4SqQywMftNZ9m7cwpc23KG
-
+  # - platform: helium
+  #   hotspots:
+  #     - 1126RsdmKRMKrmjuUuR5DUWKBkejr5oAhQD56HaerDqbaGbsUexr
+    # wallets:
+    #   - HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
+  
+  
 
 
 # WUNDERGROUND_REST
