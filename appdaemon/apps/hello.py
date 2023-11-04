@@ -12,7 +12,7 @@ import pytz
 
 # Hellow World App
 #
-# Args:
+# Args: xxxx
 #
 
 
@@ -20,10 +20,11 @@ class HelloWorld(hass.Hass):
 
   def initialize(self):
      self.log("Hello from AppDaemon")
-     #self.log(self.list_services(namespace="global"))
+     #self.log(self.list_services(namespace="default"))
      #self.irrigation_entity = self.get_entity("sensor.smart_irrigation_garden")
      #self.irrigation_entity.call_service("smart_irrigation/reset_bucket")
-     #self.call_service("smart_irrigation/reset_bucket", entityid = "sensor.smart_irrigation_garden")
+     self.call_service("smart_irrigation/reset_all_buckets") 
+     #self.call_service("smart_irrigation/set_bucket", entityid = "sensor.smart_irrigation_garden", data = 2 )
      self.log("Reset complete")
 
 

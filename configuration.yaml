@@ -24,8 +24,8 @@ recorder:
       - sensor.spare_switch_2* #power consumption
       - number.* #musicast
       - sensor.watchman*
-    # entities:
-      
+    entities:
+      - sensor.garage_pi_sensors_garage_pi_last_message
 
 influxdb:
   # host: a0d7b954-influxdb
@@ -47,7 +47,9 @@ influxdb:
     domains:
       - sensor
   exclude:
-    entity_globs:
+    entities:
+    - sensor.garage_pi_sensors_garage_pi_last_message
+    entity_globs:     
      - sensor.wupws_weather* # old sensors
      - sensor.pws_forecast_narrative* # just words
      - sensor.watchman*
@@ -474,27 +476,27 @@ input_number:
     mode: box
     unit_of_measurement: s
 input_text:
-  frlawnwest_run_time:
-  frlawneast_run_time:
-  bklawnsouth_run_time:
-  bklawnnorth_run_time:
-  frontgarden_run_time:
-  backsidegarden_run_time:
-  tinybacklawn_run_time:
-  frlawnwest_run_date:
-  frlawneast_run_date:
-  bklawnsouth_run_date:
-  bklawnnorth_run_date:
-  frontgarden_run_date:
-  backsidegarden_run_date:
-  tinybacklawn_run_date:
-  frlawnwest_run_duration:
-  frlawneast_run_duration:
-  bklawnsouth_run_duration:
-  bklawnnorth_run_duration:
-  frontgarden_run_duration:
-  backsidegarden_run_duration:
-  tinybacklawn_run_duration:
+  irrigation_switch_1_l3_run_time: #Front Lawn West Irrigation
+  irrigation_switch_1_l2_run_time: #Front Lawn East Irrigation
+  irrigation_switch_1_l1_run_time: #Back Lawn South Irrigation
+  irrigation_switch_1_l4_run_time: #Back Lawn North Irrigation
+  irrigation_switch_2_l4_run_time: #Front Garden
+  irrigation_switch_2_l3_run_time: #Back & Side Garden
+  irrigation_switch_2_l2_run_time:
+  irrigation_switch_1_l3_run_date:
+  irrigation_switch_1_l2_run_date:
+  irrigation_switch_1_l1_run_date:
+  irrigation_switch_1_l4_run_date:
+  irrigation_switch_2_l4_run_date:
+  irrigation_switch_2_l3_run_date:
+  irrigation_switch_2_l2_run_date:
+  irrigation_switch_1_l3_run_duration:
+  irrigation_switch_1_l2_run_duration:
+  irrigation_switch_1_l1_run_duration:
+  irrigation_switch_1_l4_run_duration:
+  irrigation_switch_2_l4_run_duration:
+  irrigation_switch_2_l3_run_duration:
+  irrigation_switch_2_l2_run_duration:
 
 input_select:
   irrigation_status:

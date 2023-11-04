@@ -60,13 +60,13 @@ irrigation1:
   GARDEN_RUN: False
   MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
   VALVE_LEAD_TIME: 25
-  STATION_1: 'switch.frlawnwest'
-  STATION_2: 'switch.frlawneast'
-  STATION_3: 'switch.bklawnsouth'
-  STATION_4: 'switch.bklawnnorth'
+  STATION_1: 'switch.irrigation_switch_1_l3'  #Front Lawn West Irrigation
+  STATION_2: 'switch.irrigation_switch_1_l2'  #Front Lawn East Irrigation
+  STATION_3: 'switch.irrigation_switch_1_l1'  #Back Lawn South Irrigation
+  STATION_4: 'switch.irrigation_switch_1_l4'  #Back Lawn North Irrigation
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
-  STATION_7: 'switch.tinybacklawn'
+  STATION_7: 'switch.irrigation_switch_2_l2'
   STATION_1_WEIGHT: 0.6   # Was .7             everything reduced by 40%
   STATION_2_WEIGHT: 0.9 # Was 1.0631 reduced because grass was always moist
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
@@ -95,13 +95,13 @@ irrigation2:
   GARDEN_RUN: False
   MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
   VALVE_LEAD_TIME: 25
-  STATION_1: 'switch.frlawnwest'
-  STATION_2: 'switch.frlawneast'
-  STATION_3: 'switch.bklawnsouth'
-  STATION_4: 'switch.bklawnnorth'
+  STATION_1: 'switch.irrigation_switch_1_l3'  #Front Lawn West Irrigation
+  STATION_2: 'switch.irrigation_switch_1_l2'  #Front Lawn East Irrigation
+  STATION_3: 'switch.irrigation_switch_1_l1'  #Back Lawn South Irrigation
+  STATION_4: 'switch.irrigation_switch_1_l4'  #Back Lawn North Irrigation
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
-  STATION_7: 'switch.tinybacklawn'
+  STATION_7: 'switch.irrigation_switch_2_l2'
   STATION_1_WEIGHT: 0.6   # Was .7             everything reduced by 40%
   STATION_2_WEIGHT: 0.9 # Was 1.0631 reduced because grass was always moist
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
@@ -130,13 +130,13 @@ irrigation3:
   GARDEN_RUN: False
   MASTER_VALVE_LEAD_TIME: 20 # 20 secs for master; 20 secs for station then some
   VALVE_LEAD_TIME: 25
-  STATION_1: 'switch.frlawnwest'
-  STATION_2: 'switch.frlawneast'
-  STATION_3: 'switch.bklawnsouth'
-  STATION_4: 'switch.bklawnnorth'
+  STATION_1: 'switch.irrigation_switch_1_l3'  #Front Lawn West Irrigation
+  STATION_2: 'switch.irrigation_switch_1_l2'  #Front Lawn East Irrigation
+  STATION_3: 'switch.irrigation_switch_1_l1'  #Back Lawn South Irrigation
+  STATION_4: 'switch.irrigation_switch_1_l4'  #Back Lawn North Irrigation
   STATION_5: 'noswitch5'
   STATION_6: 'noswitch6'
-  STATION_7: 'switch.tinybacklawn'
+  STATION_7: 'switch.irrigation_switch_2_l2'
   STATION_1_WEIGHT: 0.6   # Was .7             everything reduced by 40%
   STATION_2_WEIGHT: 0.9 # Was 1.0631 reduced because grass was always moist
   STATION_3_WEIGHT: 0.75  # Was 1.4 each station now 1.5 times Station 2 then divided by 2
@@ -169,8 +169,8 @@ irrigation4:              # Gardens
   STATION_2: 'noswitch2'
   STATION_3: 'noswitch3'
   STATION_4: 'noswitch4'
-  STATION_5: 'switch.frontgarden'
-  STATION_6: 'switch.backsidegarden'
+  STATION_5: 'switch.irrigation_switch_2_l4'  # Front Garden
+  STATION_6: 'switch.irrigation_switch_2_l3'  # Back & Side Garden
   STATION_7: 'noswitch7'
   STATION_1_WEIGHT: 0.6   # Was .7             everything reduced by 40%
   STATION_2_WEIGHT: 0.9 # Was 1.0631 reduced because grass was always moist
@@ -192,12 +192,12 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
   class: Home_Irrigation_rain_monitor
   PRECIPITATION_THRESHOLD: 2.0   # mm
 
-irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
-  module: irrigation_force_code
-  class: Home_Irrigation_Force
-  NO_OF_DAYS: 5
-  FACTOR: 1.2
-  MONTHS_ACTIVE : "Jan,Feb,Oct,Nov,Dec"
+# irrigation_force:              # Resets daily run time at a certain time (once) if today has been disrupted
+#   module: irrigation_force_code
+#   class: Home_Irrigation_Force
+#   NO_OF_DAYS: 2
+#   FACTOR: 1.2
+#   MONTHS_ACTIVE : "Jan,Feb,Oct,Nov,Dec"
 
 light_timer1:
   module: light_timer_code
@@ -212,7 +212,7 @@ light_timer2:
 light_timer3:
   module: light_timer_code
   class: Light_Timer
-  LIGHT_SWITCH: "light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off"
+  LIGHT_SWITCH: "light.osram_light_family_room"
 
 home_presence_app:
   module: home_presence_app
@@ -233,7 +233,6 @@ home_presence_app:
   system_check: 300
   system_timeout: 400
   home_gateway_sensors:
-    - binary_sensor.motion_sensor_1_garage_occupancy
     - binary_sensor.motion_sensor_2_garage_occupancy
     - binary_sensor.motion_sensor_3_garage_occupancy
 

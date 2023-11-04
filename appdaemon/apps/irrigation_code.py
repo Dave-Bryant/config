@@ -149,7 +149,7 @@ class Home_Irrigation(hass.Hass):
                  # else: self.stations[i]['self.window_start'] = 0
 
              if self.reset_bucket:
-                 self.call_service("smart_irrigation/reset_bucket", entityid = "sensor.smart_irrigation_lawns")
+                 self.call_service("smart_irrigation/reset_all_buckets") 
                  # self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
                  # reset Watering System so daily calaculation is set to zero                 
                  self.log("Reset complete")

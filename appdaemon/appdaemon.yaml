@@ -6,7 +6,7 @@ appdaemon:
   latitude: -35.282
   longitude: 149.1287
   elevation: 571
-  time_zone: Australia/Sydney
+  time_zone: Australia/Sydney  
   plugins:
     HASS:
       type: hass

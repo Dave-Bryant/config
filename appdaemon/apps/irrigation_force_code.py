@@ -19,7 +19,7 @@ class Home_Irrigation_Force(hass.Hass):
         if datetime.today().strftime("%b") in self.months_active:
             self.log("Force monitoring activated as it is summer")
             self.run_daily(self.monitor_history_of_bucket, "sunset")
-        # self.run_in(self.monitor_history_of_bucket, 0)
+        self.run_in(self.monitor_history_of_bucket, 0)  # for debugging
         self.listen_state(
             self.schedule_the_force, "input_boolean.force_irrigation", new="on"
         )
@@ -35,10 +35,7 @@ class Home_Irrigation_Force(hass.Hass):
 
     def monitor_history_of_bucket(self, kwargs):
         # initialise variables
-        self.average_evapo = self.get_state(
-            "sensor.smart_irrigation_base_schedule_index",
-            attribute="reference_evapotranspiration",
-        )
+        self.average_evapo = '-2.5'
         self.no_of_days = self.args["NO_OF_DAYS"]  # look back N x days
         self.factor = self.args["FACTOR"]  # increase baseline by a factor
 
@@ -52,12 +49,12 @@ class Home_Irrigation_Force(hass.Hass):
         )
         self.log("Connection to MariaDB was succesfull")
         # Load all the historical records
-        self.query = f'SELECT state, last_changed FROM states WHERE entity_id = "sensor.smart_irrigation_bucket" \
+        self.query = f'SELECT state, last_changed FROM states WHERE entity_id = "sensor.smart_irrigation_lawns" \
            AND created > DATE_ADD(DATE_ADD(UTC_TIMESTAMP(),INTERVAL -{self.no_of_days} DAY), INTERVAL 1 MINUTE)'
         with self.conn.cursor() as self.cursor:
             self.cursor.execute(self.query)
             self.result = self.cursor.fetchall()
-        # self.log(self.result)
+        self.log(self.result)  # for debugging
         self.result = list(self.result)  # convert to list for operations
         for i in range(len(self.result)):  # change list of tuples to list of lists
             self.result[i] = list(self.result[i])
@@ -68,6 +65,7 @@ class Home_Irrigation_Force(hass.Hass):
             if str(self.result[i][1])[11:-7] == "12:00:00":
                 self.newresult.append(self.result[i])
         self.result = self.newresult
+        self.log(self.result)  # for debugging
 
         for i in range(len(self.result)):
             self.result[i] = float(self.result[i][0])  # strip off time
@@ -93,7 +91,7 @@ class Home_Irrigation_Force(hass.Hass):
             self.curr_evapo = (
                 self.average_evapo[int(datetime.now().strftime("%m")) - 1] * self.factor
             )
-
+            self.log(self.result,abs(mean(self.diff_list)) ,self.curr_evapo)  # for debugging
             if (
                 min(self.result) > 0
                 and abs(mean(self.diff_list)) > self.curr_evapo
@@ -102,7 +100,7 @@ class Home_Irrigation_Force(hass.Hass):
                 self.log(
                     f"Force mode will be triggered as there has been no irrigation for {self.no_of_days} days, the average bucket reduction of {abs(mean(self.diff_list))} is greater than the baseline of {self.curr_evapo} (i.e. hotter than average days) and the bucket of {self.result[len(self.result)-1]} is greater than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
                 )
-                self.call_service("smart_irrigation/smart_irrigation_enable_force_mode")
+                self.call_service("smart_irrigation/set_bucket", entityid = "sensor.smart_irrigation_lawns", new_bucket_value = 3 )
             else:
                 self.log(
                     f"Force mode not triggered as 1) there has been irrigation within the last {self.no_of_days} days or 2) the average bucket reduction of {abs(mean(self.diff_list))} is less than the baseline of {self.curr_evapo} (i.e. colder than average days) or 3) the bucket of {self.result[len(self.result)-1]} is less than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."

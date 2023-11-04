@@ -146,7 +146,7 @@
     - switch.upstairs_light
   - service: light.turn_on
     entity_id:
-    - light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
+    - light.osram_light_family_room
   id: ced1c16206dc4062bccfc893ecae8e08
 - alias: Turn_off_lights_at_a_time_if_home
   trigger:
@@ -158,7 +158,7 @@
     state: home
   action:
   - service: light.turn_off
-    entity_id: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
+    entity_id: light.osram_light_family_room
   id: 5ef8a9aaee5e4760901761dee517d3d1
 - alias: Turn_off_stairs_lights_at_a_time_if_home
   trigger:

@@ -1,7 +1,5 @@
 resources:
   - type: module
-    url: /hacsfiles/simple-thermostat/simple-thermostat.js
-  - type: module
     url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
   - type: module
     url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
@@ -59,8 +57,8 @@ views:
         - type: horizontal-stack
           cards:
             - type: 'custom:button-card'
-              entity: light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off
-
+              entity: light.osram_light_family_room
+              name: Family Room
               icon: 'mdi:lightbulb'
               aspect_ratio: 1.5/1
               color: auto
@@ -69,7 +67,7 @@ views:
                   color: rgb(255, 255, 0)
               label: |
                 [[[
-                    var bri = (states['light.osram_classic_a60_w_clear_lightify_bdd2040a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    var bri = (states['light.osram_light_family_room'].attributes.brightness / 254 * 100).toFixed(0);
                     if (isNaN(bri))
                       return 'Brightness: ' + '0' + '%';
                     else
@@ -82,7 +80,8 @@ views:
                   - height: 60px
                   - font-size: 12px
             - type: 'custom:button-card'
-              entity: light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off
+              entity: light.osram_light_holly
+              name: Hollys Bedroom
               icon: 'mdi:lightbulb'
               aspect_ratio: 1.5/1
               color: auto
@@ -91,7 +90,7 @@ views:
                   color: rgb(255, 255, 0)
               label: |
                 [[[
-                    var bri = (states['light.osram_classic_a60_w_clear_lightify_db99050a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    var bri = (states['light.osram_light_holly'].attributes.brightness / 254 * 100).toFixed(0);
                     if (isNaN(bri))
                       return 'Brightness: ' + '0' + '%';
                     else
@@ -104,7 +103,8 @@ views:
                   - height: 60px
                   - font-size: 12px
             - type: 'custom:button-card'
-              entity: light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off
+              entity: light.osram_light_spare_bedroom
+              name: Spare Bedroom
               icon: 'mdi:lightbulb'
               aspect_ratio: 1.5/1
               color: auto
@@ -113,7 +113,7 @@ views:
                   color: rgb(255, 255, 0)
               label: |
                 [[[
-                    var bri = (states['light.osram_classic_a60_w_clear_lightify_e0f2030a_level_on_off'].attributes.brightness / 254 * 100).toFixed(0);
+                    var bri = (states['light.osram_light_spare_bedroom'].attributes.brightness / 254 * 100).toFixed(0);
                     if (isNaN(bri))
                       return 'Brightness: ' + '0' + '%';
                     else
@@ -126,7 +126,7 @@ views:
                   - height: 60px
                   - font-size: 12px
         - type: horizontal-stack
-          cards:
+          cards:              
             - type: 'custom:button-card'
               entity: switch.upstairs_light
               name: Upstairs Lamp
@@ -144,7 +144,7 @@ views:
                   - font-size: 12px
             - type: 'custom:button-card'
               entity: switch.spare_switch
-              name: Dining Room Lamp
+              name: Lounge Room
               icon: 'mdi:lightbulb'
               aspect_ratio: 1.5/1
               color: auto
@@ -157,6 +157,8 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
+                  
+
             - type: 'custom:button-card'
               entity: switch.light_switch_garage
               name: Garage Light
@@ -227,6 +229,9 @@ views:
         entities:
           - media_player.samsung_q80_series_65
         title: Television
+      
+      - type: media-control
+        entity: media_player.study
 
 
 
@@ -751,7 +756,7 @@ views:
           type: 'line'          
         series:       
           - entity: sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards 
-        graph_span: 30d
+        graph_span: 7d
         span:
           end: day
 
@@ -760,109 +765,109 @@ views:
       #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
       #   aspect_ratio: 85%
   
-
+  
   - title: Irrigation
     cards:
       - type: entities
         title: 'Irrigation Status'
         entities:
-          - entity: switch.frlawnwest
+          - entity: switch.irrigation_switch_1_l3  #Front Lawn West Irrigation
             icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawnwest
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.frlawnwest_run_time
+              - entity: input_text.irrigation_switch_1_l3_run_time
                 name: run time
-              - entity: input_text.frlawnwest_run_date
+              - entity: input_text.irrigation_switch_1_l3_run_date
                 name: run date
-              - entity: input_text.frlawnwest_run_duration
+              - entity: input_text.irrigation_switch_1_l3_run_duration
                 name: run dur.
                 format: duration
-          - entity: switch.frlawneast
+          - entity: switch.irrigation_switch_1_l2  #Front Lawn East Irrigation
             icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawneast
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.frlawneast_run_time
+              - entity: input_text.irrigation_switch_1_l2_run_time
                 name: false
-              - entity: input_text.frlawneast_run_date
+              - entity: input_text.irrigation_switch_1_l2_run_date
                 name: false
-              - entity: input_text.frlawneast_run_duration
+              - entity: input_text.irrigation_switch_1_l2_run_duration
                 name: false
                 format: duration
-          - entity: switch.bklawnsouth
+          - entity: switch.irrigation_switch_1_l1  #Back Lawn South Irrigation
             icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: bklawnsouth
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.bklawnsouth_run_time
+              - entity: input_text.irrigation_switch_1_l1_run_time
                 name: false
-              - entity: input_text.bklawnsouth_run_date
+              - entity: input_text.irrigation_switch_1_l1_run_date
                 name: false
-              - entity: input_text.bklawnsouth_run_duration
+              - entity: input_text.irrigation_switch_1_l1_run_duration
                 name: false
                 format: duration
-          - entity: switch.bklawnnorth
+          - entity: switch.irrigation_switch_1_l4  #Back Lawn North Irrigation
             icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: bklawnnorth
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.bklawnnorth_run_time
+              - entity: input_text.irrigation_switch_1_l4_run_time
                 name: false
-              - entity: input_text.bklawnnorth_run_date
+              - entity: input_text.irrigation_switch_1_l4_run_date
                 name: false
-              - entity: input_text.bklawnnorth_run_duration
+              - entity: input_text.irrigation_switch_1_l4_run_duration
                 name: false
                 format: duration
           - type: section
-          - entity: switch.frontgarden
+          - entity: switch.irrigation_switch_2_l4  # Front Garden
             icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
             name: frontgarden
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.frontgarden_run_time
+              - entity: input_text.irrigation_switch_2_l4_run_time
                 name: false
-              - entity: input_text.frontgarden_run_date
+              - entity: input_text.irrigation_switch_2_l4_run_date
                 name: false
-              - entity: input_text.frontgarden_run_duration
+              - entity: input_text.irrigation_switch_2_l4_run_duration
                 name: false
                 format: duration
-          - entity: switch.backsidegarden
+          - entity: switch.irrigation_switch_2_l3  # Back & Side Garden
             icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
             name: backsidegarden
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.backsidegarden_run_time
+              - entity: input_text.irrigation_switch_2_l3_run_time
                 name: false
-              - entity: input_text.backsidegarden_run_date
+              - entity: input_text.irrigation_switch_2_l3_run_date
                 name: false
-              - entity: input_text.backsidegarden_run_duration
+              - entity: input_text.irrigation_switch_2_l3_run_duration
                 name: false
                 format: duration
-          - entity: switch.tinybacklawn
+          - entity: switch.irrigation_switch_2_l2
             icon: 'mdi:water-pump-off'
             type: custom:multiple-entity-row
             name: tinybacklawn
             toggle: true
             state_color: true
             entities:
-              - entity: input_text.tinybacklawn_run_time
+              - entity: input_text.irrigation_switch_2_l2_run_time
                 name: false
-              - entity: input_text.tinybacklawn_run_date
+              - entity: input_text.irrigation_switch_2_l2_run_date
                 name: false
-              - entity: input_text.tinybacklawn_run_duration
+              - entity: input_text.irrigation_switch_2_l2_run_duration
                 name: false
                 format: duration
           - type: section
