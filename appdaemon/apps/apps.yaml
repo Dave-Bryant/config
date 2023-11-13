@@ -199,6 +199,18 @@ irrigation_rain_monitor:              # Resets cumulative garden run time if rai
 #   FACTOR: 1.2
 #   MONTHS_ACTIVE : "Jan,Feb,Oct,Nov,Dec"
 
+irrigation_ET_calculator:              # Calculates ET & Run time daily
+  module: irrigation_ET_calculator
+  class: ET_Calculation
+  EVAPOTRANSPIRATION: "input_number.daily_et"
+  IRRIGATIONRUNTIME: "input_number.lawn_watering_time" 
+  ETCALCSTARTTIME: '23:05:00'
+  AREA:  328  #m2
+  SPRINKLERNUMBER: 20
+  SPRINKLERHALFCIRCLERATE:  .14 #m3/h   converted from 1.5 G/min
+  SPRINKLERMAXRUNTIME: 1800 # secs
+         
+
 light_timer1:
   module: light_timer_code
   class: Light_Timer

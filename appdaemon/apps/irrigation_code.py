@@ -13,7 +13,7 @@ class Home_Irrigation(hass.Hass):
      self.precipitation_threshold = self.args["PRECIPITATION_THRESHOLD"] # the rain chance probability after which irrigating will occur
      self.precipitation_threshold_48 = self.args["PRECIPITATION_THRESHOLD_48"]
      self.watering_threshold = self.args["WATERING_THRESHOLD"]  # the daily watering point where irrigating will occur
-     self.reset_bucket = self.args["RESET_BUCKET"]  # signals to an irrigation instance to reset the bucket
+     #self.reset_bucket = self.args["RESET_BUCKET"]  # signals to an irrigation instance to reset the bucket
      self.garden_run = self.args["GARDEN_RUN"] # signals to an irrigation instance to reset the garde watering cumulative total as this instance will water the garden
      self.no_of_schedules = self.args["NO_OF_SCHEDULES"]
      self.valve_lead_time = self.args["VALVE_LEAD_TIME"]
@@ -60,7 +60,7 @@ class Home_Irrigation(hass.Hass):
             # self.hourly_adjusted_running_time =  0.0
             self.log("WU API is down, set variables to zero and 100 to ensure Irrigation not needed")
          else:
-            self.running_time = float(self.get_state('sensor.smart_irrigation_lawns'))
+            self.running_time = float(self.get_state('input_number.lawn_watering_time'))
             # set up all the variables
             self.chance_of_precipitation = float(self.get_state('sensor.precip_chance_today'))
             self.chance_of_precipitation_48hrs = float(self.get_state('sensor.precip_chance_tomorrow'))
@@ -148,11 +148,11 @@ class Home_Irrigation(hass.Hass):
                       self.run_in(self.turn_off_station_cb, self.running_time, current_station = i)
                  # else: self.stations[i]['self.window_start'] = 0
 
-             if self.reset_bucket:
-                 self.call_service("smart_irrigation/reset_all_buckets") 
-                 # self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
-                 # reset Watering System so daily calaculation is set to zero                 
-                 self.log("Reset complete")
+            #  if self.reset_bucket:
+            #      self.call_service("smart_irrigation/reset_all_buckets") 
+            #      # self.call_service("smart_irrigation/smart_irrigation_disable_force_mode") # in case FORCE mode is on
+            #      # reset Watering System so daily calaculation is set to zero                 
+            #      self.log("Reset complete")
 
              self.log("Irrigation schedule set")
 

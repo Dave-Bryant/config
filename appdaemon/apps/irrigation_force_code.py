@@ -4,7 +4,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from statistics import mean
 
-import appdaemon.plugins.hass.hassapi as hass
+import appdaemon.plugins.hass.hassapi as hass           # this needs to be worked on after a history of ET has built up.
 import pymysql.cursors
 #
 # Home Irrigation Force
@@ -49,7 +49,7 @@ class Home_Irrigation_Force(hass.Hass):
         )
         self.log("Connection to MariaDB was succesfull")
         # Load all the historical records
-        self.query = f'SELECT state, last_changed FROM states WHERE entity_id = "sensor.smart_irrigation_lawns" \
+        self.query = f'SELECT state, last_changed FROM states WHERE entity_id = "input_number.daily_et" \
            AND created > DATE_ADD(DATE_ADD(UTC_TIMESTAMP(),INTERVAL -{self.no_of_days} DAY), INTERVAL 1 MINUTE)'
         with self.conn.cursor() as self.cursor:
             self.cursor.execute(self.query)
@@ -100,7 +100,7 @@ class Home_Irrigation_Force(hass.Hass):
                 self.log(
                     f"Force mode will be triggered as there has been no irrigation for {self.no_of_days} days, the average bucket reduction of {abs(mean(self.diff_list))} is greater than the baseline of {self.curr_evapo} (i.e. hotter than average days) and the bucket of {self.result[len(self.result)-1]} is greater than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."
                 )
-                self.call_service("smart_irrigation/set_bucket", entityid = "sensor.smart_irrigation_lawns", new_bucket_value = 3 )
+                self.set_value("input_number.daily_et", 3)
             else:
                 self.log(
                     f"Force mode not triggered as 1) there has been irrigation within the last {self.no_of_days} days or 2) the average bucket reduction of {abs(mean(self.diff_list))} is less than the baseline of {self.curr_evapo} (i.e. colder than average days) or 3) the bucket of {self.result[len(self.result)-1]} is less than the expected baseline evaporation of {self.curr_evapo} in the next 24 hours."

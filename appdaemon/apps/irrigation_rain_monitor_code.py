@@ -22,12 +22,13 @@ class Home_Irrigation_rain_monitor(hass.Hass):
       if int(str(self.time())[:2]) < 22: # needs to stop while the irrigation program calculates new daily run time
           if isinstance(float(self.get_state("sensor.dailyrain")), float):
               if float(self.get_state("sensor.dailyrain")) >= self.precipitation_threshold:
-                   # Reset Gardening run time
-                   Garden_watering_time = float(self.get_state("input_number.garden_watering_time"))
-                   Precipitation = float(self.get_state("sensor.dailyrain"))
-                   if  Garden_watering_time != 0:
-                       self.set_value("input_number.garden_watering_time", 0)
-                       self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
-                   # reset Watering System so daily calaculation is set to zero
-                   self.call_service("smart_irrigation/reset_all_buckets") 
-                   self.log("Reset complete")
+                   if float(self.get_state('input_number.lawn_watering_time')) > 0: # hasnt yet been reset
+                        # Reset Gardening run time
+                        Garden_watering_time = float(self.get_state("input_number.garden_watering_time"))
+                        Precipitation = float(self.get_state("sensor.dailyrain"))
+                        if  Garden_watering_time != 0:
+                            self.set_value("input_number.garden_watering_time", 0)
+                            self.log(f"Garden watering time set to zero. Prec: {Precipitation} mms. Gard time was: {Garden_watering_time} secs")
+                        # reset Watering System so daily calaculation is set to zero
+                        self.set_value("input_number.lawn_watering_time", 0)
+                        self.log("Reset complete")

@@ -876,11 +876,10 @@ views:
             #state_header: 'Garden'
             format: duration
             #entities:
-          - entity: sensor.smart_irrigation_lawns
-            name: Daily Adjusted Run Time
-          #      attribute: adjusted_run_time_minutes
-          #- entity: sensor.smart_irrigation_hourly_adjusted_run_time
-              #  attribute: adjusted_run_time_minutes
+          - entity: input_number.lawn_watering_time
+            name: Lawn Watering Time  
+          - entity: input_number.daily_et
+            name: Daily Evapotranspiration          
           - entity: input_select.irrigation_status
             #name: false
 
