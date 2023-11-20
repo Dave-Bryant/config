@@ -69,90 +69,11 @@ logger:
     homeassistant.components.pychromecast: error
     custom_components.mbapi2020: error
 
-#auto_backup:
-  #auto_purge: true
-
-
-
-# samsungtv:   Deprecated
-#   - host: 10.0.0.130
-#     name: Samsung Smart TV
-#     turn_on_action:
-#       - service: wake_on_lan.send_magic_packet
-#         data:
-#           mac: '38-68-A4-36-AF-5D'
-#           #mac: "D0:D0:03:A2:D9:8E"
-# wake_on_lan:
-
-# zha:
-#   zigpy_config:  # this was being ignored. Need to repair to change these channels
-#     network:
-#       channel: 26             # What channel the radio should try to use.
-#       channels: [26, 24, 25]  # Channel mask
-
-# camera:                  Now supported through Configuration interface
-#   - platform: foscam
-#     ip: 10.0.0.117
-#     rtsp_port: 88
-#     name: Front Camera
-#     username: !secret front_cam_user
-#     password: !secret front_cam_pw
-#   - platform: foscam
-#     ip: 10.0.0.121
-#     rtsp_port: 88
-#     name: Back Camera
-#     username: !secret back_cam_user
-#     password: !secret back_cam_pw
-
-
-
 ffmpeg:
 
-# media_player:
-  # - platform: yamaha_musiccast  MusicCast is now configured in UI
-  #   host: 10.0.0.136
-  # - platform: samsungtv_tizen
-  #   host: 10.0.0.130
-  #   mac: "D0:D0:03:A2:D9:8E"
-  #   name: Samsung Smart TV
-  #   update_method: "smartthings"
-  #   api_key: !secret smartthings_API_key
-  #   device_id: !secret smartthings_device_id
-
-# google: depracated
-#   client_id: !secret google_client_id
-#   client_secret: !secret google_client_secret
-
-
-# weather:
-#   - platform: darksky
-#     api_key: !secret dark_sky
-#     mode: daily
-
-# tplink:
-#   discovery: false
-#   switch:
-#     - host: 10.0.0.1
-#     - host: 10.0.0.95
-#     - host: 10.0.0.96
-# climate:
-#   - platform: sensibo
-#     api_key: !secret sensibo
-
-# Text to speech
 tts:
   - platform: google_translate
-    #cache: true
-    #cache_dir: /config/tts
-    #time_memory: 300
-    #base_url: http://10.0.0.55:8123
-
-# panel_iframe:
-#   tasmoadmin:
-#     title: TasmoAdmin
-#     icon: mdi:lightbulb-on
-#     url: http://homeassistant:9541/devices
-
+    
 mqtt:
   sensor:
     - name: 'ground_floor_david'
@@ -163,17 +84,6 @@ mqtt:
       state_topic: 'monitor/ground_floor/wendybluetooth'
       value_template: '{{ value_json.confidence }}'
       unit_of_measurement: '%'
-
-# utility_meter:
-#   helium_wallet_today:
-#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
-#     cycle: daily
-#   helium_wallet_weekly:
-#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
-#     cycle: weekly
-#   helium_wallet_monthly:
-#     source: sensor.helium_wallet_HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
-#     cycle: monthly
 
 command_line:
   - binary_sensor:
@@ -220,7 +130,7 @@ sensor:
     state_characteristic: value_max
     max_age:
       minutes: 1440
-    sampling_size: 1440
+    sampling_size: 288
   - platform: statistics
     entity_id: sensor.temp
     name: "high_temperature_per_hour"
@@ -234,7 +144,7 @@ sensor:
     state_characteristic: value_min
     max_age:
       minutes: 1440
-    sampling_size: 1440
+    sampling_size: 288
   - platform: statistics
     entity_id: sensor.temp
     name: "low_temperature_per_hour"
@@ -242,6 +152,13 @@ sensor:
     max_age:
       minutes: 60
     sampling_size: 12
+  - platform: statistics
+    entity_id: sensor.wendys_bedroom_temp
+    name: "Wendys Min Temperature today"
+    state_characteristic: value_min
+    max_age:
+      minutes: 1440
+    sampling_size: 288
   
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
@@ -256,20 +173,7 @@ sensor:
       - sensor.pws_forecast_tomorrow
       - sensor.pws_forecast_tomorrow_tonight
 
-  # irrigation
-  # - platform: template
-  #   sensors:
-  #     smart_irrigation_hourly_netto_precipitation:
-  #       friendly_name: 'Smart Irrigation Netto Precipitation (updated hourly)'
-  #       value_template: "{{state_attr('sensor.smart_irrigation_hourly_adjusted_run_time','netto_precipitation')|float('0')}}"
-  #       icon_template: "mdi:sprinkler-variant"
-  #       unit_of_measurement: 'mm'
-  #     smart_irrigation_bucket:
-  #       friendly_name: 'Smart Irrigation Bucket'
-  #       value_template: "{{state_attr('sensor.smart_irrigation_daily_adjusted_run_time','bucket')|float('0')}}"
-  #       icon_template: "mdi:sprinkler-variant"
-  #       unit_of_measurement: 'mm'
-
+  
   # helium  
   - platform: template
     sensors:
@@ -295,6 +199,16 @@ sensor:
       ev_charge_cost:
         value_template: "{{ (states('sensor.spare_switch_2_today_s_consumption') | float(0)  * 0.16812 | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
+
+ # Irrigation Time Sensors
+  - platform: template
+    sensors:
+      garden_watering_time_mins:
+        value_template: "{{ (states('input_number.garden_watering_time') | float(0)  / 60 | float(0)) | round(2) }}"
+        unit_of_measurement: "min"
+      lawn_watering_time_mins:
+        value_template: "{{ (states('input_number.lawn_watering_time') | float(0)  / 60 | float(0)) | round(2) }}"
+        unit_of_measurement: "min"
 
  # A/C sensors
   - platform: template
@@ -344,15 +258,7 @@ sensor:
         value_template: "{{ state_attr('climate.family_room', 'current_humidity') }}"
 
 
-  # - platform: helium
-  #   hotspots:
-  #     - 1126RsdmKRMKrmjuUuR5DUWKBkejr5oAhQD56HaerDqbaGbsUexr
-    # wallets:
-    #   - HvHitGd5TK2PAFDfeqepV8YKbnPkUzr7JBbECoczgENi
   
-  
-
-
 # WUNDERGROUND_REST
 rest:
   - authentication: basic
@@ -411,73 +317,6 @@ rest:
         value_template: "{% if state_attr('sensor.pws_forecast_tomorrow_tonight','daypart') == None %} {{float('0')}}
                          {%- else -%} {{(state_attr('sensor.pws_forecast_tomorrow_tonight','daypart')[0].precipChance[3])}}
                          {% endif %}"
-
-
-# sensor:   # this works but i use Ecowitt for this info
-#   - platform: rest
-#     name: pws_report
-#     json_attributes:
-#       - observations
-#     value_template: '{{ value_json["observations"][0]["obsTimeLocal"].title() }}'
-#     resource: !secret wunderground_url_current
-#     scan_interval: 300
-#
-#   - platform: template
-#     sensors:
-#       pws_station_id:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].stationID }}'
-#         friendly_name: Station ID
-#       pws_obs_local:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].obsTimeLocal }}'
-#         friendly_name: Time Local
-#       pws_solar_radiation:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].solarRadiation }}'
-#         friendly_name: Solar Radiation
-#         unit_of_measurement: "W/m2"
-#       pws_wind_dir:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].winddir }}'
-#         friendly_name: Wind Direction
-#         unit_of_measurement: "°"
-#       pws_humidity:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].humidity }}'
-#         friendly_name: Humidity
-#         unit_of_measurement: "rH%"
-#       pws_temp:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.temp }}'
-#         friendly_name: Temperature
-#         unit_of_measurement: "°C"
-#       pws_heat_index:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.heatIndex }}'
-#         friendly_name: Heat Index
-#         unit_of_measurement: "°C"
-#       pws_dewpt:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.dewpt }}'
-#         friendly_name: Dew Point
-#         unit_of_measurement: "°C"
-#       pws_windchill:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windChill }}'
-#         friendly_name: Wind Chill
-#         unit_of_measurement: "°C"
-#       pws_wind_speed:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windSpeed }}'
-#         friendly_name: Wind Speed
-#         unit_of_measurement: "Km/h"
-#       pws_wind_gust:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.windGust }}'
-#         friendly_name:  Wind Gust
-#         unit_of_measurement: "Km/h"
-#       pws_pressure:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.pressure }}'
-#         friendly_name: Pressure
-#         unit_of_measurement: "hPa"
-#       pws_precip_rate:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipRate }}'
-#         friendly_name: Rain Rate
-#         unit_of_measurement: "L/h"
-#       pws_precip_total:
-#         value_template: '{{ states.sensor.pws_report.attributes.observations[0].metric.precipTotal }}'
-#         friendly_name: Rain Total
-#         unit_of_measurement: "L"
 
 
 

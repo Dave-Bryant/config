@@ -871,15 +871,22 @@ views:
                 name: false
                 format: duration
           - type: section
+            
+          - entity: sensor.garden_watering_time_mins           
+            name: Garden Watering Time 
+            icon: 'mdi:clock'            
           - entity: input_number.garden_watering_time
-            #type: custom:multiple-entity-row
-            #state_header: 'Garden'
-            format: duration
-            #entities:
-          - entity: input_number.lawn_watering_time
-            name: Lawn Watering Time  
+            icon: 'false' 
+            name: ' '         
+          - entity: sensor.lawn_watering_time_mins
+            name: Lawn Watering Time
+            icon: 'mdi:clock' 
+          - entity: input_number.lawn_watering_time 
+            icon: 'false' 
+            name: ' '    
           - entity: input_number.daily_et
-            name: Daily Evapotranspiration          
+            name: Daily Evapotranspiration 
+            icon: 'mdi:cloud-outline'         
           - entity: input_select.irrigation_status
             #name: false
 
