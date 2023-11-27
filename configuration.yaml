@@ -63,8 +63,7 @@ lovelace:
 logger:
   default: warn
   logs:
-    custom_components.samsungtv_tizen: error
-    custom_components.smart_irrigation: info
+    custom_components.samsungtv_tizen: error    
     homeassistant.components.media_player: error
     homeassistant.components.pychromecast: error
     custom_components.mbapi2020: error
@@ -159,6 +158,20 @@ sensor:
     max_age:
       minutes: 1440
     sampling_size: 288
+  - platform: statistics
+    entity_id: sensor.humidity
+    name: "high_relative_humidity_per_hour"
+    state_characteristic: value_max
+    max_age:
+      minutes: 60
+    sampling_size: 12
+  - platform: statistics
+    entity_id: sensor.humidity
+    name: "low_relative_humidity_per_hour"
+    state_characteristic: value_min
+    max_age:
+      minutes: 60
+    sampling_size: 12
   
   - platform: min_max   # for the REST Forecast
     name: "precip_chance_today"
@@ -324,17 +337,31 @@ input_number:
   garden_watering_time:
     name: "Garden Watering Time"
     min: 0
-    max: 3000
-    step: 10
-    mode: box
-    unit_of_measurement: s
+    max: 60
+    step: 1
+    #mode: box
+    unit_of_measurement: m
   lawn_watering_time:
     name: "Lawn Watering Time"
     min: 0
-    max: 3000
-    step: 10
+    max: 30
+    step: 1
+    #mode: box
+    unit_of_measurement: m
+  daily_calc_et:
+    name: "Daily Calculated Evapotranspiration"
+    min: 0
+    max: 10
+    step: 0.1
     mode: box
-    unit_of_measurement: s
+    unit_of_measurement: mm
+  daily_rain_event:
+    name: "Daily Rain Event"
+    min: 0
+    max: 50
+    step: 0.1
+    mode: box
+    unit_of_measurement: mm
   daily_et:
     name: "Daily Evapotranspiration"
     min: 0

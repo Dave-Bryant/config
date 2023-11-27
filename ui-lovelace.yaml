@@ -6,9 +6,7 @@ resources:
   - type: module
     url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
   - type: module
-    url: /hacsfiles/button-card/button-card.js
-  - type: module
-    url: /hacsfiles/history-explorer-card/history-explorer-card.js
+    url: /hacsfiles/button-card/button-card.js  
   - type: module
     url: /hacsfiles/bom-radar-card/bom-radar-card.js
   - type: module
@@ -21,6 +19,8 @@ resources:
     url: /hacsfiles/vacuum-card/vacuum-card.js
   - type: module
     url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.21
+  
+
 
 
 no-top-header:
@@ -503,10 +503,10 @@ views:
         show_header_toggle: false
         title: Network
         type: entities
-      - type: entities
-        entities:
-          - sensor.auto_backup
-        title: Snapshot
+      # - type: entities
+      #   entities:
+      #     - sensor.auto_backup
+      #   title: Snapshot
       - type: entities
         entities:
           - sensor.hp_officejet_pro_9020_series
@@ -871,38 +871,26 @@ views:
                 name: false
                 format: duration
           - type: section
-            
-          - entity: sensor.garden_watering_time_mins           
-            name: Garden Watering Time 
-            icon: 'mdi:clock'            
           - entity: input_number.garden_watering_time
-            icon: 'false' 
-            name: ' '         
-          - entity: sensor.lawn_watering_time_mins
+            icon: 'mdi:clock'
+            secondary_info: last-changed
+            name: Garden Watering Time            
+          - entity: input_number.lawn_watering_time
             name: Lawn Watering Time
             icon: 'mdi:clock' 
-          - entity: input_number.lawn_watering_time 
-            icon: 'false' 
-            name: ' '    
+            secondary_info: last-changed 
+          - entity: input_number.daily_calc_et
+            name: Calc. Evapotranspiration 
+            icon: 'mdi:cloud-outline'       
+          - entity: input_number.daily_rain_event
+            name: less Rain Bucket 
+            icon: 'mdi:cloud-outline'      
           - entity: input_number.daily_et
-            name: Daily Evapotranspiration 
-            icon: 'mdi:cloud-outline'         
+            name: equals Daily Evapotran. 
+            icon: 'mdi:cloud-outline'          
           - entity: input_select.irrigation_status
             #name: false
-
-      - type: entities
-        title: 'Force Irrigation'
-        entities:
-          - entity: input_boolean.force_irrigation
-            type: custom:multiple-entity-row
-            name: Force irrigation
-            state_header: 'Force'
-            toggle: true
-            format: duration
-            entities:
-              - attribute: force_mode_duration
-                name: Force Mode Duration
-                entity: sensor.smart_irrigation_daily_adjusted_run_time
+      
   - title: Weather
     cards:
       - type: custom:apexcharts-card
@@ -1067,12 +1055,7 @@ views:
             entity_id: camera.back_camera
             filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
 
-  - title: History
-    type: custom:history-explorer-card
-    cardName: historycard-95223723
-    recordedEntitiesOnly: true
-    defaultTimeRange: 7d
-
+  
   - title: Grafana
     cards:
       - type: iframe
