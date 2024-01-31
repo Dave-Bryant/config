@@ -19,6 +19,10 @@ resources:
     url: /hacsfiles/vacuum-card/vacuum-card.js
   - type: module
     url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.21
+  - type: module
+    url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+    
+
   
 
 
@@ -42,16 +46,18 @@ views:
     badges:
       - entity: binary_sensor.home_assistant_versions_update_available
         name: Update?
-      - entity: person.david_bryant
-      - entity: person.wendy_bryant
-      - entity: group.bryant_family
-      - entity: sun.sun  
-      - entity: binary_sensor.motion_sensor_4_porch_occupancy   
+      - entity: binary_sensor.monitor_davidbluetooth
+        name: David
+      - entity: binary_sensor.monitor_wendybluetooth
+        name: Wendy
+      - entity: binary_sensor.everyone_home
+        name: All Home
+        
          
 
 
     cards:
-
+      
       - type: vertical-stack
         cards:
         - type: horizontal-stack
@@ -236,7 +242,7 @@ views:
 
 
       - type: horizontal-stack
-        title: Local
+        title: Home Assistant
         cards:
           - type: custom:canvas-gauge-card
             entity: sensor.processor_temperature
@@ -336,7 +342,7 @@ views:
               animationRule: "linear"
 
       - type: horizontal-stack
-        title: Remote
+        title: Garage Pi
         cards:
           - type: custom:canvas-gauge-card
             entity: sensor.garage_pi_sensors_garage_pi_temperature
@@ -435,6 +441,108 @@ views:
               animationDuration: 1500
               animationRule: "linear"
 
+      - type: horizontal-stack
+        title: Roof Pi
+        cards:
+          - type: custom:canvas-gauge-card
+            entity: sensor.roof_pi_sensors_roof_pi_temperature
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: CPU Temperature
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.roof_pi_sensors_roof_pi_memory_use
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Memory Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.roof_pi_sensors_roof_pi_cpu_usage
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Processor Usage (%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+
+              
+
       - type: custom:mini-climate
         entity: climate.study
         toggle: hide
@@ -531,85 +639,271 @@ views:
           - binary_sensor.act_greenwaste_tomorrow
         title: ACT Garbage Collection
         show_header_toggle: false
-  - title: Ecovac
+
+  
+  - title: Irrigation
     cards:
-      - type: custom:vacuum-card
-        entity: vacuum.daves_deebot_n8
-        image: default
-        compact_view: false
-        show_name: true
-        show_toolbar: true
-        show_status: true 
-        stats:
-          default:
-            - entity_id: sensor.daves_deebot_n8_life_span_brush
-              subtitle: Main brush
-              unit: '%'              
-            - entity_id: sensor.daves_deebot_n8_life_span_side_brush              
-              unit: '%'
-              subtitle: Side brush
-            - entity_id: sensor.daves_deebot_n8_life_span_brush
-              unit: '%'
-              subtitle: Filter 
-        my-custom-theme:
-          - vc-background: '#17A8F4'
-            vc-spacing: 5px 
-        shortcuts:          
-          - name: Clean bedroom
-            service: script.clean_bedroom
-            icon: 'mdi:bed-empty'       
-        map: camera.daves_deebot_n8_live_map
-        
-      - type: grid
-        square: false
-        columns: 1
-        cards:
-          - type: entities
+      - type: entities
+        title: 'Irrigation Status'
+        entities:
+          - entity: switch.irrigation_switch_1_l3  #Front Lawn West Irrigation
+            icon: 'mdi:grass'
+            type: custom:multiple-entity-row
+            name: frlawnwest
+            toggle: true
+            state_color: true
             entities:
-              - entity: sensor.daves_deebot_n8_last_cleaning
-                name: Last cleaning
-              - type: section
-              - entity: sensor.daves_deebot_n8_stats_area
-                name: Stats area
-              - entity: sensor.daves_deebot_n8_stats_time
-                name: Stats time
-              - entity: sensor.daves_deebot_n8_stats_total_area
-                name: Stats total area
-              - entity: sensor.daves_deebot_n8_stats_total_cleanings
-                name: Stats total cleanings
-              - entity: sensor.daves_deebot_n8_stats_total_time
-                name: Stats total time              
-              - entity: number.daves_deebot_n8_clean_count
-                name: Clean count
-            title: Deebot N8 Stats
-      - type: grid
-        square: false        
-        columns: 1
-        cards:
-          - type: entities
-            show_header_toggle: false
+              - entity: input_text.irrigation_switch_1_l3_run_time
+                name: run time
+              - entity: input_text.irrigation_switch_1_l3_run_date
+                name: run date
+              - entity: input_text.irrigation_switch_1_l3_run_duration
+                name: run dur.
+                format: duration
+          - entity: switch.irrigation_switch_1_l2  #Front Lawn East Irrigation
+            icon: 'mdi:grass'
+            type: custom:multiple-entity-row
+            name: frlawneast
+            toggle: true
+            state_color: true
             entities:
-              - entity: switch.daves_deebot_n8_advanced_mode
-                name: Advanced mode
-              - entity: switch.daves_deebot_n8_carpet_auto_fan_speed_boost
-                name: Carpet auto fan speed boost
-              - entity: switch.daves_deebot_n8_clean_preference
-                name: Clean preference
-              - entity: switch.daves_deebot_n8_continuous_cleaning
-                name: Continuous cleaning
-              - entity: switch.daves_deebot_n8_true_detect
-                name: True detect
-              - entity: number.daves_deebot_n8_volume
-                name: Volume
-              - entity: button.daves_deebot_n8_life_span_filter_reset
-                name: Life span filter reset
-              - entity: button.daves_deebot_n8_life_span_side_brush_reset
-                name: Life span side brush reset 
-              - entity: select.daves_deebot_n8_water_amount
-                name: Water amount 
-              - entity: button.daves_deebot_n8_life_span_brush_reset
-                name: Life span brush reset  
-            title: Deebot N8 Configuration    
+              - entity: input_text.irrigation_switch_1_l2_run_time
+                name: false
+              - entity: input_text.irrigation_switch_1_l2_run_date
+                name: false
+              - entity: input_text.irrigation_switch_1_l2_run_duration
+                name: false
+                format: duration
+          - entity: switch.irrigation_switch_1_l1  #Back Lawn South Irrigation
+            icon: 'mdi:grass'
+            type: custom:multiple-entity-row
+            name: bklawnsouth
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.irrigation_switch_1_l1_run_time
+                name: false
+              - entity: input_text.irrigation_switch_1_l1_run_date
+                name: false
+              - entity: input_text.irrigation_switch_1_l1_run_duration
+                name: false
+                format: duration
+          - entity: switch.irrigation_switch_1_l4  #Back Lawn North Irrigation
+            icon: 'mdi:grass'
+            type: custom:multiple-entity-row
+            name: bklawnnorth
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.irrigation_switch_1_l4_run_time
+                name: false
+              - entity: input_text.irrigation_switch_1_l4_run_date
+                name: false
+              - entity: input_text.irrigation_switch_1_l4_run_duration
+                name: false
+                format: duration
+          - type: section
+          - entity: switch.irrigation_switch_2_l4  # Front Garden
+            icon: 'mdi:water-pump'
+            type: custom:multiple-entity-row
+            name: frontgarden
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.irrigation_switch_2_l4_run_time
+                name: false
+              - entity: input_text.irrigation_switch_2_l4_run_date
+                name: false
+              - entity: input_text.irrigation_switch_2_l4_run_duration
+                name: false
+                format: duration
+          - entity: switch.irrigation_switch_2_l3  # Back & Side Garden
+            icon: 'mdi:water-pump'
+            type: custom:multiple-entity-row
+            name: backsidegarden
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.irrigation_switch_2_l3_run_time
+                name: false
+              - entity: input_text.irrigation_switch_2_l3_run_date
+                name: false
+              - entity: input_text.irrigation_switch_2_l3_run_duration
+                name: false
+                format: duration
+          - entity: switch.irrigation_switch_2_l2
+            icon: 'mdi:water-pump-off'
+            type: custom:multiple-entity-row
+            name: tinybacklawn
+            toggle: true
+            state_color: true
+            entities:
+              - entity: input_text.irrigation_switch_2_l2_run_time
+                name: false
+              - entity: input_text.irrigation_switch_2_l2_run_date
+                name: false
+              - entity: input_text.irrigation_switch_2_l2_run_duration
+                name: false
+                format: duration
+          - type: section
+          - entity: input_number.garden_watering_time
+            icon: 'mdi:clock'
+            secondary_info: last-changed
+            name: Garden Watering Time            
+          - entity: input_number.lawn_watering_time
+            name: Lawn Watering Time
+            icon: 'mdi:clock' 
+            secondary_info: last-changed 
+          - entity: input_number.daily_calc_et
+            name: Calc. Evapotranspiration 
+            icon: 'mdi:cloud-outline'       
+          - entity: input_number.daily_rain_event
+            name: Rain Bucket remaining 
+            icon: 'mdi:cloud-outline'      
+          - entity: input_number.daily_et
+            name: Daily Evapo. (after bucket) 
+            icon: 'mdi:cloud-outline'          
+          - entity: input_select.irrigation_status
+            #name: false
+      
+  - title: Weather
+    cards:
+      - type: custom:apexcharts-card
+        header:
+          show: true
+          title: Precipitation & Temperature
+          show_states: true
+          colorize_states: true
+        series:
+          - entity: sensor.dailyrain
+            name: 'Precipitation' 
+            color: blue
+            type: line
+            stroke_width: 2
+            extend_to: false
+            group_by:
+              duration: 1d
+              func: avg
+          - entity: sensor.temp
+            name: 'Temperature'
+            color: red
+            type: line
+            stroke_width: 2
+            extend_to: false
+        graph_span: 28d
+        span:
+          end: day
+      
+          
+          
+
+      - type: 'custom:card-templater'
+        card:
+          type: entities
+          title: Weather Overview
+          entities:
+            - entity: sensor.pws_forecast_narrative_today
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ')
+                }}
+            - entity: sensor.pws_forecast_narrative_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tonight") | truncate(10,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow
+              icon: 'mdi:weather-sunny'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow") | truncate(11,true,'
+                ')  }}
+            - entity: sensor.pws_forecast_narrative_tomorrow_tonight
+              icon: 'mdi:weather-night'
+              name_template: >-
+                {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+                truncate(20,true,' ') }}
+        entities:
+          - entity: sensor.pws_forecast_narrative_today
+            state_template: >-
+              {% set first_word =  states("sensor.pws_forecast_narrative_today") |  truncate(8,true,' ')%}
+              {% if first_word | trim  == 'Waiting' %}
+              {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ') | trim }}
+              {%- else -%}
+              {{states("sensor.pws_forecast_narrative_today") | regex_replace(find='Today', replace=' ', ignorecase=False) }}
+              {% endif %}
+          - entity: sensor.pws_forecast_narrative_tonight
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tonight") |
+              regex_replace(find='Tonight', replace=' ', ignorecase=False)   }}
+          - entity: sensor.pws_forecast_narrative_tomorrow
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow") |
+              regex_replace(find='Tomorrow', replace=' ', ignorecase=False)  }}
+          - entity: sensor.pws_forecast_narrative_tomorrow_tonight
+            state_template: >-
+              {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
+              regex_replace(find='Tomorrow night', replace=' ', ignorecase=False)  }}
+        entity: sensor.pws_forecast_narrative_tonight
+
+      
+      - type: entities
+        title: 'Daily Forecast'
+        entities:
+          - entity: sensor.precip_chance_today # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.precip_chance_tomorrow # from REST PWS
+            icon: 'mdi:weather-pouring'
+          - entity: sensor.dailyrain # correct
+            name: 'daily rain'
+          - entity: sensor.eventrain
+            name: 'rain event precipitation'
+          - type: section
+          - entity: sensor.temp # Correct
+            name: 'outside temperature'
+          - entity: sensor.feelslike
+            name: 'outside temperature feels like'
+          - entity: sensor.thermalperception
+            name: 'perception of temperature'          
+          - entity: sensor.high_temperature_today # from config then Ecowitt
+            name: 'maximum temperature today'
+          - entity: sensor.low_temperature_today
+            name: 'minimum temperature today'
+          - type: section
+          - entity: sensor.safe_exposure_time_skin_type_2
+            name: 'safe sun exposure time'
+          - entity: sensor.uv
+            name: 'UV index(>3 needs protection)'
+          - entity: sensor.solarradiation # correct
+            name: 'solar radiation'
+          - type: section
+          - entity: sensor.frostrisk
+            name: 'risk of frost' 
+          - entity: sensor.dewpoint # correct
+            name: 'dew point'          
+          - entity: sensor.windspeed  # correct          
+            name: 'wind speed'
+          - entity: sensor.humidity  # correct
+            name: 'humidity'
+          - entity: sensor.baromrel # correct
+            name: 'relative air pressure'
+
+      - type: 'custom:bom-radar-card'
+        frame_count: 10
+        center_latitude: -35.282000
+        center_longitude: 149.1287
+        show_marker: true
+        show_range: true
+        show_zoom: true
+        show_recenter: true
+        show_playback: true
+        map_style: 'satellite'
+        zoom_level: 8
+
+      - type: iframe
+        url: >-
+          https://app.powerbi.com/view?r=eyJrIjoiY2MwMDVlYjYtYjRiMS00ZWYwLWIzN2QtNWM3OTU0YThkOWMyIiwidCI6ImE4ODBjY2UwLWI4NjYtNGU3YS1hMjNmLWVmNWE3NTU0NzFkMyJ9
+        aspect_ratio: 90%      
+  
 
   - title: Energy & Helium
     cards:        
@@ -765,275 +1059,85 @@ views:
       #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
       #   aspect_ratio: 85%
   
-  
-  - title: Irrigation
+  - title: Ecovac
     cards:
-      - type: entities
-        title: 'Irrigation Status'
-        entities:
-          - entity: switch.irrigation_switch_1_l3  #Front Lawn West Irrigation
-            icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: frlawnwest
-            toggle: true
-            state_color: true
+      - type: custom:vacuum-card
+        entity: vacuum.daves_deebot_n8
+        image: default
+        compact_view: false
+        show_name: true
+        show_toolbar: true
+        show_status: true 
+        stats:
+          default:
+            - entity_id: sensor.daves_deebot_n8_life_span_brush
+              subtitle: Main brush
+              unit: '%'              
+            - entity_id: sensor.daves_deebot_n8_life_span_side_brush              
+              unit: '%'
+              subtitle: Side brush
+            - entity_id: sensor.daves_deebot_n8_life_span_brush
+              unit: '%'
+              subtitle: Filter 
+        my-custom-theme:
+          - vc-background: '#17A8F4'
+            vc-spacing: 5px 
+        shortcuts:          
+          - name: Clean bedroom
+            service: script.clean_bedroom
+            icon: 'mdi:bed-empty'       
+        map: camera.daves_deebot_n8_live_map
+        
+      - type: grid
+        square: false
+        columns: 1
+        cards:
+          - type: entities
             entities:
-              - entity: input_text.irrigation_switch_1_l3_run_time
-                name: run time
-              - entity: input_text.irrigation_switch_1_l3_run_date
-                name: run date
-              - entity: input_text.irrigation_switch_1_l3_run_duration
-                name: run dur.
-                format: duration
-          - entity: switch.irrigation_switch_1_l2  #Front Lawn East Irrigation
-            icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: frlawneast
-            toggle: true
-            state_color: true
+              - entity: sensor.daves_deebot_n8_last_cleaning
+                name: Last cleaning
+              - type: section
+              - entity: sensor.daves_deebot_n8_stats_area
+                name: Stats area
+              - entity: sensor.daves_deebot_n8_stats_time
+                name: Stats time
+              - entity: sensor.daves_deebot_n8_stats_total_area
+                name: Stats total area
+              - entity: sensor.daves_deebot_n8_stats_total_cleanings
+                name: Stats total cleanings
+              - entity: sensor.daves_deebot_n8_stats_total_time
+                name: Stats total time              
+              - entity: number.daves_deebot_n8_clean_count
+                name: Clean count
+            title: Deebot N8 Stats
+      - type: grid
+        square: false        
+        columns: 1
+        cards:
+          - type: entities
+            show_header_toggle: false
             entities:
-              - entity: input_text.irrigation_switch_1_l2_run_time
-                name: false
-              - entity: input_text.irrigation_switch_1_l2_run_date
-                name: false
-              - entity: input_text.irrigation_switch_1_l2_run_duration
-                name: false
-                format: duration
-          - entity: switch.irrigation_switch_1_l1  #Back Lawn South Irrigation
-            icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: bklawnsouth
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_1_l1_run_time
-                name: false
-              - entity: input_text.irrigation_switch_1_l1_run_date
-                name: false
-              - entity: input_text.irrigation_switch_1_l1_run_duration
-                name: false
-                format: duration
-          - entity: switch.irrigation_switch_1_l4  #Back Lawn North Irrigation
-            icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: bklawnnorth
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_1_l4_run_time
-                name: false
-              - entity: input_text.irrigation_switch_1_l4_run_date
-                name: false
-              - entity: input_text.irrigation_switch_1_l4_run_duration
-                name: false
-                format: duration
-          - type: section
-          - entity: switch.irrigation_switch_2_l4  # Front Garden
-            icon: 'mdi:water-pump'
-            type: custom:multiple-entity-row
-            name: frontgarden
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_2_l4_run_time
-                name: false
-              - entity: input_text.irrigation_switch_2_l4_run_date
-                name: false
-              - entity: input_text.irrigation_switch_2_l4_run_duration
-                name: false
-                format: duration
-          - entity: switch.irrigation_switch_2_l3  # Back & Side Garden
-            icon: 'mdi:water-pump'
-            type: custom:multiple-entity-row
-            name: backsidegarden
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_2_l3_run_time
-                name: false
-              - entity: input_text.irrigation_switch_2_l3_run_date
-                name: false
-              - entity: input_text.irrigation_switch_2_l3_run_duration
-                name: false
-                format: duration
-          - entity: switch.irrigation_switch_2_l2
-            icon: 'mdi:water-pump-off'
-            type: custom:multiple-entity-row
-            name: tinybacklawn
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_2_l2_run_time
-                name: false
-              - entity: input_text.irrigation_switch_2_l2_run_date
-                name: false
-              - entity: input_text.irrigation_switch_2_l2_run_duration
-                name: false
-                format: duration
-          - type: section
-          - entity: input_number.garden_watering_time
-            icon: 'mdi:clock'
-            secondary_info: last-changed
-            name: Garden Watering Time            
-          - entity: input_number.lawn_watering_time
-            name: Lawn Watering Time
-            icon: 'mdi:clock' 
-            secondary_info: last-changed 
-          - entity: input_number.daily_calc_et
-            name: Calc. Evapotranspiration 
-            icon: 'mdi:cloud-outline'       
-          - entity: input_number.daily_rain_event
-            name: less Rain Bucket 
-            icon: 'mdi:cloud-outline'      
-          - entity: input_number.daily_et
-            name: equals Daily Evapotran. 
-            icon: 'mdi:cloud-outline'          
-          - entity: input_select.irrigation_status
-            #name: false
-      
-  - title: Weather
-    cards:
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Precipitation & Temperature
-          show_states: true
-          colorize_states: true
-        series:
-          - entity: sensor.dailyrain
-            name: 'Precipitation' 
-            color: blue
-            type: line
-            stroke_width: 2
-            extend_to: false
-            group_by:
-              duration: 1d
-              func: avg
-          - entity: sensor.temp
-            name: 'Temperature'
-            color: red
-            type: line
-            stroke_width: 2
-            extend_to: false
-        graph_span: 28d
-        span:
-          end: day
-      
-          
-          
-
-      - type: 'custom:card-templater'
-        card:
-          type: entities
-          title: Weather Overview
-          entities:
-            - entity: sensor.pws_forecast_narrative_today
-              icon: 'mdi:weather-sunny'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ')
-                }}
-            - entity: sensor.pws_forecast_narrative_tonight
-              icon: 'mdi:weather-night'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tonight") | truncate(10,true,'
-                ')  }}
-            - entity: sensor.pws_forecast_narrative_tomorrow
-              icon: 'mdi:weather-sunny'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tomorrow") | truncate(11,true,'
-                ')  }}
-            - entity: sensor.pws_forecast_narrative_tomorrow_tonight
-              icon: 'mdi:weather-night'
-              name_template: >-
-                {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
-                truncate(20,true,' ') }}
-        entities:
-          - entity: sensor.pws_forecast_narrative_today
-            state_template: >-
-              {% set first_word =  states("sensor.pws_forecast_narrative_today") |  truncate(8,true,' ')%}
-              {% if first_word | trim  == 'Waiting' %}
-              {{ states("sensor.pws_forecast_narrative_today") | truncate(8,true,' ') | trim }}
-              {%- else -%}
-              {{states("sensor.pws_forecast_narrative_today") | regex_replace(find='Today', replace=' ', ignorecase=False) }}
-              {% endif %}
-          - entity: sensor.pws_forecast_narrative_tonight
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tonight") |
-              regex_replace(find='Tonight', replace=' ', ignorecase=False)   }}
-          - entity: sensor.pws_forecast_narrative_tomorrow
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tomorrow") |
-              regex_replace(find='Tomorrow', replace=' ', ignorecase=False)  }}
-          - entity: sensor.pws_forecast_narrative_tomorrow_tonight
-            state_template: >-
-              {{ states("sensor.pws_forecast_narrative_tomorrow_tonight") |
-              regex_replace(find='Tomorrow night', replace=' ', ignorecase=False)  }}
-        entity: sensor.pws_forecast_narrative_tonight
-
-      - type: entities
-        title: 'Canberra Dams'
-        entities:
-           - entity: input_boolean.check_dams
-           - entity: sensor.act_dam_bendora_dam
-           - entity: sensor.act_dam_corin_dam
-           - entity: sensor.act_dam_cotter_dam
-           - entity: sensor.act_dam_googong_dam
-           - entity: sensor.act_dam_combined_volume
-           - entity: sensor.act_dam_last_updated
-
-      - type: entities
-        title: 'Daily Forecast'
-        entities:
-          - entity: sensor.precip_chance_today # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - entity: sensor.precip_chance_tomorrow # from REST PWS
-            icon: 'mdi:weather-pouring'
-          - entity: sensor.dailyrain # correct
-            name: 'daily rain'
-          - entity: sensor.eventrain
-            name: 'rain event precipitation'
-          - type: section
-          - entity: sensor.temp # Correct
-            name: 'outside temperature'
-          - entity: sensor.feelslike
-            name: 'outside temperature feels like'
-          - entity: sensor.thermalperception
-            name: 'perception of temperature'          
-          - entity: sensor.high_temperature_today # from config then Ecowitt
-            name: 'maximum temperature today'
-          - entity: sensor.low_temperature_today
-            name: 'minimum temperature today'
-          - type: section
-          - entity: sensor.safe_exposure_time_skin_type_2
-            name: 'safe sun exposure time'
-          - entity: sensor.uv
-            name: 'UV index(>3 needs protection)'
-          - entity: sensor.solarradiation # correct
-            name: 'solar radiation'
-          - type: section
-          - entity: sensor.frostrisk
-            name: 'risk of frost' 
-          - entity: sensor.dewpoint # correct
-            name: 'dew point'          
-          - entity: sensor.windspeed  # correct          
-            name: 'wind speed'
-          - entity: sensor.humidity  # correct
-            name: 'humidity'
-          - entity: sensor.baromrel # correct
-            name: 'relative air pressure'
-
-      - type: 'custom:bom-radar-card'
-        frame_count: 10
-        center_latitude: -35.282000
-        center_longitude: 149.1287
-        show_marker: true
-        show_range: true
-        show_zoom: true
-        show_recenter: true
-        show_playback: true
-        map_style: 'satellite'
-        zoom_level: 8
-
+              - entity: switch.daves_deebot_n8_advanced_mode
+                name: Advanced mode
+              - entity: switch.daves_deebot_n8_carpet_auto_fan_speed_boost
+                name: Carpet auto fan speed boost
+              - entity: switch.daves_deebot_n8_clean_preference
+                name: Clean preference
+              - entity: switch.daves_deebot_n8_continuous_cleaning
+                name: Continuous cleaning
+              - entity: switch.daves_deebot_n8_true_detect
+                name: True detect
+              - entity: number.daves_deebot_n8_volume
+                name: Volume
+              - entity: button.daves_deebot_n8_life_span_filter_reset
+                name: Life span filter reset
+              - entity: button.daves_deebot_n8_life_span_side_brush_reset
+                name: Life span side brush reset 
+              - entity: select.daves_deebot_n8_water_amount
+                name: Water amount 
+              - entity: button.daves_deebot_n8_life_span_brush_reset
+                name: Life span brush reset  
+            title: Deebot N8 Configuration    
 
   - title: Cameras
     cards:
@@ -1054,8 +1158,32 @@ views:
           service_data:
             entity_id: camera.back_camera
             filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
-
   
+  
+  - type: custom:vertical-stack-in-card
+    title: Flightradar24
+    cards:
+      - type: entities
+        entities:
+          - entity: sensor.flightradar24_current_in_area
+            name: In area
+      - type: conditional
+        conditions:
+          - condition: numeric_state
+            entity: sensor.flightradar24_current_in_area
+            above: 0
+        card:
+          type: markdown
+          content: >-
+            {% set data = state_attr('sensor.flightradar24_current_in_area',
+            'flights') %} {% for flight in data %}
+              <ha-icon icon="mdi:airplane"></ha-icon>{{ flight.flight_number }} - {{ flight.airline_short }} - {{ flight.aircraft_model }}
+              {{ flight.airport_origin_city }}{%if flight.airport_origin_city %}<img src="https://flagsapi.com/{{ flight.airport_origin_country_code }}/shiny/16.png" title='{{ flight.airport_origin_country_name }}'/>{% endif %} -> {{ flight.airport_destination_city }}{%
+              if flight.airport_destination_country_code %}<img src="https://flagsapi.com/{{ flight.airport_destination_country_code }}/shiny/16.png" title='{{ flight.airport_destination_country_name }}'/>{% endif %}
+              {%if flight.time_scheduled_departure %}Departure - {{ flight.time_scheduled_departure | timestamp_custom('%H:%M') }}; {% endif %}{%if flight.time_scheduled_arrival%}Arrival - {{ flight.time_scheduled_arrival | timestamp_custom('%H:%M') }}{% endif %}
+              Altitude - {{ flight.altitude }} ft{%if flight.altitude > 0 %} ({{(flight.altitude * 0.3048)| round(0)}} m){% endif%}; Gr. speed - {{ flight.ground_speed }} kts{%if flight.ground_speed > 0 %} ({{(flight.ground_speed * 1.852)| round(0)}} km/h){% endif%}
+              {% endfor %}
+
   - title: Grafana
     cards:
       - type: iframe

@@ -1,6 +1,6 @@
-bryant_family:
-    name: Bryant Family
-    all: 'false'
-    entities:
-      - person.david_bryant
-      - person.wendy_bryant
+# bryant_family:
+#     name: Bryant Family
+#     all: 'false'
+#     entities:
+#       - person.david_bryant
+#       - person.wendy_bryant

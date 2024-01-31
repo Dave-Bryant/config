@@ -24,6 +24,7 @@ recorder:
       - sensor.spare_switch_2* #power consumption
       - number.* #musicast
       - sensor.watchman*
+      - sensor.flightradar24*
     entities:
       - sensor.garage_pi_sensors_garage_pi_last_message
 
@@ -73,16 +74,16 @@ ffmpeg:
 tts:
   - platform: google_translate
     
-mqtt:
-  sensor:
-    - name: 'ground_floor_david'
-      state_topic: 'monitor/ground_floor/davidbluetooth'
-      value_template: '{{ value_json.confidence }}'
-      unit_of_measurement: '%'
-    - name: 'ground_floor_wendy'
-      state_topic: 'monitor/ground_floor/wendybluetooth'
-      value_template: '{{ value_json.confidence }}'
-      unit_of_measurement: '%'
+# mqtt:
+#   sensor:
+#     - name: 'ground_floor_david'
+#       state_topic: 'monitor/ground_floor/davidbluetooth'
+#       value_template: '{{ value_json.confidence }}'
+#       unit_of_measurement: '%'
+#     - name: 'ground_floor_wendy'
+#       state_topic: 'monitor/ground_floor/wendybluetooth'
+#       value_template: '{{ value_json.confidence }}'
+#       unit_of_measurement: '%'
 
 command_line:
   - binary_sensor:
@@ -103,23 +104,23 @@ command_line:
       scan_interval: 20
       command_timeout: 20 
 sensor:
-  - platform: min_max
-    name: "david_occupancy_confidence"
-    type: max
-    round_digits: 0
-    entity_ids:
-      - sensor.ground_floor_david
-  - platform: min_max
-    name: "wendy_occupancy_confidence"
-    type: max
-    round_digits: 0
-    entity_ids:
-      - sensor.ground_floor_wendy
-  - platform: systemmonitor
-    resources:
-      - type: memory_use_percent
-      - type: processor_use
-      - type: processor_temperature
+  # - platform: min_max
+  #   name: "david_occupancy_confidence"
+  #   type: max
+  #   round_digits: 0
+  #   entity_ids:
+  #     - sensor.ground_floor_david
+  # - platform: min_max
+  #   name: "wendy_occupancy_confidence"
+  #   type: max
+  #   round_digits: 0
+  #   entity_ids:
+  #     - sensor.ground_floor_wendy
+  # - platform: systemmonitor
+  #   resources:
+  #     - type: memory_use_percent
+  #     - type: processor_use
+  #     - type: processor_temperature
 
   
     
@@ -344,14 +345,14 @@ input_number:
   lawn_watering_time:
     name: "Lawn Watering Time"
     min: 0
-    max: 30
+    max: 40
     step: 1
     #mode: box
     unit_of_measurement: m
   daily_calc_et:
     name: "Daily Calculated Evapotranspiration"
     min: 0
-    max: 10
+    max: 15
     step: 0.1
     mode: box
     unit_of_measurement: mm
@@ -365,7 +366,7 @@ input_number:
   daily_et:
     name: "Daily Evapotranspiration"
     min: 0
-    max: 10
+    max: 15
     step: 0.1
     mode: box
     unit_of_measurement: mm
@@ -401,6 +402,7 @@ input_select:
       - No moisture lost yesterday
       - Irrigation run time too small
       - It has rained
+      - Soil Moisture too high
     
 
 input_boolean:

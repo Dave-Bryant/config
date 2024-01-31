@@ -51,9 +51,9 @@
 #         message: starting the irrigating lawn station 1 extra script
 
 
-study_speaker:
-  alias: Turn on Study Speaker # implemented in Node red
-  sequence:
+# study_speaker:
+#   alias: Turn on Study Speaker # implemented in Node red
+#   sequence:
  #   - service_template: >
  #       {% if is_state('media_player.spotify_david_bryant', 'off') %}
  #       media_player.turn_on
@@ -118,9 +118,9 @@ study_speaker:
 
 
 #
-study_speaker_off:
-  alias: Turn off Study Speaker  # implemented in Node Red
-  sequence:
+# study_speaker_off:
+#   alias: Turn off Study Speaker  # implemented in Node Red
+#   sequence:
     # - service: media_player.media_pause
     #   data:
     #     entity_id: media_player.yamaha_study_speaker_main
