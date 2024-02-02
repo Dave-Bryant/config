@@ -3,15 +3,7 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 bluetooth:
-# homeassistant:
-#   media_dirs:
-#     media: /media
-#   allowlist_external_dirs:
-#     - /config
-#     - /share
-#     - /media
-#   allowlist_external_urls:
-#     - http://10.0.0.55:8123/media
+
 
 recorder:
   db_url: !secret mariadb_password
