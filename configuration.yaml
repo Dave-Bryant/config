@@ -195,8 +195,11 @@ sensor:
       sol_wallet_value:
         value_template: "{{ (states('sensor.helium_price_solana') | float(0) * states('sensor.helium_wallet_hvhi_sol_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
+      sol_ledger_value:
+        value_template: "{{ (states('sensor.helium_price_solana') | float(0) * states('input_number.ledger_solana') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
+        unit_of_measurement: "AUD"
       aus_wallet_total:
-        value_template: "{{ (states('sensor.helium_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.sol_wallet_value') | float(0)) | round(2) }}"
+        value_template: "{{ (states('sensor.helium_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.sol_wallet_value') | float(0) + states('sensor.sol_ledger_value') | float(0)) | round(2) }}"
         unit_of_measurement: "AUD"
  
  # EV Charging
@@ -330,14 +333,14 @@ input_number:
   garden_watering_time:
     name: "Garden Watering Time"
     min: 0
-    max: 60
+    max: 90
     step: 1
     #mode: box
     unit_of_measurement: m
   lawn_watering_time:
     name: "Lawn Watering Time"
     min: 0
-    max: 40
+    max: 60
     step: 1
     #mode: box
     unit_of_measurement: m
@@ -362,6 +365,15 @@ input_number:
     step: 0.1
     mode: box
     unit_of_measurement: mm
+  ledger_solana:
+    name: "Ledger Solana"
+    min: 0.0001
+    max: 30
+    step: 0.1
+    mode: box
+    unit_of_measurement: sol
+
+
 input_text:
   irrigation_switch_1_l3_run_time: #Front Lawn West Irrigation
   irrigation_switch_1_l2_run_time: #Front Lawn East Irrigation

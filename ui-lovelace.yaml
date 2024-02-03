@@ -1034,7 +1034,8 @@ views:
           - entity: sensor.helium_wallet_value                     
           - entity: sensor.iot_wallet_value            
           - entity: sensor.iot_wallet_value_unclaimed                      
-          - entity: sensor.sol_wallet_value                                
+          - entity: sensor.sol_wallet_value 
+          - entity: sensor.sol_ledger_value           
         graph_span: 30d
         span:
           end: day
@@ -1053,6 +1054,11 @@ views:
         graph_span: 7d
         span:
           end: day
+      - type: entities
+        title: 'Solana Tokens balance in Ledger'
+        entities:
+           - entity: input_number.ledger_solana
+             name: Sol Account
 
       # - type: iframe
       #   #url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
