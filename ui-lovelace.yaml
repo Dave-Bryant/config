@@ -18,13 +18,11 @@ resources:
   - type: module
     url: /hacsfiles/vacuum-card/vacuum-card.js
   - type: module
-    url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.21
+    url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.2.1
   - type: module
     url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
-    
-
-  
-
+  - type: module
+    url: /hacsfiles/opensprinkler-card/opensprinkler-card.js 
 
 
 no-top-header:
@@ -46,15 +44,21 @@ views:
     badges:
       - entity: binary_sensor.home_assistant_versions_update_available
         name: Update?
-      - entity: binary_sensor.monitor_davidbluetooth
+      - entity: person.david_bryant
         name: David
-      - entity: binary_sensor.monitor_wendybluetooth
+        display_type: complete
+      - entity: person.wendy_bryant
         name: Wendy
-      - entity: binary_sensor.everyone_home
-        name: All Home
-        
-         
-
+        display_type: complete      
+      - type: entity
+        #name: noone home
+        #display_type: complete
+        #state_content: name
+        entity: zone.home  
+        #state_filter:
+         # - operator: "=="
+          #  value: 0
+  
 
     cards:
       
@@ -181,12 +185,27 @@ views:
                   - height: 60px
                   - font-size: 12px
 
+            - type: 'custom:button-card'
+              entity: light.study_study_smart_light
+              name: Study Light
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)                           
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
                   
         - type: horizontal-stack
           cards:
             - type: 'custom:button-card'
               entity: switch.spare_2
-              name: EV Charging
+              name: Air Con.
               icon: 'mdi:power'
               aspect_ratio: 1.5/1
               color: auto
@@ -230,22 +249,52 @@ views:
                 card:
                   - height: 60px
                   - font-size: 12px
+  
+            - type: 'custom:button-card'
+              entity: input_boolean.auto_irrigation_switch
+              name: Irrig. Auto
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)                           
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+
+            - type: 'custom:button-card'
+              entity: input_boolean.auto_master_switch
+              name: Light Auto
+              icon: 'mdi:lightbulb'
+              aspect_ratio: 1.5/1
+              color: auto
+              state:
+                - value: 'on'
+                  color: rgb(255, 255, 0)                           
+              show_label: true
+              size: 30%
+              styles:
+                card:
+                  - height: 60px
+                  - font-size: 12px
+           
+             
 
       - type: entities
         entities:
           - media_player.samsung_q80_series_65
         title: Television
       
-      - type: media-control
-        entity: media_player.study
-
-
-
+            
       - type: horizontal-stack
-        title: Home Assistant
+        title: HA (Intel)
         cards:
           - type: custom:canvas-gauge-card
-            entity: sensor.processor_temperature
+            entity: sensor.pve_cpu_temp
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -277,7 +326,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.memory_use_percent
+            entity: sensor.qemu_homeassistant_200_memory_used_percentage
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -309,7 +358,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.processor_use
+            entity: sensor.qemu_homeassistant_200_cpu_used
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -340,12 +389,14 @@ views:
               needleCircleInner: false
               animationDuration: 1500
               animationRule: "linear"
+      
+      
 
       - type: horizontal-stack
-        title: Garage Pi
+        title: OdroidN2(ARM)
         cards:
           - type: custom:canvas-gauge-card
-            entity: sensor.garage_pi_sensors_garage_pi_temperature
+            entity: sensor.odroidn2_cpu_temp
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -377,7 +428,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.garage_pi_sensors_garage_pi_memory_use
+            entity: sensor.odroidn2_mem_load
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -409,7 +460,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.garage_pi_sensors_garage_pi_cpu_usage
+            entity: sensor.odroidn2_cpu_load
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -440,12 +491,11 @@ views:
               needleCircleInner: false
               animationDuration: 1500
               animationRule: "linear"
-
       - type: horizontal-stack
-        title: Roof Pi
+        title: OrangePi5 (ARM)
         cards:
           - type: custom:canvas-gauge-card
-            entity: sensor.roof_pi_sensors_roof_pi_temperature
+            entity: sensor.orangepi5_cpu_temp
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -477,11 +527,11 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.roof_pi_sensors_roof_pi_memory_use
+            entity: sensor.node_orangepi5b_memory_used_percentage
             card_height: 62
             gauge:
               type: "radial-gauge"
-              title: Memory Usage (%)
+              title: Memory Usage(%)
               width: 110
               height: 110
               borderShadowWidth: 0
@@ -509,11 +559,11 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.roof_pi_sensors_roof_pi_cpu_usage
+            entity: sensor.node_orangepi5b1_cpu_used
             card_height: 62
             gauge:
               type: "radial-gauge"
-              title: Processor Usage (%)
+              title: Processor Usage(%)
               width: 110
               height: 110
               borderShadowWidth: 0
@@ -541,7 +591,118 @@ views:
               animationDuration: 1500
               animationRule: "linear"
 
-              
+      - type: horizontal-stack
+        title: Nvidia GPU (ARM)
+        cards:
+          - type: custom:canvas-gauge-card
+            entity: sensor.jetson_orin_nano_jetson_temperature
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: GPU Temperature
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 75, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.jetson_orin_nano_jetson_memory_usage
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Memory Usage(%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+          - type: custom:canvas-gauge-card
+            entity: sensor.jetson_orin_nano_jetson_gpu_usage
+            card_height: 62
+            gauge:
+              type: "radial-gauge"
+              title: Processor Usage(%)
+              width: 110
+              height: 110
+              borderShadowWidth: 0
+              borderOuterWidth: 0
+              borderMiddleWidth: 0
+              borderInnerWidth: 0
+              minValue: 0
+              maxValue: 100
+              startAngle: 90
+              ticksAngle: 180
+              valueBox: false
+              majorTicks:
+                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
+              minorTicks: 2
+              strokeTicks: true
+              highlights:
+                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
+              colorPlate: "#ddd"
+              borders: false
+              needleType: "arrow"
+              needleWidth: 2
+              needleCircleSize: 7
+              needleCircleOuter: true
+              needleCircleInner: false
+              animationDuration: 1500
+              animationRule: "linear"
+
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+              - sensor.myups_load
+              - sensor.ups_estimated_runtime
+              - sensor.myups_battery_charge
+              - sensor.myups_status             
+            title: UPS 
+            show_header_toggle: false          
+
+      
 
       - type: custom:mini-climate
         entity: climate.study
@@ -590,7 +751,7 @@ views:
       #       name: Humidity
       #   type: 'custom:simple-thermostat'
       - type: custom:mini-climate
-        entity: climate.family_room
+        entity: climate.family_room_2
         toggle: hide
         indicators:
           humidity:
@@ -599,18 +760,28 @@ views:
             round: 1
             source:
               entity: sensor.family_room_humidity
+      - type: custom:mini-climate
+        entity: climate.family_room
+        toggle: hide
+        indicators:
+          humidity:
+            icon: mdi:water
+            unit: '%'
+            round: 1
+            source:
+              entity: sensor.pauls_bedroom_humidity
       # - entity: climate.family_room
       #   sensors:
       #     - entity: sensor.family_room_humidity
       #       name: Humidity
       #   type: 'custom:simple-thermostat'
-      - entities:
-          - entity: sensor.speedtest_download
-          - entity: sensor.speedtest_upload
-          - entity: sensor.speedtest_ping
-        show_header_toggle: false
-        title: Network
-        type: entities
+      #- entities:
+      #    - entity: sensor.speedtest_download
+      #    - entity: sensor.speedtest_upload
+      #    - entity: sensor.speedtest_ping
+      #  show_header_toggle: false
+      #  title: Network
+      #  type: entities
       # - type: entities
       #   entities:
       #     - sensor.auto_backup
@@ -624,125 +795,190 @@ views:
           - sensor.hp_officejet_pro_9020_series_yellow_cartridge
         state_color: true
         title: Printer Status
-      - type: entities
-        entities:
-          - sensor.act_garbage_last_updated
-          - sensor.act_garbage_pickup
-          - sensor.act_recycling_pickup
-          - sensor.act_greenwaste_pickup
-          - input_boolean.check_act_garbage
-          - binary_sensor.act_garbage_today
-          - binary_sensor.act_garbage_tomorrow
-          - binary_sensor.act_recycling_today
-          - binary_sensor.act_recycling_tomorrow
-          - binary_sensor.act_greenwaste_today
-          - binary_sensor.act_greenwaste_tomorrow
-        title: ACT Garbage Collection
-        show_header_toggle: false
 
-  
+      - type: vertical-stack
+        cards:
+          - type: entities
+            title: Garage AC
+            show_header_toggle: false
+            state_color: true
+            entities:
+              - entity: input_boolean.garage_ac
+                name: Power            
+              - entity: input_boolean.garage_ac_cool
+                name: Cool Mode
+              - entity: input_boolean.garage_ac_fan_low
+                name: Fan Low
+              - entity: input_boolean.garage_ac_fan_high
+                name: Fan High              
+              - entity: switch.spare_2 
+                name: Main Power Switch
+          - type: markdown
+            content: >
+              {% if states('sensor.spare_switch_2_current_consumption') | float > 0.5 %}
+              ## 🟢 AC is ON
+              {% else %}
+              ## 🔴 AC is OFF
+              {% endif %}
+
+      - type: vertical-stack
+        cards:
+          - type: entities
+            entities:
+              - sensor.act_garbage_last_updated
+             # - sensor.act_garbage_pickup
+              - sensor.act_recycling_pickup
+              - sensor.act_greenwaste_pickup
+              - input_boolean.check_act_garbage                
+            #   - binary_sensor.act_garbage_today
+            #   - binary_sensor.act_garbage_tomorrow
+            #   - binary_sensor.act_recycling_today
+            #   - binary_sensor.act_recycling_tomorrow
+            #   - binary_sensor.act_greenwaste_today
+            #   - binary_sensor.act_greenwaste_tomorrow
+            title: ACT Garbage Collection
+            show_header_toggle: false           
+        
+          - type: horizontal-stack
+            cards:       
+              - type: custom:button-card
+                variables:
+                  my_entity: binary_sensor.act_recycling_tomorrow          
+                entity: '[[[ return variables.my_entity; ]]]'        
+                triggers_update:
+                  - '[[[ return variables.my_entity; ]]]'        
+                name: Paper Recycling        
+                state:
+                  - value: 'off'            
+                    color: green
+                    icon: mdi:recycle
+                  - value: 'on'            
+                    color: red
+                    icon: mdi:recycle
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+              - type: custom:button-card
+                variables:
+                  my_entity1: binary_sensor.act_greenwaste_tomorrow          
+                entity: '[[[ return variables.my_entity1; ]]]'        
+                triggers_update:
+                  - '[[[ return variables.my_entity1; ]]]'        
+                name: Green Recycling        
+                state:
+                  - value: 'off'            
+                    color: green
+                    icon: mdi:recycle
+                  - value: 'on'            
+                    color: red
+                    icon: mdi:recycle
+                    styles:
+                      card:
+                        - animation: blink 2s ease infinite
+
+    
   - title: Irrigation
     cards:
       - type: entities
         title: 'Irrigation Status'
         entities:
-          - entity: switch.irrigation_switch_1_l3  #Front Lawn West Irrigation
-            icon: 'mdi:grass'
+          - entity: sensor.opensprinkler_1_front_lawn_station_status  #Front Lawn West Irrigation
+            #icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawnwest
-            toggle: true
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_1_l3_run_time
+              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_time
                 name: run time
-              - entity: input_text.irrigation_switch_1_l3_run_date
+              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_date
                 name: run date
-              - entity: input_text.irrigation_switch_1_l3_run_duration
+              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_duration
                 name: run dur.
                 format: duration
-          - entity: switch.irrigation_switch_1_l2  #Front Lawn East Irrigation
-            icon: 'mdi:grass'
+          - entity: sensor.opensprinkler_2_front_lawn_left_station_status  #Front Lawn East Irrigation
+            #icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: frlawneast
-            toggle: true
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_1_l2_run_time
+              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_time
                 name: false
-              - entity: input_text.irrigation_switch_1_l2_run_date
+              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_date
                 name: false
-              - entity: input_text.irrigation_switch_1_l2_run_duration
+              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_duration
                 name: false
                 format: duration
-          - entity: switch.irrigation_switch_1_l1  #Back Lawn South Irrigation
-            icon: 'mdi:grass'
+          - entity: sensor.opensprinkler_3_back_lawn_south_station_status  #Back Lawn South Irrigation
+            #icon: 'mdi:grass'
             type: custom:multiple-entity-row
             name: bklawnsouth
-            toggle: true
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_1_l1_run_time
+              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_time
                 name: false
-              - entity: input_text.irrigation_switch_1_l1_run_date
+              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_date
                 name: false
-              - entity: input_text.irrigation_switch_1_l1_run_duration
+              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_duration
                 name: false
                 format: duration
-          - entity: switch.irrigation_switch_1_l4  #Back Lawn North Irrigation
-            icon: 'mdi:grass'
+          - entity: sensor.opensprinkler_4_back_lawn_north_station_status
             type: custom:multiple-entity-row
             name: bklawnnorth
-            toggle: true
+            #icon: 'mdi:grass'
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_1_l4_run_time
+              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_time
                 name: false
-              - entity: input_text.irrigation_switch_1_l4_run_date
+              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_date
                 name: false
-              - entity: input_text.irrigation_switch_1_l4_run_duration
+              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_duration
                 name: false
                 format: duration
           - type: section
-          - entity: switch.irrigation_switch_2_l4  # Front Garden
-            icon: 'mdi:water-pump'
-            type: custom:multiple-entity-row
-            name: frontgarden
-            toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.irrigation_switch_2_l4_run_time
-                name: false
-              - entity: input_text.irrigation_switch_2_l4_run_date
-                name: false
-              - entity: input_text.irrigation_switch_2_l4_run_duration
-                name: false
-                format: duration
-          - entity: switch.irrigation_switch_2_l3  # Back & Side Garden
-            icon: 'mdi:water-pump'
+          # - entity: sensor.opensprinkler_5_not_used_station_status  # Front Garden
+          #   icon: 'mdi:water-pump-off'
+          #   type: custom:multiple-entity-row
+          #   name: not-used
+          #   toggle: true
+          #   state_color: true
+          #   entities:
+          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_time
+          #       name: false
+          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_date
+          #       name: false
+          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_duration
+          #       name: false
+          #       format: duration
+          - entity: sensor.opensprinkler_6_west_side_back_gardens_station_status  # Back & Side Garden
+            #icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
             name: backsidegarden
-            toggle: true
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_2_l3_run_time
+              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_time
                 name: false
-              - entity: input_text.irrigation_switch_2_l3_run_date
+              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_date
                 name: false
-              - entity: input_text.irrigation_switch_2_l3_run_duration
+              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_duration
                 name: false
                 format: duration
-          - entity: switch.irrigation_switch_2_l2
-            icon: 'mdi:water-pump-off'
+          - entity: sensor.opensprinkler_7_east_side_front_gardens_station_status
+            #icon: 'mdi:water-pump'
             type: custom:multiple-entity-row
-            name: tinybacklawn
-            toggle: true
+            name: sidefrontgarden
+            #toggle: true
             state_color: true
             entities:
-              - entity: input_text.irrigation_switch_2_l2_run_time
+              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_time
                 name: false
-              - entity: input_text.irrigation_switch_2_l2_run_date
+              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_date
                 name: false
-              - entity: input_text.irrigation_switch_2_l2_run_duration
+              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_duration
                 name: false
                 format: duration
           - type: section
@@ -775,7 +1011,7 @@ views:
           show_states: true
           colorize_states: true
         series:
-          - entity: sensor.dailyrain
+          - entity: sensor.ws2900c_v2_01_10_daily_rain
             name: 'Precipitation' 
             color: blue
             type: line
@@ -784,13 +1020,32 @@ views:
             group_by:
               duration: 1d
               func: avg
-          - entity: sensor.temp
+          - entity: sensor.soil_moisture_2_soil_moisture
+            name: 'Soil Moisture' 
+            color: green
+            type: line
+            stroke_width: 2
+            extend_to: false
+            group_by:
+              duration: 1d
+              func: avg
+          - entity: input_number.daily_calc_et
+            name: 'Daily Evapo' 
+            color: yellow
+            type: line
+            stroke_width: 2
+            extend_to: false
+            group_by:
+              duration: 1d
+              func: avg
+           
+          - entity: sensor.ws2900c_v2_01_10_outdoor_temperature
             name: 'Temperature'
             color: red
             type: line
             stroke_width: 2
             extend_to: false
-        graph_span: 28d
+        graph_span: 14d
         span:
           end: day
       
@@ -853,38 +1108,32 @@ views:
             icon: 'mdi:weather-pouring'
           - entity: sensor.precip_chance_tomorrow # from REST PWS
             icon: 'mdi:weather-pouring'
-          - entity: sensor.dailyrain # correct
+          - entity: sensor.ws2900c_v2_01_10_daily_rain # correct
             name: 'daily rain'
-          - entity: sensor.eventrain
+          - entity: sensor.ws2900c_v2_01_10_event_rain
             name: 'rain event precipitation'
           - type: section
-          - entity: sensor.temp # Correct
+          - entity: sensor.ws2900c_v2_01_10_outdoor_temperature # Correct
             name: 'outside temperature'
-          - entity: sensor.feelslike
-            name: 'outside temperature feels like'
-          - entity: sensor.thermalperception
-            name: 'perception of temperature'          
+          - entity: sensor.ws2900c_v2_01_10_feels_like_temperature
+            name: 'outside temperature feels like'           
           - entity: sensor.high_temperature_today # from config then Ecowitt
             name: 'maximum temperature today'
           - entity: sensor.low_temperature_today
             name: 'minimum temperature today'
-          - type: section
-          - entity: sensor.safe_exposure_time_skin_type_2
-            name: 'safe sun exposure time'
-          - entity: sensor.uv
+          - type: section          
+          - entity: sensor.ws2900c_v2_01_10_uv_index
             name: 'UV index(>3 needs protection)'
-          - entity: sensor.solarradiation # correct
+          - entity: sensor.ws2900c_v2_01_10_solar_radiation # correct
             name: 'solar radiation'
-          - type: section
-          - entity: sensor.frostrisk
-            name: 'risk of frost' 
-          - entity: sensor.dewpoint # correct
+          - type: section          
+          - entity: sensor.ws2900c_v2_01_10_dewpoint # correct
             name: 'dew point'          
-          - entity: sensor.windspeed  # correct          
+          - entity: sensor.ws2900c_v2_01_10_wind_speed  # correct          
             name: 'wind speed'
-          - entity: sensor.humidity  # correct
+          - entity: sensor.ws2900c_v2_01_10_humidity  # correct
             name: 'humidity'
-          - entity: sensor.baromrel # correct
+          - entity: sensor.ws2900c_v2_01_10_relative_pressure # correct
             name: 'relative air pressure'
 
       - type: 'custom:bom-radar-card'
@@ -905,186 +1154,154 @@ views:
         aspect_ratio: 90%      
   
 
-  - title: Energy & Helium
-    cards:        
-      - type: custom:apexcharts-card
-        graph_span: 7d
-        # span:
-        #   start: day
-        #   offset: +18h
-        header:
-          title: 'Energy for EV (AUD)'
-          show: true
-        series:
-         # data from today
-          - entity: sensor.ev_charge_cost
-            fill_raw: 'last'
-            group_by:
-              duration: 24h
-              func: max
-      # - type: iframe          
-      #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d-solo/E-rczO-4z/ev-charging?orgId=1&from=1677898376335&to=1678503176336&panelId=6&kiosk
-      #   aspect_ratio: 100%
-  # - title: Helium
-  #   cards:      
-      # - type: custom:apexcharts-card
-      #   header:
-      #     show: true
-      #     title: Helium AUD
-      #     show_states: true
-      #     colorize_states: true
-      #   series:
-      #     - entity: sensor.helium_wallet_value
-      #       color: green
-      #       type: line
-      #       stroke_width: 4
-      #       fill_raw: 'last'
-      #       extend_to: false
-      #       group_by:
-      #         duration: 24h
-      #         func: max
-      #   graph_span: 7d
-      #   span:
-      #     end: day
-      # - type: custom:apexcharts-card
-      #   header:
-      #     title: '24 hr Growth in Wallet (AUD)'
-      #     show: true
-      #   series:
-      #    # data from today
-      #     - entity: sensor.helium_wallet_value
-      #       fill_raw: 'last'
-      #       group_by:
-      #         duration: 24h
-      #         func: max
-      #    # data from yesterday offsetted to be displayed today
-      #     - entity: sensor.helium_wallet_value
-      #       fill_raw: 'last'
-      #       group_by:
-      #         duration: 24h
-      #         func: max
-      #       offset: -1d
-      #   graph_span: 7d
-      #   span:
-      #     end: day
-
-
-      # - type: entities
-      #   title: 'Helium Tokens balances'
-      #   entities:
-      #      - entity: sensor.helium_wallet_hvhi_hnt_balance
-      #        name: HNT Account
-      #      - entity: sensor.helium_wallet_hvhi_iot_balance
-      #        name: IOT Account 
-      #      - entity: sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards
-      #        name: IOT Unclaimed               
-      #      - entity: sensor.helium_wallet_hvhi_sol_balance
-      #        name: SOL Account
-
-      # - type: custom:apexcharts-card
-      #   all_series_config:
-      #     float_precision: 3
-      #   apex_config:
-      #     yaxis:
-      #       - seriesName: HNT
-      #         decimalsInFloat: 0
-      #       - seriesName: Helium
-      #         show: false
-      #   experimental:
-      #     color_threshold: true
-      #   graph_span: 7d
-      #   span:
-      #     end: day
-      #   show:
-      #     last_updated: true
-      #   header:
-      #     show: true
-      #     show_states: true
-      #     colorize_states: true
-      #     title: Total HNT per day
-      #   series:
-      #     - entity: sensor.helium_wallet_today
-      #       show:
-      #         header_color_threshold: true
-      #         extremas: true
-      #       type: column
-      #       name: Today
-      #       group_by:
-      #         func: last
-      #         duration: 1d
-      #     - entity: sensor.helium_wallet_today
-      #       name: Yesterday
-      #       offset: '-1d'
-      #       show:
-      #         in_header: true
-      #         in_chart: false
-
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: Total Earnings ($A)
-          show_states: true
-          colorize_states: true
-        all_series_config:
-          stroke_width: 2
-          extend_to: false
-          type: 'line'          
-        series:
-          - entity: sensor.aus_wallet_total
-          - entity: sensor.helium_wallet_value                     
-          - entity: sensor.iot_wallet_value            
-          - entity: sensor.iot_wallet_value_unclaimed                      
-          - entity: sensor.sol_wallet_value 
-          - entity: sensor.sol_ledger_value           
-        graph_span: 30d
-        span:
-          end: day
-      - type: custom:apexcharts-card
-        header:
-          show: true
-          title: HotSpot Performance (IoT)
-          show_states: true
-          colorize_states: true
-        all_series_config:
-          stroke_width: 2
-          extend_to: false
-          type: 'line'          
-        series:       
-          - entity: sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards 
-        graph_span: 7d
-        span:
-          end: day
-      - type: entities
-        title: 'Solana Tokens balance in Ledger'
-        entities:
-           - entity: input_number.ledger_solana
-             name: Sol Account
-
-      # - type: iframe
-      #   #url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/m5HMuP0mzTm8XqKLEHw2gebCRQe8wTgN?kiosk
-      #   url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/IJJKJGzVk/daves-dashboard?orgId=1&viewPanel=1&kiosk
-      #   aspect_ratio: 85%
+  # - title: OpenSprinkler 
+  #   cards:
+  #     - type: tile
+  #       entity: switch.opensprinkler_1_front_lawn_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_2_front_lawn_left_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_3_back_lawn_south_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_4_back_lawn_north_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_5_not_used_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_6_west_side_back_gardens_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_7_east_side_front_gardens_station_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_enabled
+  #     - type: tile
+  #       entity: switch.opensprinkler_s08_station_enabled
+    
+  #     - type: tile
+  #       entity: sensor.opensprinkler_1_front_lawn_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_2_front_lawn_left_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_3_back_lawn_south_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_4_back_lawn_north_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_5_not_used_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_6_west_side_back_gardens_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_7_east_side_front_gardens_station_status
+  #     - type: tile
+  #       entity: sensor.opensprinkler_current_draw
+  #     - type: tile
+  #       entity: sensor.opensprinkler_flow_rate
+  #     - type: tile
+  #       entity: sensor.opensprinkler_last_run
+  #     - type: tile
+  #       entity: sensor.opensprinkler_pause_end_time
+  #     - type: tile
+  #       entity: binary_sensor.opensprinkler_paused
+  #     - type: tile
+  #       entity: binary_sensor.opensprinkler_rain_delay_active
+  #     - type: tile
+  #       entity: sensor.opensprinkler_rain_delay_stop_time
+  #     - type: tile
+  #       entity: sensor.opensprinkler_s08_station_status
+  #     - type: tile
+  #       entity: binary_sensor.opensprinkler_sensor_1_active
+  #     - type: tile
+  #       entity: binary_sensor.opensprinkler_sensor_2_active
+  #     - type: tile
+  #      entity: sensor.opensprinkler_water_level    
+ 
   
-  - title: Ecovac
+  - title: Ecovac Second Floor
     cards:
       - type: custom:vacuum-card
-        entity: vacuum.daves_deebot_n8
-        image: default
+        entity: vacuum.dads_bot
+        image: default 
         compact_view: false
         show_name: true
         show_toolbar: true
         show_status: true 
         stats:
           default:
-            - entity_id: sensor.daves_deebot_n8_life_span_brush
+            - entity_id: sensor.dads_bot_main_brush_lifespan
               subtitle: Main brush
               unit: '%'              
-            - entity_id: sensor.daves_deebot_n8_life_span_side_brush              
+            - entity_id: sensor.dads_bot_side_brushes_lifespan     
               unit: '%'
               subtitle: Side brush
-            - entity_id: sensor.daves_deebot_n8_life_span_brush
+            - entity_id: sensor.dads_bot_filter_lifespan
               unit: '%'
               subtitle: Filter 
+            - entity_id: sensor.dads_bot_area_cleaned
+              subtitle: Area Cleaned
+              unit: 'm2'   
+
+        my-custom-theme:
+          - vc-background: '#17A8F4'
+            vc-spacing: 5px 
+        shortcuts:          
+          - name: Clean bedroom
+            service: script.clean_bedroom
+            icon: 'mdi:bed-empty'      
+        
+      - type: grid
+        square: false
+        columns: 1
+        cards:
+          - type: entities
+            entities:              
+              - type: section
+              - entity: sensor.dads_bot_area_cleaned
+                name: Stats area
+              - entity: sensor.dads_bot_cleaning_duration
+                name: Stats time              
+              - entity: sensor.dads_bot_total_area_cleaned
+                name: Stats total cleanings
+              - entity: sensor.dads_bot_total_cleaning_duration
+                name: Stats total time              
+              - entity: sensor.dads_bot_total_cleanings
+                name: Clean count
+            title: Deebot N8 Stats
+          - type: picture-entity
+            entity: image.dads_bot_map 
+            title: Second Floor Bot Map
+      # - type: grid
+      #   square: false        
+      #   columns: 1
+      #   cards:
+      #     - type: entities
+      #       show_header_toggle: false
+      #       entities:
+      #         - entity: sensor.dads_bot_battery
+      #           name: battery
+      #         - entity: vacuum.dads_bot
+      #           name: Status              
+      #       title: Deebot N8 Status 
+  - title: Ecovac Ground Floor
+    cards:   
+      - type: custom:vacuum-card
+        entity: vacuum.groundfloorbot
+        image: default 
+        compact_view: false
+        show_name: true
+        show_toolbar: true
+        show_status: true 
+        stats:
+          default:
+            - entity_id: sensor.groundfloorbot_main_brush_lifespan
+              subtitle: Main brush
+              unit: '%'              
+            - entity_id: sensor.groundfloorbot_side_brushes_lifespan     
+              unit: '%'
+              subtitle: Side brush
+            - entity_id: sensor.groundfloorbot_filter_lifespan
+              unit: '%'
+              subtitle: Filter 
+            - entity_id: sensor.groundfloorbot_area_cleaned
+              subtitle: Area Cleaned
+              unit: 'm2'   
+
         my-custom-theme:
           - vc-background: '#17A8F4'
             vc-spacing: 5px 
@@ -1092,68 +1309,40 @@ views:
           - name: Clean bedroom
             service: script.clean_bedroom
             icon: 'mdi:bed-empty'       
-        map: camera.daves_deebot_n8_live_map
         
       - type: grid
         square: false
         columns: 1
         cards:
           - type: entities
-            entities:
-              - entity: sensor.daves_deebot_n8_last_cleaning
-                name: Last cleaning
+            entities:              
               - type: section
-              - entity: sensor.daves_deebot_n8_stats_area
+              - entity: sensor.groundfloorbot_area_cleaned
                 name: Stats area
-              - entity: sensor.daves_deebot_n8_stats_time
-                name: Stats time
-              - entity: sensor.daves_deebot_n8_stats_total_area
-                name: Stats total area
-              - entity: sensor.daves_deebot_n8_stats_total_cleanings
+              - entity: sensor.groundfloorbot_cleaning_duration
+                name: Stats time              
+              - entity: sensor.dads_bot_total_area_cleaned
                 name: Stats total cleanings
-              - entity: sensor.daves_deebot_n8_stats_total_time
+              - entity: sensor.groundfloorbot_total_cleaning_duration
                 name: Stats total time              
-              - entity: number.daves_deebot_n8_clean_count
+              - entity: sensor.groundfloorbot_total_cleanings
                 name: Clean count
-            title: Deebot N8 Stats
-      - type: grid
-        square: false        
-        columns: 1
-        cards:
-          - type: entities
-            show_header_toggle: false
-            entities:
-              - entity: switch.daves_deebot_n8_advanced_mode
-                name: Advanced mode
-              - entity: switch.daves_deebot_n8_carpet_auto_fan_speed_boost
-                name: Carpet auto fan speed boost
-              - entity: switch.daves_deebot_n8_clean_preference
-                name: Clean preference
-              - entity: switch.daves_deebot_n8_continuous_cleaning
-                name: Continuous cleaning
-              - entity: switch.daves_deebot_n8_true_detect
-                name: True detect
-              - entity: number.daves_deebot_n8_volume
-                name: Volume
-              - entity: button.daves_deebot_n8_life_span_filter_reset
-                name: Life span filter reset
-              - entity: button.daves_deebot_n8_life_span_side_brush_reset
-                name: Life span side brush reset 
-              - entity: select.daves_deebot_n8_water_amount
-                name: Water amount 
-              - entity: button.daves_deebot_n8_life_span_brush_reset
-                name: Life span brush reset  
-            title: Deebot N8 Configuration    
-
+              - entity: sensor.groundfloorbot_unit_care_lifespan
+                name: Unit Care
+            title: Deebot X20 Stats
+          - type: picture-entity
+            entity: image.groundfloorbot_map
+            title: Ground Floor Bot Map
+        
   - title: Cameras
     cards:
       - type: picture-entity
-        entity: camera.front_camera
+        entity: camera.front_camera_2
         tap_action:
           action: call-service
           service: camera.snapshot
           service_data:
-            entity_id: camera.front_camera
+            entity_id: camera.front_camera_2
             filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
 
       - type: picture-entity
@@ -1166,35 +1355,374 @@ views:
             filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
   
   
-  - type: custom:vertical-stack-in-card
-    title: Flightradar24
-    cards:
+  # - type: custom:vertical-stack-in-card
+  #   title: Flightradar24
+  #   cards:
+  #     - type: entities
+  #       entities:
+  #         - entity: sensor.flightradar24_current_in_area
+  #           name: In area
+  #     - type: conditional
+  #       conditions:
+  #         - condition: numeric_state
+  #           entity: sensor.flightradar24_current_in_area
+  #           above: 0
+  #       card:
+  #         type: markdown
+  #         content: >-
+  #           {% set data = state_attr('sensor.flightradar24_current_in_area',
+  #           'flights') %} {% for flight in data %}
+  #             <ha-icon icon="mdi:airplane"></ha-icon>{{ flight.flight_number }} - {{ flight.airline_short }} - {{ flight.aircraft_model }}
+  #             {{ flight.airport_origin_city }}{%if flight.airport_origin_city %}<img src="https://flagsapi.com/{{ flight.airport_origin_country_code }}/shiny/16.png" title='{{ flight.airport_origin_country_name }}'/>{% endif %} -> {{ flight.airport_destination_city }}{%
+  #             if flight.airport_destination_country_code %}<img src="https://flagsapi.com/{{ flight.airport_destination_country_code }}/shiny/16.png" title='{{ flight.airport_destination_country_name }}'/>{% endif %}
+  #             {%if flight.time_scheduled_departure %}Departure - {{ flight.time_scheduled_departure | timestamp_custom('%H:%M') }}; {% endif %}{%if flight.time_scheduled_arrival%}Arrival - {{ flight.time_scheduled_arrival | timestamp_custom('%H:%M') }}{% endif %}
+  #             Altitude - {{ flight.altitude }} ft{%if flight.altitude > 0 %} ({{(flight.altitude * 0.3048)| round(0)}} m){% endif%}; Gr. speed - {{ flight.ground_speed }} kts{%if flight.ground_speed > 0 %} ({{(flight.ground_speed * 1.852)| round(0)}} km/h){% endif%}
+  #             {% endfor %}
+  
+  #     - type: iframe
+  #       url: >-
+  #         https://www.flightradar24.com/simple?lat=-35.27&lon=149.03&z=10&label1=reg&size=small
+  #       aspect_ratio: 100% 
+
+
+
+  # - title: Grafana
+  #   cards:
+  #     - type: iframe
+  #       # url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/GcoR4m6EiZ5E3Aoe5379EyjuY4H0eM6L?orgId=1&kiosk
+  #       url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/zzAVYzLnz/home-assistant?orgId=1&kiosk
+  #       aspect_ratio: 100%
+
+  #   path: default_view
+
+  - title: ProxMox
+    #path: proxmox
+    #type: custom:dashboard
+    sections:
+    #cards:
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node rpi1
+          - type: tile
+            entity: sensor.node_rpi1_cpu_used
+          - type: tile
+            entity: sensor.node_rpi1_disk_used_percentage
+          - type: tile
+            entity: sensor.node_rpi1_last_boot
+          - type: tile
+            entity: sensor.node_rpi1_memory_free
+          - type: tile
+            entity: sensor.node_rpi1_memory_used
+          - type: tile
+            entity: sensor.node_rpi1_memory_used_percentage
+          - type: tile
+            entity: sensor.node_rpi1_total_updates
+          - type: tile
+            entity: binary_sensor.node_rpi1_updates_packages
+          - type: tile
+            entity: sensor.node_rpi1_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node rpi2
+          - type: tile
+            entity: sensor.node_rpi2_cpu_used
+          - type: tile
+            entity: sensor.node_rpi2_disk_used_percentage
+          - type: tile
+            entity: sensor.node_rpi2_last_boot
+          - type: tile
+            entity: sensor.node_rpi2_memory_free
+          - type: tile
+            entity: sensor.node_rpi2_memory_used
+          - type: tile
+            entity: sensor.node_rpi2_memory_used_percentage
+          - type: tile
+            entity: sensor.node_rpi2_total_updates
+          - type: tile
+            entity: binary_sensor.node_rpi2_updates_packages
+          - type: tile
+            entity: sensor.node_rpi2_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node rpi3
+          - type: tile
+            entity: sensor.node_rpi3_cpu_used
+          - type: tile
+            entity: sensor.node_rpi3_disk_used_percentage
+          - type: tile
+            entity: sensor.node_rpi3_last_boot
+          - type: tile
+            entity: sensor.node_rpi3_memory_free
+          - type: tile
+            entity: sensor.node_rpi3_memory_used
+          - type: tile
+            entity: sensor.node_rpi3_memory_used_percentage
+          - type: tile
+            entity: sensor.node_rpi3_total_updates
+          - type: tile
+            entity: binary_sensor.node_rpi3_updates_packages
+          - type: tile
+            entity: sensor.node_rpi3_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node orangepi5b
+          - type: tile
+            entity: sensor.node_orangepi5b_cpu_used
+          - type: tile
+            entity: sensor.node_orangepi5b_disk_used_percentage
+          - type: tile
+            entity: sensor.node_orangepi5b_last_boot
+          - type: tile
+            entity: sensor.node_orangepi5b_memory_free
+          - type: tile
+            entity: sensor.node_orangepi5b_memory_used
+          - type: tile
+            entity: sensor.node_orangepi5b_memory_used_percentage
+          - type: tile
+            entity: sensor.node_orangepi5b_total_updates
+          - type: tile
+            entity: binary_sensor.node_orangepi5b_updates_packages
+          - type: tile
+            entity: sensor.node_orangepi5b_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node orangepi5b1
+          - type: tile
+            entity: sensor.node_orangepi5b1_cpu_used
+          - type: tile
+            entity: sensor.node_orangepi5b1_disk_used_percentage
+          - type: tile
+            entity: sensor.node_orangepi5b1_last_boot
+          - type: tile
+            entity: sensor.node_orangepi5b1_memory_free
+          - type: tile
+            entity: sensor.node_orangepi5b1_memory_used
+          - type: tile
+            entity: sensor.node_orangepi5b1_memory_used_percentage
+          - type: tile
+            entity: sensor.node_orangepi5b1_total_updates
+          - type: tile
+            entity: binary_sensor.node_orangepi5b1_updates_packages
+          - type: tile
+            entity: sensor.node_orangepi5b1_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
+            heading: Node Home Asst
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_cpu_used
+            name: HA CPU
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_disk_used_percentage
+            name: HA Disk Used
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: binary_sensor.qemu_homeassistant_200_health
+            name: HA Health
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_last_boot
+            name: HA Last Boot
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_memory_free
+            name: HA Memory Free
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_memory_used_percentage
+            name: HA Memory Used (%)
+            vertical: false
+            features_position: bottom
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_node
+          - type: tile
+            entity: sensor.qemu_homeassistant_200_status      
+      - type: grid
+        cards:
+          - type: tile
+            entity: sensor.ds723plus_cpu_load_average_5_min
+          - type: tile
+            entity: sensor.ds723plus_cpu_load_average_15_min
+          - type: tile
+            entity: sensor.ds723plus_cpu_utilization_total
+          - type: tile
+            entity: sensor.ds723plus_cpu_utilization_user
+          - type: tile
+            entity: sensor.ds723plus_download_throughput
+          - type: tile
+            entity: sensor.ds723plus_memory_available_real
+          - type: tile
+            entity: sensor.ds723plus_memory_available_swap
+          - type: tile
+            entity: sensor.ds723plus_memory_total_real
+          - type: tile
+            entity: sensor.ds723plus_memory_total_swap
+          - type: tile
+            entity: sensor.ds723plus_memory_usage_real
+          - type: tile
+            entity: binary_sensor.ds723plus_security_status
+          - type: tile
+            entity: sensor.ds723plus_upload_throughput
+        title: DS723plus
+    
+    header:
+      type: template
+      layout: responsive
+      badges_position: top
+      badges_wrap: wrap
+      card:
+         type: custom:button-card
+         entity: sensor.cluster_status
+         name: Proxmox Status
+         show_state: true
+         show_icon: true
+         # Apply colour to the icon AND the name
+         color_type: icon
+         color: auto
+
+         state:
+           - value: 'UP'
+             color: green
+             icon: mdi:check-circle           
+           - value: 'DOWN'
+             color: red
+             icon: mdi:close-circle  
+        
+         styles:
+           icon:
+             - width: 24px
+             - height: 24px
+           name:
+             - font-size: 14px
+           state:
+             - font-size: 12px
+      
+        # type: markdown
+        # text_only: true
+        # content: |-
+        #   # Proxmox Status
+        #   All systems are **{{ states('sensor.cluster_status') }}**      
+        
+    badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_rpi1_status
+        name:
+          type: device
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_rpi2_status
+        name:
+          type: device
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_rpi3_status
+        name:
+          type: device
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_orangepi5b_status
+        name:
+          type: device
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_orangepi5b1_status
+        name:
+          type: device      
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.qemu_haos_16_2_100_status
+        name: Home Asst
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.ds723plus_volume_1_status
+        name: NAS
+
+
+  - title: Solar Data
+    #path: solar-data
+    icon: mdi:radio-tower
+    cards:       
+      - type: markdown
+        content: |
+          ## Ideal HF Propagation Conditions
+
+          | Metric | Current | Good | Excellent |
+          |--------|---------|------|-----------|
+          | Confid.| {{ states('sensor.ham_radio_propagation_solar_hf_cs_cb53n') }}     |  0.5-0.9  |  1.0   |          
+          | foF2 | {{ states('sensor.ham_radio_propagation_solar_hf_fof2_cb53n') }} MHz | 12–15 MHz | 18+ MHz |
+          | MUF | {{ states('sensor.ham_radio_propagation_solar_hf_muf_cb53n') }} MHz | 40–50 MHz | 60+ MHz |
+          | Solar Flux | {{ states('sensor.ham_radio_propagation_solar_flux_index') }} | 150+ | 200+ |
+          | K-Index | {{ states('sensor.ham_radio_propagation_solar_k_index') }} | 0–1 | 0 |
+          | A-Index | {{ states('sensor.ham_radio_propagation_solar_a_index') }} | <10 | <5 |
+
       - type: entities
         entities:
-          - entity: sensor.flightradar24_current_in_area
-            name: In area
-      - type: conditional
-        conditions:
-          - condition: numeric_state
-            entity: sensor.flightradar24_current_in_area
-            above: 0
-        card:
-          type: markdown
-          content: >-
-            {% set data = state_attr('sensor.flightradar24_current_in_area',
-            'flights') %} {% for flight in data %}
-              <ha-icon icon="mdi:airplane"></ha-icon>{{ flight.flight_number }} - {{ flight.airline_short }} - {{ flight.aircraft_model }}
-              {{ flight.airport_origin_city }}{%if flight.airport_origin_city %}<img src="https://flagsapi.com/{{ flight.airport_origin_country_code }}/shiny/16.png" title='{{ flight.airport_origin_country_name }}'/>{% endif %} -> {{ flight.airport_destination_city }}{%
-              if flight.airport_destination_country_code %}<img src="https://flagsapi.com/{{ flight.airport_destination_country_code }}/shiny/16.png" title='{{ flight.airport_destination_country_name }}'/>{% endif %}
-              {%if flight.time_scheduled_departure %}Departure - {{ flight.time_scheduled_departure | timestamp_custom('%H:%M') }}; {% endif %}{%if flight.time_scheduled_arrival%}Arrival - {{ flight.time_scheduled_arrival | timestamp_custom('%H:%M') }}{% endif %}
-              Altitude - {{ flight.altitude }} ft{%if flight.altitude > 0 %} ({{(flight.altitude * 0.3048)| round(0)}} m){% endif%}; Gr. speed - {{ flight.ground_speed }} kts{%if flight.ground_speed > 0 %} ({{(flight.ground_speed * 1.852)| round(0)}} km/h){% endif%}
-              {% endfor %}
-
-  - title: Grafana
-    cards:
-      - type: iframe
-        # url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/GcoR4m6EiZ5E3Aoe5379EyjuY4H0eM6L?orgId=1&kiosk
-        url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/zzAVYzLnz/home-assistant?orgId=1&kiosk
-        aspect_ratio: 100%
-
-    path: default_view
+          - entity: sensor.ham_radio_propagation_solar_hf_12_10_day
+            name: HF Conditions 12m-10m Day
+          - entity: sensor.ham_radio_propagation_solar_hf_12_10_night
+            name: HF Conditions 12m-10m Night
+          - entity: sensor.ham_radio_propagation_solar_hf_17_15_day
+            name: HF Conditions 17m-15m Day
+          - entity: sensor.ham_radio_propagation_solar_hf_17_15_night
+            name: HF Conditions 17m-15m Night
+          - entity: sensor.ham_radio_propagation_solar_hf_30_20_day
+            name: HF Conditions 30m-20m Day
+          - entity: sensor.ham_radio_propagation_solar_hf_30_20_night
+            name: HF Conditions 30m-20m Night
+          - entity: sensor.ham_radio_propagation_solar_hf_80_40_day
+            name: HF Conditions 80m-40m Day
+          - entity: sensor.ham_radio_propagation_solar_hf_80_40_night
+            name: HF Conditions 80m-40m Night
+          - entity: sensor.ham_radio_propagation_solar_geomag_field
+            name: HF Conditions Geomag Field
+          - entity: sensor.ham_radio_propagation_solar_sig_noise_lvl
+            name: HF Conditions Noise Level
+        title: HF Conditions
+      - type: entities
+        entities:
+          - entity: sensor.ham_radio_propagation_solar_a_index
+            name: Solar A-Index
+          - entity: sensor.ham_radio_propagation_solar_bz
+            name: Solar Bz
+          - entity: sensor.ham_radio_propagation_solar_flux_index
+            name: Solar Flux Index
+          - entity: sensor.ham_radio_propagation_solar_hf_fof2_cb53n
+            name: Solar foF2
+          - entity: sensor.ham_radio_propagation_solar_k_index
+            name: Solar K-Index
+          - entity: sensor.ham_radio_propagation_solar_sunspots
+            name: Solar Sunspots
+          - entity: sensor.ham_radio_propagation_solar_wind
+            name: Solar Wind
+          - entity: sensor.ham_radio_propagation_solar_xray
+            name: Solar xRay Class
+          - entity: sensor.ham_radio_propagation_solar_xray_scale
+            name: Solar xRay Scale
+        title: Solar Data
+                  

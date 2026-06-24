@@ -1,9 +1,7 @@
 
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 bluetooth:
-
 
 recorder:
   db_url: !secret mariadb_password
@@ -13,16 +11,18 @@ recorder:
       - sensor.wupws_weather* # old sensors
       - sensor.pws_forecast_narrative* # just words
       - binary_sensor.ewelink*  # motion sensors
-      - sensor.spare_switch_2* #power consumption
+      # - sensor.spare_switch_2* #power consumption
       - number.* #musicast
       - sensor.watchman*
       - sensor.flightradar24*
+      - sensor.roof_pi*
+      - sensor.garage_pi*
+      # - sensor.*
     entities:
       - sensor.garage_pi_sensors_garage_pi_last_message
 
 influxdb:
-  # host: a0d7b954-influxdb
-  host: 10.0.0.55
+  host: a0d7b954-influxdb  
   port: 8086
   database: homeassistant
   username: homeassistant
@@ -51,94 +51,94 @@ frontend:
   themes: !include_dir_merge_named themes
 
 lovelace:
-  mode: yaml
+  resource_mode: yaml
+  dashboards:
+    lovelace:
+      mode: yaml
+      filename: ui-lovelace.yaml
+      title: Overview
+      icon: mdi:view-dashboard
+      show_in_sidebar: true
 
 logger:
   default: warn
   logs:
-    custom_components.samsungtv_tizen: error    
-    homeassistant.components.media_player: error
-    homeassistant.components.pychromecast: error
+    #custom_components.samsungtv_tizen: error    
+    #homeassistant.components.media_player: error
+    #homeassistant.components.pychromecast: error
     custom_components.mbapi2020: error
+    # custom_components.proxmoxve: debug
 
 ffmpeg:
 
 tts:
   - platform: google_translate
     
-# mqtt:
-#   sensor:
-#     - name: 'ground_floor_david'
-#       state_topic: 'monitor/ground_floor/davidbluetooth'
-#       value_template: '{{ value_json.confidence }}'
-#       unit_of_measurement: '%'
-#     - name: 'ground_floor_wendy'
-#       state_topic: 'monitor/ground_floor/wendybluetooth'
-#       value_template: '{{ value_json.confidence }}'
-#       unit_of_measurement: '%'
+mqtt:
+  sensor:
+    - name: 'odroidn2_cpu_load'
+      state_topic: 'glances/odroid/cpu'
+      value_template: '{{ value_json.total }}'
+      unit_of_measurement: '%'
+    - name: 'odroidn2_mem_load'
+      state_topic: 'glances/odroid/mem'
+      value_template: '{{ value_json.percent }}'
+      unit_of_measurement: '%'
+    - name: 'odroidn2_cpu_temp'
+      state_topic: 'glances/odroid/sensors'
+      value_template: '{{ value_json["soc_thermal 0"]["value"] }}'
+      unit_of_measurement: 'C'
+    - name: 'pi4_cpu_load'
+      state_topic: 'glances/pi4/cpu'
+      value_template: '{{ value_json.total }}'
+      unit_of_measurement: '%'
+    - name: 'pi4_mem_load'
+      state_topic: 'glances/pi4/mem'
+      value_template: '{{ value_json.percent }}'
+      unit_of_measurement: '%'
+    - name: 'pi4_cpu_temp'
+      state_topic: 'glances/pi4/sensors'
+      value_template: '{{ value_json["cpu_thermal 0"]["value"] }}'
+      unit_of_measurement: 'C'
+    - name: 'rpi4_cpu_temp'
+      state_topic: 'cluster/rpi1/temp'
+      value_template: '{{ value | int (1) }}'
+      unit_of_measurement: 'C'  
+    - name: "OrangePi5 CPU Temp"
+      state_topic: "orangepi5/temperature"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement    
+    - name: "Proxmox CPU Temp"
+      state_topic: "proxmox/cpu_temp"
+      unit_of_measurement: "°C"
+      device_class: temperature
+      state_class: measurement    
 
-command_line:
-  - binary_sensor:
-      name: CPU Temperature
-      command: "cat /sys/class/thermal/thermal_zone0/temp"
-      # If errors occur, make sure configuration file is encoded as UTF-8
-      #unit_of_measurement: "°C"
-      value_template: '{{ value | multiply(0.001) | round(1) }}'
-  
-    # for FOSCAM Camera Motion Detection
-  - binary_sensor:
-      command: !secret front_cam_motion_detection
-      name: "Front Camera Motion Cam"
-      value_template: >
-        {% set status = value | regex_findall_index('Alarm>(\d+)</motion') %}
-        {% set values = {'0':'Disabled', '1':'None', '2':'Detected'} %}
-        {{ values[status] if status in values.keys() else 'Not Determined'}}
-      scan_interval: 20
-      command_timeout: 20 
-sensor:
-  # - platform: min_max
-  #   name: "david_occupancy_confidence"
-  #   type: max
-  #   round_digits: 0
-  #   entity_ids:
-  #     - sensor.ground_floor_david
-  # - platform: min_max
-  #   name: "wendy_occupancy_confidence"
-  #   type: max
-  #   round_digits: 0
-  #   entity_ids:
-  #     - sensor.ground_floor_wendy
-  # - platform: systemmonitor
-  #   resources:
-  #     - type: memory_use_percent
-  #     - type: processor_use
-  #     - type: processor_temperature
-
-  
-    
+sensor:    
   - platform: statistics
-    entity_id: sensor.temp
+    entity_id: sensor.ws2900c_v2_01_10_outdoor_temperature
     name: "high_temperature_today"
     state_characteristic: value_max
     max_age:
       minutes: 1440
     sampling_size: 288
   - platform: statistics
-    entity_id: sensor.temp
+    entity_id: sensor.ws2900c_v2_01_10_outdoor_temperature
     name: "high_temperature_per_hour"
     state_characteristic: value_max
     max_age:
       minutes: 60
     sampling_size: 12
   - platform: statistics
-    entity_id: sensor.temp
+    entity_id: sensor.ws2900c_v2_01_10_outdoor_temperature
     name: "low_temperature_today"
     state_characteristic: value_min
     max_age:
       minutes: 1440
     sampling_size: 288
   - platform: statistics
-    entity_id: sensor.temp
+    entity_id: sensor.ws2900c_v2_01_10_outdoor_temperature
     name: "low_temperature_per_hour"
     state_characteristic: value_min
     max_age:
@@ -152,14 +152,14 @@ sensor:
       minutes: 1440
     sampling_size: 288
   - platform: statistics
-    entity_id: sensor.humidity
+    entity_id: sensor.ws2900c_v2_01_10_humidity
     name: "high_relative_humidity_per_hour"
     state_characteristic: value_max
     max_age:
       minutes: 60
     sampling_size: 12
   - platform: statistics
-    entity_id: sensor.humidity
+    entity_id: sensor.ws2900c_v2_01_10_humidity
     name: "low_relative_humidity_per_hour"
     state_characteristic: value_min
     max_age:
@@ -178,95 +178,146 @@ sensor:
     entity_ids:
       - sensor.pws_forecast_tomorrow
       - sensor.pws_forecast_tomorrow_tonight
+    
+ # Old config
+  # - platform: command_line
+  #   name: CPU Temperature
+  #   command: "cat /sys/class/thermal/thermal_zone0/temp"
+  #   unit_of_measurement: "°C"
+  #   value_template: "{{ (value | default(0) | float) * 0.001 | round(1) }}"
+  #   scan_interval: 30
 
+  - platform: filter
+    name: "ESP32 Temperature Smoothed"
+    entity_id: sensor.esp32_temperature_esp32_internal_temperature
+    filters:
+      - filter: outlier
+        window_size: 4
+        radius: 2.0
+      - filter: time_simple_moving_average
+        window_size: "00:05"    # 5-minute
+        precision: 1  
+
+# command_line:
+#   - sensor:
+#       name: CPU Temperature
+#       command: 'cat /sys/class/thermal/thermal_zone0/temp'
+#       unit_of_measurement: '°C'
+#       value_template: '{{ (value | default(0) | float) * 0.001 | round(1) }}'
+#       scan_interval: 30
+
+
+template:
+- sensor:
+  - unit_of_measurement: AUD
+    default_entity_id: sensor.ev_charge_cost
+    state: '{{ (states(''sensor.spare_switch_2_today_s_consumption'') | float(0)  *
+      0.16812 | float(0)) | round(2) }}'
+    name: ev_charge_cost
+
+ # UPS Runtime
+- sensor:
+  - name: ups_estimated_runtime
+    unit_of_measurement: "minutes"
+    default_entity_id: sensor.ups_estimated_runtime        
+    state: '{{ ((70.2 / ((states(''sensor.myups_load'') | float(0) / 100) * 480)) * 60 * 0.5) | int }}'
   
-  # helium  
-  - platform: template
-    sensors:
-      helium_wallet_value:
-        value_template: "{{ (states('sensor.helium_price_hnt') | float(0) * states('sensor.helium_wallet_hvhi_hnt_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-      iot_wallet_value:
-        value_template: "{{ (states('sensor.helium_price_iot') | float(0) * states('sensor.helium_wallet_hvhi_iot_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-      iot_wallet_value_unclaimed:
-        value_template: "{{ (states('sensor.helium_price_iot') | float(0) * states('sensor.helium_hotspot_reward_wallet_hvhi_unclaimed_rewards') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-      sol_wallet_value:
-        value_template: "{{ (states('sensor.helium_price_solana') | float(0) * states('sensor.helium_wallet_hvhi_sol_balance') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-      sol_ledger_value:
-        value_template: "{{ (states('sensor.helium_price_solana') | float(0) * states('input_number.ledger_solana') | float(0) * states('sensor.australian_currency') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-      aus_wallet_total:
-        value_template: "{{ (states('sensor.helium_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.iot_wallet_value') | float(0) + states('sensor.sol_wallet_value') | float(0) + states('sensor.sol_ledger_value') | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
- 
- # EV Charging
-  - platform: template
-    sensors:
-      ev_charge_cost:
-        value_template: "{{ (states('sensor.spare_switch_2_today_s_consumption') | float(0)  * 0.16812 | float(0)) | round(2) }}"
-        unit_of_measurement: "AUD"
-
  # Irrigation Time Sensors
-  - platform: template
-    sensors:
-      garden_watering_time_mins:
-        value_template: "{{ (states('input_number.garden_watering_time') | float(0)  / 60 | float(0)) | round(2) }}"
-        unit_of_measurement: "min"
-      lawn_watering_time_mins:
-        value_template: "{{ (states('input_number.lawn_watering_time') | float(0)  / 60 | float(0)) | round(2) }}"
-        unit_of_measurement: "min"
+- sensor:
+  - unit_of_measurement: min
+    default_entity_id: sensor.garden_watering_time_mins
+    state: '{{ (states(''input_number.garden_watering_time'') | float(0)  / 60 | float(0))
+      | round(2) }}'
+    name: garden_watering_time_mins
+- sensor:
+  - unit_of_measurement: min
+    default_entity_id: sensor.lawn_watering_time_mins
+    state: '{{ (states(''input_number.lawn_watering_time'') | float(0)  / 60 | float(0))
+      | round(2) }}'
+    name: lawn_watering_time_mins
 
- # A/C sensors
-  - platform: template
-    sensors:
-      study_temp:
-        friendly_name: 'Study temperature'
-        unit_of_measurement: '°C'
-        device_class: temperature
-        value_template: "{{ state_attr('climate.study', 'current_temperature') }}"
-      study_humidity:
-        friendly_name: 'Study humidity'
-        unit_of_measurement: '%'
-        device_class: humidity
-        value_template: "{{ state_attr('climate.study', 'current_humidity') }}"
-      study_fan_modes:
-        friendly_name: 'Study fan modes'
-        value_template: "{{ state_attr('climate.study', 'fan_mode') }}"
-      hollys_bedroom_temp:
-        friendly_name: 'Hollys bedroom temperature'
-        unit_of_measurement: '°C'
-        device_class: temperature
-        value_template: "{{ state_attr('climate.hollys_bedroom', 'current_temperature') }}"
-      hollys_bedroom_humidity:
-        friendly_name: 'Hollys bedroom humidity'
-        unit_of_measurement: '%'
-        device_class: humidity
-        value_template: "{{ state_attr('climate.hollys_bedroom', 'current_humidity') }}"
-      wendys_bedroom_temp:
-        friendly_name: 'Wendys bedroom temperature'
-        unit_of_measurement: '°C'
-        device_class: temperature
-        value_template: "{{ state_attr('climate.wendys_bedroom', 'current_temperature') }}"
-      wendys_bedroom_humidity:
-        friendly_name: 'Wendys bedroom humidity'
-        unit_of_measurement: '%'
-        device_class: humidity
-        value_template: "{{ state_attr('climate.wendys_bedroom', 'current_humidity') }}"
-      family_room_temp:
-        friendly_name: 'Family room temperature'
-        unit_of_measurement: '°C'
-        device_class: temperature
-        value_template: "{{ state_attr('climate.family_room', 'current_temperature') }}"
-      family_room_humidity:
-        friendly_name: 'Family_room humidity'
-        unit_of_measurement: '%'
-        device_class: humidity
-        value_template: "{{ state_attr('climate.family_room', 'current_humidity') }}"
+ # A/C sensors  
+- sensor:
+  - unit_of_measurement: °C
+    device_class: temperature
+    default_entity_id: sensor.study_temp
+    name: Study temperature
+    state: '{{ state_attr(''climate.study'', ''current_temperature'') }}'
+- sensor:
+  - unit_of_measurement: '%'
+    device_class: humidity
+    default_entity_id: sensor.study_humidity
+    name: Study humidity
+    state: '{{ state_attr(''climate.study'', ''current_humidity'') }}'
+- sensor:
+  - default_entity_id: sensor.study_fan_modes
+    name: Study fan modes
+    state: '{{ state_attr(''climate.study'', ''fan_mode'') }}'
+- sensor:
+  - unit_of_measurement: °C
+    device_class: temperature
+    default_entity_id: sensor.hollys_bedroom_temp
+    name: Hollys bedroom temperature
+    state: '{{ state_attr(''climate.hollys_bedroom'', ''current_temperature'') }}'
+- sensor:
+  - unit_of_measurement: '%'
+    device_class: humidity
+    default_entity_id: sensor.hollys_bedroom_humidity
+    name: Hollys bedroom humidity
+    state: '{{ state_attr(''climate.hollys_bedroom'', ''current_humidity'') }}'
+- sensor:
+  - unit_of_measurement: °C
+    device_class: temperature
+    default_entity_id: sensor.wendys_bedroom_temp
+    name: Wendys bedroom temperature
+    state: '{{ state_attr(''climate.wendys_bedroom'', ''current_temperature'') }}'
+- sensor:
+  - unit_of_measurement: '%'
+    device_class: humidity
+    default_entity_id: sensor.wendys_bedroom_humidity
+    name: Wendys bedroom humidity
+    state: '{{ state_attr(''climate.wendys_bedroom'', ''current_humidity'') }}'
+- sensor:
+  - unit_of_measurement: °C
+    device_class: temperature
+    default_entity_id: sensor.family_room_temp
+    name: Family room temperature
+    state: '{{ state_attr(''climate.family_room'', ''current_temperature'') }}'
+- sensor:
+  - unit_of_measurement: '%'
+    device_class: humidity
+    default_entity_id: sensor.family_room_humidity
+    name: Family_room humidity
+    state: '{{ state_attr(''climate.family_room'', ''current_humidity'') }}'
 
+- sensor:
+    - name: "Cluster Status"
+      state: >
+        {% set nodes = [
+          states('binary_sensor.node_rpi1_status'),
+          states('binary_sensor.node_rpi2_status'),
+          states('binary_sensor.node_rpi3_status'),
+          states('binary_sensor.node_orangepi5b_status'),
+          states('binary_sensor.node_orangepi5b1_status'),
+          states('binary_sensor.node_pve_status'),
+          states('binary_sensor.qemu_haos_16_2_100_status'),
+          states('sensor.ds723plus_volume_1_status')
+        ] %}
+        {% set healthy_states = ['on', 'true', '1', 'healthy', 'normal', 'ok', 'running', 'up'] %}
+        {% set healthy_nodes = nodes | select('in', healthy_states) | list %}
+        {% if healthy_nodes | count == nodes | count %}
+          UP
+        {% else %}
+          DOWN ({{ healthy_nodes | count }}/{{ nodes | count }})
+        {% endif %}
+      icon: >
+        {% if this.state == 'UP' %}
+          mdi:check-circle
+        {% else %}
+          mdi:alert-circle
+        {% endif %}
 
+    
   
 # WUNDERGROUND_REST
 rest:
@@ -365,37 +416,30 @@ input_number:
     step: 0.1
     mode: box
     unit_of_measurement: mm
-  ledger_solana:
-    name: "Ledger Solana"
-    min: 0.0001
-    max: 30
-    step: 0.1
-    mode: box
-    unit_of_measurement: sol
-
+  
 
 input_text:
-  irrigation_switch_1_l3_run_time: #Front Lawn West Irrigation
-  irrigation_switch_1_l2_run_time: #Front Lawn East Irrigation
-  irrigation_switch_1_l1_run_time: #Back Lawn South Irrigation
-  irrigation_switch_1_l4_run_time: #Back Lawn North Irrigation
-  irrigation_switch_2_l4_run_time: #Front Garden
-  irrigation_switch_2_l3_run_time: #Back & Side Garden
-  irrigation_switch_2_l2_run_time:
-  irrigation_switch_1_l3_run_date:
-  irrigation_switch_1_l2_run_date:
-  irrigation_switch_1_l1_run_date:
-  irrigation_switch_1_l4_run_date:
-  irrigation_switch_2_l4_run_date:
-  irrigation_switch_2_l3_run_date:
-  irrigation_switch_2_l2_run_date:
-  irrigation_switch_1_l3_run_duration:
-  irrigation_switch_1_l2_run_duration:
-  irrigation_switch_1_l1_run_duration:
-  irrigation_switch_1_l4_run_duration:
-  irrigation_switch_2_l4_run_duration:
-  irrigation_switch_2_l3_run_duration:
-  irrigation_switch_2_l2_run_duration:
+  opensprinkler_1_front_lawn_station_enabled_run_time: #Front Lawn West Irrigation
+  opensprinkler_2_front_lawn_left_station_enabled_run_time: #Front Lawn East Irrigation
+  opensprinkler_3_back_lawn_south_station_enabled_run_time: #Back Lawn South Irrigation
+  opensprinkler_4_back_lawn_north_station_enabled_run_time: #Back Lawn North Irrigation
+  opensprinkler_7_east_side_front_gardens_station_enabled_run_time: #Front Garden
+  opensprinkler_6_west_side_back_gardens_station_enabled_run_time: #Back & Side Garden
+  opensprinkler_5_not_used_station_enabled_run_time:
+  opensprinkler_1_front_lawn_station_enabled_run_date:
+  opensprinkler_2_front_lawn_left_station_enabled_run_date:
+  opensprinkler_3_back_lawn_south_station_enabled_run_date:
+  opensprinkler_4_back_lawn_north_station_enabled_run_date:
+  opensprinkler_7_east_side_front_gardens_station_enabled_run_date:
+  opensprinkler_6_west_side_back_gardens_station_enabled_run_date:
+  opensprinkler_5_not_used_station_enabled_run_date:
+  opensprinkler_1_front_lawn_station_enabled_run_duration:
+  opensprinkler_2_front_lawn_left_station_enabled_run_duration:
+  opensprinkler_3_back_lawn_south_station_enabled_run_duration:
+  opensprinkler_4_back_lawn_north_station_enabled_run_duration:
+  opensprinkler_7_east_side_front_gardens_station_enabled_run_duration:
+  opensprinkler_6_west_side_back_gardens_station_enabled_run_duration:
+  opensprinkler_5_not_used_station_enabled_run_duration:
 
 input_select:
   irrigation_status:
@@ -410,6 +454,21 @@ input_select:
     
 
 input_boolean:
+  garage_ac:
+    name: input_boolean.garage_ac
+    icon: mdi:air-conditioner
+  garage_ac_cool:
+    name: input_boolean.garage_ac_cool
+    icon: mdi:snowflake
+  garage_ac_fan_high:
+    name: input_boolean.garage_ac_fan_high
+    icon: mdi:fan
+  garage_ac_fan_low:
+    name: input_boolean.garage_ac_fan_low
+    icon: mdi:fan
+  garage_ac_reset:
+    name: input_boolean.garage_ac_reset
+    icon: mdi:air-conditioner
   check_act_garbage:
     name: input_boolean.check_act_garbage
   check_dams:
@@ -418,7 +477,14 @@ input_boolean:
     name: input_boolean.force_irrigation
   check_odometer:
     name: input_boolean.check_odometer
-
+  auto_master_switch:
+    name: input_boolean.auto_master_switch
+    initial: on
+    icon: mdi:alarm-light
+  auto_irrigation_switch:
+    name: input_boolean.auto_irrigation_switch
+    initial: on
+    icon: mdi:alarm-light
 
 
 binary_sensor:
@@ -446,6 +512,7 @@ binary_sensor:
     upper: 22.0
     hysteresis: 0.0
     name: hollys_bedroom_temp_thres_off
+
 
 group: !include groups.yaml
 automation: !include automations.yaml
