@@ -8,18 +8,36 @@ recorder:
   purge_keep_days: 60
   exclude:
     entity_globs:
-      - sensor.wupws_weather* # old sensors
-      - sensor.pws_forecast_narrative* # just words
-      - binary_sensor.ewelink*  # motion sensors
-      # - sensor.spare_switch_2* #power consumption
-      - number.* #musicast
+      - sensor.wupws_weather*          # old sensors
+      - sensor.pws_forecast_*          # REST forecast blobs (precip + narrative)
+      - binary_sensor.ewelink*         # motion sensors
+      # - sensor.spare_switch_2*       # power consumption
+      - number.*                       # musicast
       - sensor.watchman*
       - sensor.flightradar24*
       - sensor.roof_pi*
       - sensor.garage_pi*
+      - sensor.node_rpi*_total_updates # large APT package list attributes
+      - sensor.odroidn2_*              # MQTT infra — in InfluxDB
+      - sensor.pi4_*                   # MQTT infra — in InfluxDB
       # - sensor.*
     entities:
       - sensor.garage_pi_sensors_garage_pi_last_message
+      - sensor.rpi4_cpu_temp                    # MQTT infra — in InfluxDB
+      - sensor.orangepi5_cpu_temp               # MQTT infra — in InfluxDB
+      - sensor.proxmox_cpu_temp                 # MQTT infra — in InfluxDB
+      - sensor.high_temperature_today           # statistics — source already recorded
+      - sensor.high_temperature_per_hour
+      - sensor.low_temperature_today
+      - sensor.low_temperature_per_hour
+      - sensor.wendys_min_temperature_today
+      - sensor.high_relative_humidity_per_hour
+      - sensor.low_relative_humidity_per_hour
+      - sensor.garden_watering_time_mins        # unit-conversion template
+      - sensor.lawn_watering_time_mins
+      - sensor.cluster_status                   # binary UP/DOWN string
+      - sensor.esp32_temperature_smoothed       # derived from recorded source
+      - sensor.esp32_temperature_safe           # numeric wrapper for filter input
 
 influxdb:
   host: a0d7b954-influxdb  
@@ -52,6 +70,13 @@ frontend:
 
 lovelace:
   resource_mode: yaml
+  resources:
+    - url: /local/community/simple-thermostat/simple-thermostat.js?track=true
+      type: module
+    - url: /local/community/canvas-gauge-card/canvas-gauge-card.js
+      type: module
+    - url: /local/community/weather-card/weather-card.js
+      type: module
   dashboards:
     lovelace:
       mode: yaml
@@ -67,6 +92,7 @@ logger:
     #homeassistant.components.media_player: error
     #homeassistant.components.pychromecast: error
     custom_components.mbapi2020: error
+    deebot_client: critical
     # custom_components.proxmoxve: debug
 
 ffmpeg:
@@ -189,7 +215,7 @@ sensor:
 
   - platform: filter
     name: "ESP32 Temperature Smoothed"
-    entity_id: sensor.esp32_temperature_esp32_internal_temperature
+    entity_id: sensor.esp32_temperature_safe
     filters:
       - filter: outlier
         window_size: 4
@@ -317,8 +343,13 @@ template:
           mdi:alert-circle
         {% endif %}
 
-    
-  
+- sensor:
+  - name: "ESP32 Temperature Safe"
+    unit_of_measurement: "°C"
+    device_class: temperature
+    state_class: measurement
+    state: "{{ states('sensor.esp32_temperature_esp32_internal_temperature') | float(25.0) }}"
+
 # WUNDERGROUND_REST
 rest:
   - authentication: basic
