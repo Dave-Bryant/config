@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "homeassistent": {
+      "type": "http",
+      "url": "https://10.0.0.55/api/mcp"
+    }
+  }
+}

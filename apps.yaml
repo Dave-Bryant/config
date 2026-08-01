@@ -1,0 +1,288 @@
+---
+# ─── YAML anchor — AppDaemon skips this (no module). Harmless warning in log. ───
+_lawn_defaults: &lawn_defaults
+  module: irrigation_code
+  class: Home_Irrigation
+  debug_run: false
+  START_TIME: '00:00:01'  # required — never conflicts with real instances
+  START_DAYS: ""           # never matches any day — always exits "Wrong day"
+  RESET_BUCKET: False
+  GARDEN_RUN: False
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
+  WATERING_THRESHOLD: 360
+  NO_OF_SCHEDULES: 4
+  SOILMOISTUREMIN: 75
+  RAINTHRESHOLD: 2  
+  STATION_1: 'switch.opensprinkler_1_front_lawn_station_enabled'  #Front Lawn West Irrigation
+  STATION_2: 'switch.opensprinkler_2_front_lawn_left_station_enabled'  #Front Lawn East Irrigation
+  STATION_3: 'switch.opensprinkler_3_back_lawn_south_station_enabled'  #Back Lawn South Irrigation
+  STATION_4: 'switch.opensprinkler_4_back_lawn_north_station_enabled'  #Back Lawn North Irrigation
+  STATION_5: 'noswitch5'
+  STATION_6: 'noswitch6'
+  STATION_7: 'noswitch7'
+  # The weighting is used to account for different areas and characteristics i.e. weight = station_area / total_lawn_area
+  STATION_1_WEIGHT: 0.2   # Was .6  19% of total are a of 338 sq mtrs
+  STATION_2_WEIGHT: 0.3   # Was .9  30% of total area of 338 sq mtrs
+  STATION_3_WEIGHT: 0.25  # Was .75 25% of total area of 338 sq mtrs
+  STATION_4_WEIGHT: 0.26  # Was .5  26% of total area of 338 sq mtrs
+  STATION_5_WEIGHT: 1.00  # Not used
+  STATION_6_WEIGHT: 0.4
+  STATION_7_WEIGHT: 0.4   
+
+# irrigationTest:  
+#   <<: *lawn_defaults
+#   debug_run: true  
+#   START_TIME: '13:19:00'
+#   START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+#   RESET_BUCKET: False
+
+irrigation1:  
+  <<: *lawn_defaults
+  START_TIME: '21:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  RESET_BUCKET: False
+
+irrigation2:  
+  <<: *lawn_defaults
+  START_TIME: '23:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  RESET_BUCKET: False
+
+irrigation3:  
+  <<: *lawn_defaults
+  START_TIME: '02:00:00'
+  START_DAYS: "mon,tue,wed,thu,fri,sat,sun"
+  RESET_BUCKET: True
+
+irrigation4:  
+  <<: *lawn_defaults
+  START_TIME: '05:00:00'
+  START_DAYS: "tue,wed,thu,fri,sat,sun"  # no monday 
+  RESET_BUCKET: True  
+
+irrigationG:              # Gardens
+  module: irrigation_code
+  class: Home_Irrigation
+  debug_run: false
+  START_TIME: '18:00:00'  # was 19:00 Waterme updated
+  START_DAYS: "tue,thu,sat" # was sat
+  PRECIPITATION_THRESHOLD: 80
+  PRECIPITATION_THRESHOLD_48: 90
+  WATERING_THRESHOLD: 360
+  NO_OF_SCHEDULES: 1
+  SOILMOISTUREMIN: 75
+  RAINTHRESHOLD: 2
+  RESET_BUCKET: False
+  GARDEN_RUN: True 
+  STATION_1: 'noswitch1'
+  STATION_2: 'noswitch2'
+  STATION_3: 'noswitch3'
+  STATION_4: 'noswitch4'
+  STATION_5: 'noswitch5'  # Not Used
+  STATION_6: 'switch.opensprinkler_6_west_side_back_gardens_station_enabled'  # Back & Side Garden
+  STATION_7: 'switch.opensprinkler_7_east_side_front_gardens_station_enabled' # East Side and Front Garden
+  # The weighting is used to account for different areas and characteristics
+  STATION_1_WEIGHT: 0.2   # Was .6  19% of total are a of 338 sq mtrs
+  STATION_2_WEIGHT: 0.3   # Was .9  30% of total area of 338 sq mtrs
+  STATION_3_WEIGHT: 0.25  # Was .75 25% of total area of 338 sq mtrs
+  STATION_4_WEIGHT: 0.26  # Was .5  26% of total area of 338 sq mtrs
+  STATION_5_WEIGHT: 1.0  # Not Used
+  # Clay typically needs 3-6L/m² to wet the soil to root depth for established plants 2–3 times per week. Given the Gardens deliver 6 L/m²/hour this would be 1 hour at 3 times a week at the top of the range. This is equivalent in lawn watering time over three days of 150m (EV of 10 mm/day or 50m/day). The conversion factor from Lawn Watering to Garden Watering is therefore 60m/150m = .4 
+  # Wrong Logic not sure why: The Garden calculations use the Lawn Watering time (for 338 sq metres) and pro rata it down (for Gardens of 195 sq metres) using a factor of 60%. Given the L/m2/hour for the lawn is three times the garden rate the final conversion factor is Lawn Watering Time * 0.6 * 3 = Garden Watering Time. So the weight of 1.8 is used for Station 6 and 7 using this conversion.     
+  STATION_6_WEIGHT: 0.4  # 75 metres of drip line with 1 hole every 300 mm delivering 30ml per minute i.e. 75 / .3 * 30 = 7.5 litres per minute or .1 Litre per metre per minute. Based on typical bed of 1m wide this is 6 L/m²/hour. 
+  STATION_7_WEIGHT: 0.4  # 120 metres of drip line with 1 hole every 300 mm delivering 30ml per minute i.e. 120 / .3 * 30 = 12 litres per minute or .1 Litre per metre per minute. Based on typical bed of 1m wide this is 6 L/m²/hour.
+  
+
+irrigation_rain_monitor:              # Resets cumulative garden run time if rain occurs
+  module: irrigation_rain_monitor_code
+  class: Home_Irrigation_rain_monitor
+  PRECIPITATION_THRESHOLD: 2.0   # mm
+  ET_CALC_HOUR: 22
+  SENSOR_DAILY_RAIN: "sensor.dailyrain"
+  ENTITY_LAWN_RUNTIME: "input_number.lawn_watering_time"
+  ENTITY_GARDEN_RUNTIME: "input_number.garden_watering_time"
+  STATION_ENTITIES:
+    - 'switch.opensprinkler_1_front_lawn_station_enabled'
+    - 'switch.opensprinkler_2_front_lawn_left_station_enabled'
+    - 'switch.opensprinkler_3_back_lawn_south_station_enabled'
+    - 'switch.opensprinkler_4_back_lawn_north_station_enabled'
+    - 'switch.opensprinkler_6_west_side_back_gardens_station_enabled'
+    - 'switch.opensprinkler_7_east_side_front_gardens_station_enabled'
+
+
+irrigation_ET_calculator:              # Calculates ET & Run time daily howzat   
+  module: irrigation_ET_calculator
+  class: ET_Calculation
+  EVAPOTRANSPIRATION: "input_number.daily_et"
+  EVAPOTRANSPIRATIONCALC: "input_number.daily_calc_et"
+  DAILYRAINEVENT: "input_number.daily_rain_event"   # this is rain bucket remaining after rain event rain is subtracted from the bucket
+  IRRIGATIONRUNTIME: "input_number.lawn_watering_time" 
+  ETCALCSTARTTIME: '22:15:00'
+  MAXBUCKETSIZE : 6 # mm
+  AREA:  338  #m2
+  SPRINKLERNUMBER: 20
+  SPRINKLERHALFCIRCLERATE: 0.1827529 #m3/h   Hunter PS Ultra 10A 120degrees .67 GPM x .27276552 G/min
+  SPRINKLERMAXRUNTIME: 3600 # secs i.e. 60 mins
+  DAILYRAIN: "sensor.ws2900c_v2_01_10_daily_rain"
+  EVENTRAIN: "sensor.ws2900c_v2_01_10_event_rain"
+  # InfluxDB connection
+  INFLUXDB_HOST: "10.0.0.55"
+  INFLUXDB_PORT: 8086
+  INFLUXDB_USER: "homeassistant"
+  INFLUXDB_PASSWORD: "david"
+  INFLUXDB_DATABASE: "homeassistant"
+  # Weather station InfluxDB entity_id tags
+  TAG_TEMPERATURE: "ws2900c_v2_01_10_outdoor_temperature"
+  TAG_HUMIDITY: "ws2900c_v2_01_10_humidity"
+  TAG_PRESSURE: "ws2900c_v2_01_10_absolute_pressure"
+  TAG_DEWPOINT: "ws2900c_v2_01_10_dewpoint"
+  TAG_WINDSPEED: "ws2900c_v2_01_10_wind_speed"
+  TAG_SOLARRADIATION: "ws2900c_v2_01_10_solar_radiation"
+  # Notification target
+  NOTIFYTARGET: "notify.mobile_app_david_bryants_iphone"
+
+
+hello_world:
+  module: hello
+  class: HelloWorld
+  START_DAYS: 'mon,wed,sun'
+
+mercedes_tyre_check:
+  module: mercedes_check
+  class: mercedes_tyre_check
+  percent_tolerance: 10
+  distance_before: 20000
+  ODOMETER: "sensor.ayaf94h_odometer"
+  tyre_check_switch: "input_boolean.check_odometer"
+
+act_garbage:
+  module: act_garbage
+  class: Get_ACT_Garbage
+  GAR_FLAG: "input_boolean.check_act_garbage"
+  SUBURB: "NICHOLLS"
+  SPLIT_SUBURB: ""
+
+light_timer1:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "switch.upstairs_light"
+  PEOPLE_HOME: "zone.home"
+
+light_timer2:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "switch.spare_switch"
+  PEOPLE_HOME: "zone.home"
+
+light_timer3:
+  module: light_timer_code
+  class: Light_Timer
+  LIGHT_SWITCH: "light.osram_light_family_room"
+  PEOPLE_HOME: "zone.home"
+
+ups_shutdown:
+  module: ups_shutdown
+  class: UPSShutdown
+
+  # ── thresholds ──────────────────────────────────────────────────────────
+  battery_low: 20          # % — sensor.myups_battery_charge
+  runtime_low: 5           # minutes — sensor.ups_estimated_runtime
+  pre_delay:   120         # seconds grace before shutdown starts (abort window)
+
+  # ── SSH timeouts ─────────────────────────────────────────────────────────
+  ssh_timeout:   30        # seconds — TCP connect timeout per SSH attempt
+  drain_timeout: 120       # seconds — kubectl drain --timeout per node
+
+  # ── Jump host ────────────────────────────────────────────────────────────
+  # Proxmox hosts still accept direct password SSH from intel_sbc.
+  # orangepi5b/5b1 no longer do (harden_ssh.yml disabled PasswordAuthentication
+  # on the node group) — key_path below is a dedicated key generated for this
+  # script and added to root's authorized_keys on both OrangePi hosts.
+  # Ubuntu master VMs only trust cluster SSH keys (generated on the OrangePi nodes).
+  # Solution: SSH to orangepi5b first; it forwards onward using its own local key.
+  jump_host:
+    ip:   "10.0.50.39"    # orangepi5b — has cluster keys trusted by ubuntu masters
+    user: root
+    pass: "david"
+    key_path: "appdaemon_shutdown_key"
+
+  # Master where kubectl is run (reached via the jump host above)
+  kubectl_ip:   "10.0.50.110"   # ubuntu-cp1
+  kubectl_user: "root"
+
+  # ── k3s nodes ─────────────────────────────────────────────────────────────
+  # Workers: direct password SSH.
+  # Masters: no direct SSH — pve_host tells the app which Proxmox API to call for shutdown.
+  # Order matters: workers first, then masters (last master in list is not drained).
+  k3s_nodes:
+    - node_name: orangepi5b
+      ip:        "10.0.50.39"
+      user:      root
+      pass:      "david"
+      key_path:  "appdaemon_shutdown_key"
+      role:      worker
+
+    - node_name: orangepi5b1
+      ip:        "10.0.50.49"
+      user:      root
+      pass:      "david"
+      key_path:  "appdaemon_shutdown_key"
+      role:      worker
+
+    - node_name: ubuntu-cp1
+      pve_host:  "10.0.0.71"   # intel_sbc — VM 301
+      role:      master
+
+    - node_name: ubuntu-cp2
+      pve_host:  "10.0.0.71"   # intel_sbc — VM 302
+      role:      master
+
+    - node_name: ubuntu-cp3
+      pve_host:  "10.0.0.71"   # intel_sbc — VM 303
+      role:      master
+
+  # ── Proxmox API (for master VM ACPI shutdown) ────────────────────────────
+  # All 3 masters now live on intel_sbc (VMs 301-303), which has a different
+  # root password than the rpi1/rpi2/rpi3 cluster — confirmed via a live
+  # /access/ticket auth test (the old "david" password fails against it).
+  proxmox_api_user: "root@pam"
+  proxmox_api_pass: "david23031955"
+
+  # ── Proxmox hosts (shut down after all VMs are off) ──────────────────────
+  # pve3 (10.0.50.39) and pve5 (10.0.50.49) are the OrangePi workers — already
+  # halted above as k3s_nodes, so not listed here.
+  proxmox_hosts:
+    - ip:   "10.0.50.19"
+      user: root
+      pass: "david"
+    - ip:   "10.0.50.26"
+      user: root
+      pass: "david"
+    - ip:   "10.0.50.40"
+      user: root
+      pass: "david"
+
+  # ── intel_sbc (runs HAOS VM + Proxmox) ──────────────────────────────────
+  # Sequence: schedule host OS shutdown (+5 min) → ACPI shutdown HAOS VM →
+  #           NAS API shutdown → AppDaemon killed when HAOS VM stops →
+  #           host powers off at +5 min mark.
+  intel_ip:   "10.0.0.71"
+  intel_user: root
+  intel_pass: "david23031955"
+
+  # HAOS VM ID on the intel_sbc Proxmox host (AppDaemon runs inside this VM).
+  # Confirmed directly via `qm list` on intel_sbc: VMID 200 is "homeassistant".
+  # (VMID 100 is a different, unrelated VM named "minio" -- the shutdown test
+  # was silently passing against the wrong VM before this fix, since it only
+  # checks that a VM exists at the configured ID, not that its name matches.)
+  haos_vmid: 200
+
+  # ── Synology NAS ──────────────────────────────────────────────────────────
+  # Shut down after intel_sbc shutdown is scheduled but while AppDaemon is
+  # still running.  NAS takes ~2-3 min to power off, by which time intel_sbc
+  # has already gone down.  This ensures the NAS is accessible throughout
+  # the intel_sbc shutdown process.
+  nas_ip:   "10.0.50.35"
+  nas_user: "davidb"
+  nas_pass: "AJT5gaf0hua-mkb7euy"
