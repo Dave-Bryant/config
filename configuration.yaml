@@ -1,6 +1,20 @@
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
+
+http:
+  server_host:
+    - "0.0.0.0"   # IPv4 all interfaces (current behaviour)
+    - "::"         # IPv6 all interfaces (ready for when IPv6 is enabled on UDM Pro)
+  trusted_proxies:
+    - 127.0.0.1
+    - ::1
+    - 10.0.0.0/8   # entire homelab LAN range
+    - fc00::/7     # ULA (private IPv6) range — covers fd00::/8 prefix Unifi will assign
+    - fe80::/10    # link-local IPv6
+  use_x_forwarded_for: true
+  ip_ban_enabled: true
+  login_attempts_threshold: 10
 bluetooth:
 
 recorder:
@@ -71,12 +85,30 @@ frontend:
 lovelace:
   resource_mode: yaml
   resources:
-    - url: /local/community/simple-thermostat/simple-thermostat.js?track=true
-      type: module
-    - url: /local/community/canvas-gauge-card/canvas-gauge-card.js
-      type: module
-    - url: /local/community/weather-card/weather-card.js
-      type: module
+    - type: module
+      url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
+    - type: module
+      url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
+    - type: module
+      url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
+    - type: module
+      url: /hacsfiles/button-card/button-card.js
+    - type: module
+      url: /hacsfiles/bom-radar-card/bom-radar-card.js
+    - type: module
+      url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js
+    - type: module
+      url: /hacsfiles/uptime-card/uptime-card.js
+    - type: module
+      url: /hacsfiles/apexcharts-card/apexcharts-card.js?v=2.0.1
+    - type: module
+      url: /hacsfiles/vacuum-card/vacuum-card.js
+    - type: module
+      url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.2.1
+    - type: module
+      url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+    - type: module
+      url: /hacsfiles/opensprinkler-card/opensprinkler-card.js
   dashboards:
     lovelace:
       mode: yaml
