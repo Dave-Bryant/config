@@ -21,3 +21,7 @@
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+
+# Scratch/backup copies — not tracked.
+*_old.yaml
+configuration.example.yaml
