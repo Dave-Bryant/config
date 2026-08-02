@@ -264,7 +264,7 @@ views:
         title: Television     
             
       - type: horizontal-stack
-        title: HA (Intel)
+        title: PVE (Intel)
         cards:
           - type: custom:canvas-gauge-card
             entity: sensor.pve_cpu_temp
@@ -299,7 +299,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.qemu_homeassistant_200_memory_used_percentage
+            entity: sensor.node_pve_memory_used_percentage
             card_height: 62
             gauge:
               type: "radial-gauge"
@@ -331,7 +331,7 @@ views:
               animationDuration: 1500
               animationRule: "linear"
           - type: custom:canvas-gauge-card
-            entity: sensor.qemu_homeassistant_200_cpu_used
+            entity: sensor.node_pve_cpu_used
             card_height: 62
             gauge:
               type: "radial-gauge"
