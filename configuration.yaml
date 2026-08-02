@@ -550,33 +550,6 @@ input_boolean:
     icon: mdi:alarm-light
 
 
-binary_sensor:
-  - platform: threshold
-    entity_id: sensor.study_temp
-    lower: 19.0
-    upper: 22.0
-    hysteresis: 0.0
-    name: study_temp_thres_on
-  - platform: threshold
-    entity_id: sensor.study_temp
-    lower: 20.0
-    upper: 22.0
-    hysteresis: 0.0
-    name: study_temp_thres_off
-  - platform: threshold
-    entity_id: sensor.hollys_bedroom_temp
-    lower: 19.0
-    upper: 22.0
-    hysteresis: 0.0
-    name: hollys_bedroom_temp_thres_on
-  - platform: threshold
-    entity_id: sensor.hollys_bedroom_temp
-    lower: 20.0
-    upper: 22.0
-    hysteresis: 0.0
-    name: hollys_bedroom_temp_thres_off
-
-
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
