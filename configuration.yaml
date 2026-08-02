@@ -352,9 +352,6 @@ template:
     - name: "Cluster Status"
       state: >
         {% set nodes = [
-          states('binary_sensor.node_rpi1_status'),
-          states('binary_sensor.node_rpi2_status'),
-          states('binary_sensor.node_rpi3_status'),
           states('binary_sensor.node_orangepi5b_status'),
           states('binary_sensor.node_orangepi5b1_status'),
           states('binary_sensor.node_pve_status'),
