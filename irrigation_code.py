@@ -49,8 +49,8 @@ class Home_Irrigation(hass.Hass):
         return stations
 
     def _load_sensors(self):
-        if (self.get_state("sensor.high_temperature_today") == 0
-                or self.get_state("sensor.precip_chance_today") == "unknown"):
+        if (self.to_float(self.get_state("sensor.high_temperature_today")) == 0.0
+                or self.get_state("sensor.precip_chance_today") in (None, "unknown", "unavailable")):
             self.running_time = 0.0
             self.chance_of_precipitation = 100.0
             self.chance_of_precipitation_48hrs = 100.0
@@ -180,10 +180,6 @@ class Home_Irrigation(hass.Hass):
             self.log("Skipping irrigation — it is currently raining")
             return
 
-        for key, data in self.stations.items():
-            if not key.startswith('noswitch'):
-                self.set_textvalue(f"input_text.{key[7:]}_run_duration", str(round(data['station_running_time'])))        
-
         switch_state = self.get_state("input_boolean.auto_irrigation_switch")
         if switch_state is None:
             self.log("WARNING: input_boolean.auto_irrigation_switch not found")
@@ -191,6 +187,10 @@ class Home_Irrigation(hass.Hass):
         if switch_state != 'on':
             self.log("Auto irrigation switch is off — not starting")
             return
+
+        for key, data in self.stations.items():
+            if not key.startswith('noswitch'):
+                self.set_textvalue(f"input_text.{key[7:]}_run_duration", str(round(data['station_running_time'])))
 
         now = datetime.datetime.today()
         delay = 0
@@ -224,7 +224,8 @@ class Home_Irrigation(hass.Hass):
                 ):
                     state = self.get_state(entity)
                     #self.log(f"Init entity: {entity} = {state!r}")
-                    if state in (None, "unknown", "unavailable", ""):
+                    # "—" is the legacy placeholder from the old code version
+                    if state in (None, "unknown", "unavailable", "", "—"):
                         self.set_textvalue(entity, "----")
 
     def _queue_station_cb(self, kwargs):
