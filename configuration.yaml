@@ -33,13 +33,10 @@ recorder:
       - sensor.garage_pi*
       - sensor.node_rpi*_total_updates # large APT package list attributes
       - sensor.odroidn2_*              # MQTT infra — in InfluxDB
-      - sensor.pi4_*                   # MQTT infra — in InfluxDB
       # - sensor.*
     entities:
       - sensor.garage_pi_sensors_garage_pi_last_message
-      - sensor.rpi4_cpu_temp                    # MQTT infra — in InfluxDB
       - sensor.orangepi5_cpu_temp               # MQTT infra — in InfluxDB
-      - sensor.proxmox_cpu_temp                 # MQTT infra — in InfluxDB
       - sensor.high_temperature_today           # statistics — source already recorded
       - sensor.high_temperature_per_hour
       - sensor.low_temperature_today
@@ -146,32 +143,11 @@ mqtt:
       state_topic: 'glances/odroid/sensors'
       value_template: '{{ value_json["soc_thermal 0"]["value"] }}'
       unit_of_measurement: 'C'
-    - name: 'pi4_cpu_load'
-      state_topic: 'glances/pi4/cpu'
-      value_template: '{{ value_json.total }}'
-      unit_of_measurement: '%'
-    - name: 'pi4_mem_load'
-      state_topic: 'glances/pi4/mem'
-      value_template: '{{ value_json.percent }}'
-      unit_of_measurement: '%'
-    - name: 'pi4_cpu_temp'
-      state_topic: 'glances/pi4/sensors'
-      value_template: '{{ value_json["cpu_thermal 0"]["value"] }}'
-      unit_of_measurement: 'C'
-    - name: 'rpi4_cpu_temp'
-      state_topic: 'cluster/rpi1/temp'
-      value_template: '{{ value | int (1) }}'
-      unit_of_measurement: 'C'  
     - name: "OrangePi5 CPU Temp"
       state_topic: "orangepi5/temperature"
       unit_of_measurement: "°C"
       device_class: temperature
-      state_class: measurement    
-    - name: "Proxmox CPU Temp"
-      state_topic: "proxmox/cpu_temp"
-      unit_of_measurement: "°C"
-      device_class: temperature
-      state_class: measurement    
+      state_class: measurement
 
 sensor:    
   - platform: statistics
