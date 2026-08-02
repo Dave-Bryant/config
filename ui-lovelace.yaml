@@ -1376,6 +1376,28 @@ views:
       - type: grid
         cards:
           - type: heading
+            heading: Node pve
+          - type: tile
+            entity: sensor.node_pve_cpu_used
+          - type: tile
+            entity: sensor.node_pve_disk_used_percentage
+          - type: tile
+            entity: sensor.node_pve_last_boot
+          - type: tile
+            entity: sensor.node_pve_memory_free
+          - type: tile
+            entity: sensor.node_pve_memory_used
+          - type: tile
+            entity: sensor.node_pve_memory_used_percentage
+          - type: tile
+            entity: sensor.node_pve_total_updates
+          - type: tile
+            entity: binary_sensor.node_pve_updates_packages
+          - type: tile
+            entity: sensor.node_pve_virtual_machines_running
+      - type: grid
+        cards:
+          - type: heading
             heading: Node orangepi5b
           - type: tile
             entity: sensor.node_orangepi5b_cpu_used
@@ -1610,6 +1632,13 @@ views:
         #   All systems are **{{ states('sensor.cluster_status') }}**      
         
     badges:
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.node_pve_status
+        name:
+          type: device
       - type: entity
         show_name: true
         show_state: true
