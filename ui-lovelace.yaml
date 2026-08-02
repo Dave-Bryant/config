@@ -1376,72 +1376,6 @@ views:
       - type: grid
         cards:
           - type: heading
-            heading: Node rpi1
-          - type: tile
-            entity: sensor.node_rpi1_cpu_used
-          - type: tile
-            entity: sensor.node_rpi1_disk_used_percentage
-          - type: tile
-            entity: sensor.node_rpi1_last_boot
-          - type: tile
-            entity: sensor.node_rpi1_memory_free
-          - type: tile
-            entity: sensor.node_rpi1_memory_used
-          - type: tile
-            entity: sensor.node_rpi1_memory_used_percentage
-          - type: tile
-            entity: sensor.node_rpi1_total_updates
-          - type: tile
-            entity: binary_sensor.node_rpi1_updates_packages
-          - type: tile
-            entity: sensor.node_rpi1_virtual_machines_running
-      - type: grid
-        cards:
-          - type: heading
-            heading: Node rpi2
-          - type: tile
-            entity: sensor.node_rpi2_cpu_used
-          - type: tile
-            entity: sensor.node_rpi2_disk_used_percentage
-          - type: tile
-            entity: sensor.node_rpi2_last_boot
-          - type: tile
-            entity: sensor.node_rpi2_memory_free
-          - type: tile
-            entity: sensor.node_rpi2_memory_used
-          - type: tile
-            entity: sensor.node_rpi2_memory_used_percentage
-          - type: tile
-            entity: sensor.node_rpi2_total_updates
-          - type: tile
-            entity: binary_sensor.node_rpi2_updates_packages
-          - type: tile
-            entity: sensor.node_rpi2_virtual_machines_running
-      - type: grid
-        cards:
-          - type: heading
-            heading: Node rpi3
-          - type: tile
-            entity: sensor.node_rpi3_cpu_used
-          - type: tile
-            entity: sensor.node_rpi3_disk_used_percentage
-          - type: tile
-            entity: sensor.node_rpi3_last_boot
-          - type: tile
-            entity: sensor.node_rpi3_memory_free
-          - type: tile
-            entity: sensor.node_rpi3_memory_used
-          - type: tile
-            entity: sensor.node_rpi3_memory_used_percentage
-          - type: tile
-            entity: sensor.node_rpi3_total_updates
-          - type: tile
-            entity: binary_sensor.node_rpi3_updates_packages
-          - type: tile
-            entity: sensor.node_rpi3_virtual_machines_running
-      - type: grid
-        cards:
-          - type: heading
             heading: Node orangepi5b
           - type: tile
             entity: sensor.node_orangepi5b_cpu_used
@@ -1486,6 +1420,54 @@ views:
       - type: grid
         cards:
           - type: heading
+            heading: Cp1
+          - type: tile
+            entity: sensor.garage_default_ubuntu_cp1
+          - type: tile
+            entity: switch.garage_default_ubuntu_cp1_schedulable
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp1_memory_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp1_disk_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp1_pid_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp1_network_unavailable
+      - type: grid
+        cards:
+          - type: heading
+            heading: Cp2
+          - type: tile
+            entity: sensor.garage_default_ubuntu_cp2
+          - type: tile
+            entity: switch.garage_default_ubuntu_cp2_schedulable
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp2_memory_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp2_disk_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp2_pid_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp2_network_unavailable
+      - type: grid
+        cards:
+          - type: heading
+            heading: Cp3
+          - type: tile
+            entity: sensor.garage_default_ubuntu_cp3
+          - type: tile
+            entity: switch.garage_default_ubuntu_cp3_schedulable
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp3_memory_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp3_disk_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp3_pid_pressure
+          - type: tile
+            entity: binary_sensor.garage_default_ubuntu_cp3_network_unavailable
+      - type: grid
+        cards:
+          - type: heading
             heading: Node Home Asst
           - type: tile
             entity: sensor.qemu_homeassistant_200_cpu_used
@@ -1520,7 +1502,47 @@ views:
           - type: tile
             entity: sensor.qemu_homeassistant_200_node
           - type: tile
-            entity: sensor.qemu_homeassistant_200_status      
+            entity: sensor.qemu_homeassistant_200_status
+      - type: grid
+        cards:
+          - type: heading
+            heading: Minio
+          - type: tile
+            entity: binary_sensor.qemu_haos_16_2_100_status
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_node
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_cpu_used
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_disk_used_percentage
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_memory_free
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_memory_used
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_memory_used_percentage
+          - type: tile
+            entity: sensor.qemu_haos_16_2_100_last_boot
+      - type: grid
+        cards:
+          - type: heading
+            heading: Tailscale
+          - type: tile
+            entity: binary_sensor.lxc_tailscale_201_status
+          - type: tile
+            entity: sensor.lxc_tailscale_201_node
+          - type: tile
+            entity: sensor.lxc_tailscale_201_cpu_used
+          - type: tile
+            entity: sensor.lxc_tailscale_201_disk_used_percentage
+          - type: tile
+            entity: sensor.lxc_tailscale_201_memory_free
+          - type: tile
+            entity: sensor.lxc_tailscale_201_memory_used
+          - type: tile
+            entity: sensor.lxc_tailscale_201_memory_used_percentage
+          - type: tile
+            entity: sensor.lxc_tailscale_201_last_boot
       - type: grid
         cards:
           - type: tile
@@ -1592,27 +1614,6 @@ views:
         show_name: true
         show_state: true
         show_icon: true
-        entity: binary_sensor.node_rpi1_status
-        name:
-          type: device
-      - type: entity
-        show_name: true
-        show_state: true
-        show_icon: true
-        entity: binary_sensor.node_rpi2_status
-        name:
-          type: device
-      - type: entity
-        show_name: true
-        show_state: true
-        show_icon: true
-        entity: binary_sensor.node_rpi3_status
-        name:
-          type: device
-      - type: entity
-        show_name: true
-        show_state: true
-        show_icon: true
         entity: binary_sensor.node_orangepi5b_status
         name:
           type: device
@@ -1622,13 +1623,37 @@ views:
         show_icon: true
         entity: binary_sensor.node_orangepi5b1_status
         name:
-          type: device      
+          type: device
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.garage_default_ubuntu_cp1
+        name: Cp1
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.garage_default_ubuntu_cp2
+        name: Cp2
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.garage_default_ubuntu_cp3
+        name: Cp3
       - type: entity
         show_name: true
         show_state: true
         show_icon: true
         entity: binary_sensor.qemu_haos_16_2_100_status
-        name: Home Asst
+        name: Minio
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: binary_sensor.lxc_tailscale_201_status
+        name: Tailscale
       - type: entity
         show_name: true
         show_state: true
