@@ -12,7 +12,7 @@ _lawn_defaults: &lawn_defaults
   PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 4
-  SOILMOISTUREMIN: 75
+  SOILMOISTUREMIN: 50
   RAINTHRESHOLD: 2  
   STATION_1: 'switch.opensprinkler_1_front_lawn_station_enabled'  #Front Lawn West Irrigation
   STATION_2: 'switch.opensprinkler_2_front_lawn_left_station_enabled'  #Front Lawn East Irrigation
@@ -71,7 +71,7 @@ irrigationG:              # Gardens
   PRECIPITATION_THRESHOLD_48: 90
   WATERING_THRESHOLD: 360
   NO_OF_SCHEDULES: 1
-  SOILMOISTUREMIN: 75
+  SOILMOISTUREMIN: 50
   RAINTHRESHOLD: 2
   RESET_BUCKET: False
   GARDEN_RUN: True 
