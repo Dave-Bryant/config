@@ -1739,8 +1739,6 @@ views:
             name: Solar Bz
           - entity: sensor.ham_radio_propagation_solar_flux_index
             name: Solar Flux Index
-          - entity: sensor.ham_radio_propagation_solar_hf_fof2_cb53n
-            name: Solar foF2
           - entity: sensor.ham_radio_propagation_solar_k_index
             name: Solar K-Index
           - entity: sensor.ham_radio_propagation_solar_sunspots
