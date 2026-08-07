@@ -1702,8 +1702,7 @@ views:
           | Metric | Current | Good | Excellent |
           |--------|---------|------|-----------|
           | Confid.| {{ states('sensor.ham_radio_propagation_solar_hf_cs_cb53n') }}     |  0.5-0.9  |  1.0   |          
-          | foF2 | {{ states('sensor.ham_radio_propagation_solar_hf_fof2_cb53n') }} MHz | 12–15 MHz | 18+ MHz |
-          | MUF | {{ states('sensor.ham_radio_propagation_solar_hf_muf_cb53n') }} MHz | 40–50 MHz | 60+ MHz |
+          | foF2 | {{ states('sensor.ham_radio_propagation_solar_fof2') }} MHz | 12–15 MHz | 18+ MHz |
           | Solar Flux | {{ states('sensor.ham_radio_propagation_solar_flux_index') }} | 150+ | 200+ |
           | K-Index | {{ states('sensor.ham_radio_propagation_solar_k_index') }} | 0–1 | 0 |
           | A-Index | {{ states('sensor.ham_radio_propagation_solar_a_index') }} | <10 | <5 |
