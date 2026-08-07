@@ -2,19 +2,6 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
 
-http:
-  server_host:
-    - "0.0.0.0"   # IPv4 all interfaces (current behaviour)
-    - "::"         # IPv6 all interfaces (ready for when IPv6 is enabled on UDM Pro)
-  trusted_proxies:
-    - 127.0.0.1
-    - ::1
-    - 10.0.0.0/8   # entire homelab LAN range
-    - fc00::/7     # ULA (private IPv6) range — covers fd00::/8 prefix Unifi will assign
-    - fe80::/10    # link-local IPv6
-  use_x_forwarded_for: true
-  ip_ban_enabled: true
-  login_attempts_threshold: 10
 bluetooth:
 
 recorder:
