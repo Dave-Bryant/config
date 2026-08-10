@@ -116,24 +116,27 @@ class Home_Irrigation(hass.Hass):
             f"All conditions must be OK to irrigate."
         )
 
+        # Lower-priority statuses are set first so higher-priority ones overwrite them
+        # (select_option keeps only the last value written). Priority, highest first:
+        # It has rained > Rain is coming > Soil moisture too high > Irrigation run time too small.
         if self.running_time <= self.watering_threshold:
             status = "No moisture lost yesterday" if int(self.running_time) == 0 else "Irrigation run time too small"
             self.select_option("input_select.irrigation_status", status)
+        if self.soil_moisture > self.soil_moisture_min:
+            self.select_option("input_select.irrigation_status", "Soil Moisture too high")
         if self.chance_of_precipitation > self.precipitation_threshold:
             self.select_option("input_select.irrigation_status", "Rain is coming")
         if self.chance_of_precipitation_48hrs > self.precipitation_threshold_48:
             self.select_option("input_select.irrigation_status", "Rain is coming")
         if self.precipitation > self.rain_threshold:
             self.select_option("input_select.irrigation_status", "It has rained")
-        if self.soil_moisture > self.soil_moisture_min:
-            self.select_option("input_select.irrigation_status", "Soil Moisture too high")
 
         should_irrigate = (
             self.running_time > self.watering_threshold
+            and self.soil_moisture <= self.soil_moisture_min
             and self.chance_of_precipitation <= self.precipitation_threshold
             and self.chance_of_precipitation_48hrs <= self.precipitation_threshold_48
             and self.precipitation <= self.rain_threshold
-            and self.soil_moisture <= self.soil_moisture_min
         )
 
         if self.debug:
@@ -178,6 +181,7 @@ class Home_Irrigation(hass.Hass):
 
         if self.precipitation > 0:
             self.log("Skipping irrigation — it is currently raining")
+            self.select_option("input_select.irrigation_status", "It has rained")
             return
 
         switch_state = self.get_state("input_boolean.auto_irrigation_switch")
