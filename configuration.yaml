@@ -1,7 +1,7 @@
 
 # Configure a default setup of Home Assistant (frontend, api, etc)
 default_config:
-
+# prometheus:
 bluetooth:
 
 recorder:
@@ -38,23 +38,31 @@ recorder:
       - sensor.esp32_temperature_safe           # numeric wrapper for filter input
 
 influxdb:
-  host: a0d7b954-influxdb  
-  port: 8086
+  host: a0d7b954-victoriametrics
+  port: 8428
+  ssl: false
+  api_version: 1
   database: homeassistant
   username: homeassistant
   password: !secret influxdb_password
-  max_retries: 3
-  default_measurement: state
+  # max_retries: 3
+  measurement_attr: entity_id
+  tags_attributes:
+    - friendly_name
+    - unit_of_measurement
+  ignore_attributes:
+    - device_class
+    - editable
+    - icon
+    - options
+    - state_class
+    - supported_features
   include:
-    # entities:
-    #   - sensor.helium_wallet_14rtp7ja84zcvwsu6nuf6kbbfwam3qezuulzgvypk1n3jpkdqqu
-    #   - sensor.helium_hnt_oracle_price
-    #   - sensor.helium_wallet_today
-    #   - sensor.helium_wallet_weekly
-    #   - sensor.helium_wallet_monthly
-    #   - sensor.helium_wallet_value
     domains:
+      - binary_sensor
+      - climate
       - sensor
+      - switch  
   exclude:
     entities:
     - sensor.garage_pi_sensors_garage_pi_last_message
