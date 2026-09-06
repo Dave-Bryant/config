@@ -1189,124 +1189,166 @@ views:
   - title: Ecovac Second Floor
     cards:
       - type: custom:vacuum-card
-        entity: vacuum.dads_bot
-        image: default 
+        entity: vacuum.2nd_floor_deebot_x2_omni
+        image: default
         compact_view: false
         show_name: true
         show_toolbar: true
-        show_status: true 
+        show_status: true
         stats:
           default:
-            - entity_id: sensor.dads_bot_main_brush_lifespan
+            - entity_id: sensor.2nd_floor_deebot_x2_omni_main_brush_lifespan
               subtitle: Main brush
-              unit: '%'              
-            - entity_id: sensor.dads_bot_side_brushes_lifespan     
               unit: '%'
+            - entity_id: sensor.2nd_floor_deebot_x2_omni_side_brush_lifespan
               subtitle: Side brush
-            - entity_id: sensor.dads_bot_filter_lifespan
               unit: '%'
-              subtitle: Filter 
-            - entity_id: sensor.dads_bot_area_cleaned
-              subtitle: Area Cleaned
-              unit: 'm2'   
-
+            - entity_id: sensor.2nd_floor_deebot_x2_omni_round_mop_lifespan
+              subtitle: Round mop
+              unit: '%'
+            - entity_id: sensor.2nd_floor_deebot_x2_omni_filter_lifespan
+              subtitle: Filter
+              unit: '%'
         my-custom-theme:
           - vc-background: '#17A8F4'
-            vc-spacing: 5px 
-        shortcuts:          
-          - name: Clean bedroom
-            service: script.clean_bedroom
-            icon: 'mdi:bed-empty'      
-        
+            vc-spacing: 5px
+
       - type: grid
         square: false
         columns: 1
         cards:
           - type: entities
-            entities:              
-              - type: section
-              - entity: sensor.dads_bot_area_cleaned
-                name: Stats area
-              - entity: sensor.dads_bot_cleaning_duration
-                name: Stats time              
-              - entity: sensor.dads_bot_total_area_cleaned
-                name: Stats total cleanings
-              - entity: sensor.dads_bot_total_cleaning_duration
-                name: Stats total time              
-              - entity: sensor.dads_bot_total_cleanings
-                name: Clean count
-            title: Deebot N8 Stats
+            title: Status
+            entities:
+              - entity: sensor.2nd_floor_deebot_x2_omni_battery
+                name: Battery
+              - entity: binary_sensor.2nd_floor_deebot_x2_omni_mop_attached
+                name: Mop attached
+              - entity: event.2nd_floor_deebot_x2_omni_last_job
+                name: Last job
+          - type: entities
+            title: Controls
+            entities:
+              - entity: select.2nd_floor_deebot_x2_omni_active_map
+                name: Active map
+              - entity: select.2nd_floor_deebot_x2_omni_water_flow_level
+                name: Water flow level
+              - entity: button.2nd_floor_deebot_x2_omni_relocate
+                name: Relocate
+          - type: entities
+            title: Cleaning Stats
+            entities:
+              - entity: sensor.2nd_floor_deebot_x2_omni_area_cleaned
+                name: Area cleaned
+              - entity: sensor.2nd_floor_deebot_x2_omni_cleaning_duration
+                name: Cleaning duration
+              - entity: sensor.2nd_floor_deebot_x2_omni_total_area_cleaned
+                name: Total area cleaned
+              - entity: sensor.2nd_floor_deebot_x2_omni_total_cleaning_duration
+                name: Total cleaning duration
+              - entity: sensor.2nd_floor_deebot_x2_omni_total_cleanings
+                name: Total cleanings
+          - type: entities
+            title: Consumables
+            entities:
+              - entity: sensor.2nd_floor_deebot_x2_omni_main_brush_lifespan
+                name: Main brush
+              - entity: sensor.2nd_floor_deebot_x2_omni_side_brush_lifespan
+                name: Side brush
+              - entity: sensor.2nd_floor_deebot_x2_omni_round_mop_lifespan
+                name: Round mop
+              - entity: sensor.2nd_floor_deebot_x2_omni_filter_lifespan
+                name: Filter
+              - entity: sensor.2nd_floor_deebot_x2_omni_unit_care_lifespan
+                name: Unit care
           - type: picture-entity
-            entity: image.dads_bot_map 
+            entity: image.2nd_floor_deebot_x2_omni_map
             title: Second Floor Bot Map
-      # - type: grid
-      #   square: false        
-      #   columns: 1
-      #   cards:
-      #     - type: entities
-      #       show_header_toggle: false
-      #       entities:
-      #         - entity: sensor.dads_bot_battery
-      #           name: battery
-      #         - entity: vacuum.dads_bot
-      #           name: Status              
-      #       title: Deebot N8 Status 
+
   - title: Ecovac Ground Floor
-    cards:   
+    cards:
       - type: custom:vacuum-card
-        entity: vacuum.groundfloorbot
-        image: default 
+        entity: vacuum.grd_bot_t90_pro_omni
+        image: default
         compact_view: false
         show_name: true
         show_toolbar: true
-        show_status: true 
+        show_status: true
         stats:
           default:
-            - entity_id: sensor.groundfloorbot_main_brush_lifespan
+            - entity_id: sensor.grd_bot_t90_pro_omni_main_brush_lifespan
               subtitle: Main brush
-              unit: '%'              
-            - entity_id: sensor.groundfloorbot_side_brushes_lifespan     
               unit: '%'
+            - entity_id: sensor.grd_bot_t90_pro_omni_side_brush_lifespan
               subtitle: Side brush
-            - entity_id: sensor.groundfloorbot_filter_lifespan
               unit: '%'
-              subtitle: Filter 
-            - entity_id: sensor.groundfloorbot_area_cleaned
-              subtitle: Area Cleaned
-              unit: 'm2'   
-
+            - entity_id: sensor.grd_bot_t90_pro_omni_round_mop_lifespan
+              subtitle: Round mop
+              unit: '%'
+            - entity_id: sensor.grd_bot_t90_pro_omni_filter_lifespan
+              subtitle: Filter
+              unit: '%'
         my-custom-theme:
           - vc-background: '#17A8F4'
-            vc-spacing: 5px 
-        shortcuts:          
-          - name: Clean bedroom
-            service: script.clean_bedroom
-            icon: 'mdi:bed-empty'       
-        
+            vc-spacing: 5px
+
       - type: grid
         square: false
         columns: 1
         cards:
           - type: entities
-            entities:              
-              - type: section
-              - entity: sensor.groundfloorbot_area_cleaned
-                name: Stats area
-              - entity: sensor.groundfloorbot_cleaning_duration
-                name: Stats time              
-              - entity: sensor.dads_bot_total_area_cleaned
-                name: Stats total cleanings
-              - entity: sensor.groundfloorbot_total_cleaning_duration
-                name: Stats total time              
-              - entity: sensor.groundfloorbot_total_cleanings
-                name: Clean count
-              - entity: sensor.groundfloorbot_unit_care_lifespan
-                name: Unit Care
-            title: Deebot X20 Stats
-          - type: picture-entity
-            entity: image.groundfloorbot_map
-            title: Ground Floor Bot Map
-        
+            title: Status
+            entities:
+              - entity: sensor.grd_bot_t90_pro_omni_battery
+                name: Battery
+              - entity: sensor.grd_bot_t90_pro_omni_station_state
+                name: Station state
+              - entity: binary_sensor.grd_bot_t90_pro_omni_mop_attached
+                name: Mop attached
+              - entity: event.grd_bot_t90_pro_omni_last_job
+                name: Last job
+          - type: entities
+            title: Controls
+            entities:
+              - entity: number.grd_bot_t90_pro_omni_water_flow_level
+                name: Water flow level
+              - entity: select.grd_bot_t90_pro_omni_auto_empty_frequency
+                name: Auto-empty frequency
+              - entity: button.grd_bot_t90_pro_omni_dry_mop
+                name: Dry mop
+              - entity: button.grd_bot_t90_pro_omni_empty_dustbin
+                name: Empty dustbin
+          - type: entities
+            title: Cleaning Stats
+            entities:
+              - entity: sensor.grd_bot_t90_pro_omni_area_cleaned
+                name: Area cleaned
+              - entity: sensor.grd_bot_t90_pro_omni_cleaning_duration
+                name: Cleaning duration
+              - entity: sensor.grd_bot_t90_pro_omni_total_area_cleaned
+                name: Total area cleaned
+              - entity: sensor.grd_bot_t90_pro_omni_total_cleaning_duration
+                name: Total cleaning duration
+              - entity: sensor.grd_bot_t90_pro_omni_total_cleanings
+                name: Total cleanings
+          - type: entities
+            title: Consumables
+            entities:
+              - entity: sensor.grd_bot_t90_pro_omni_main_brush_lifespan
+                name: Main brush
+              - entity: sensor.grd_bot_t90_pro_omni_side_brush_lifespan
+                name: Side brush
+              - entity: sensor.grd_bot_t90_pro_omni_round_mop_lifespan
+                name: Round mop
+              - entity: sensor.grd_bot_t90_pro_omni_filter_lifespan
+                name: Filter
+              - entity: sensor.grd_bot_t90_pro_omni_cleaning_solution_lifespan
+                name: Cleaning solution
+              - entity: sensor.grd_bot_t90_pro_omni_dust_bag_lifespan
+                name: Dust bag
+              - entity: sensor.grd_bot_t90_pro_omni_unit_care_lifespan
+                name: Unit care
+
   - title: Cameras
     cards:
       - type: picture-entity
