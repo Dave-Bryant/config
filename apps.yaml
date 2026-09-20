@@ -126,13 +126,10 @@ irrigation_ET_calculator:              # Calculates ET & Run time daily howzat
   SPRINKLERMAXRUNTIME: 3600 # secs i.e. 60 mins
   DAILYRAIN: "sensor.ws2900c_v2_01_10_daily_rain"
   EVENTRAIN: "sensor.ws2900c_v2_01_10_event_rain"
-  # InfluxDB connection
-  INFLUXDB_HOST: "10.0.0.55"
-  INFLUXDB_PORT: 8086
-  INFLUXDB_USER: "homeassistant"
-  INFLUXDB_PASSWORD: "david"
-  INFLUXDB_DATABASE: "homeassistant"
-  # Weather station InfluxDB entity_id tags
+  # VictoriaMetrics connection (replaced the InfluxDB add-on)
+  VICTORIAMETRICS_HOST: "a0d7b954-victoriametrics"
+  VICTORIAMETRICS_PORT: 8428
+  # Weather station entity_id tags
   TAG_TEMPERATURE: "ws2900c_v2_01_10_outdoor_temperature"
   TAG_HUMIDITY: "ws2900c_v2_01_10_humidity"
   TAG_PRESSURE: "ws2900c_v2_01_10_absolute_pressure"

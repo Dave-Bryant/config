@@ -1,5 +1,10 @@
+import json
+import time
+import urllib.parse
+import urllib.request
+from datetime import datetime, timezone
+
 import appdaemon.plugins.hass.hassapi as hass
-from influxdb import InfluxDBClient
 from eto import ETo
 import pandas as pd
 import numpy as np
@@ -34,14 +39,11 @@ class ET_Calculation(hass.Hass):
         self.event_rain = self.convert_to_float_or_zero(self.get_state(self.args["EVENTRAIN"]))
         self.max_bucket_size = self.args["MAXBUCKETSIZE"]
 
-        # InfluxDB connection
-        self.influxdb_host = self.args.get("INFLUXDB_HOST", "10.0.0.55")
-        self.influxdb_port = self.args.get("INFLUXDB_PORT", 8086)
-        self.influxdb_user = self.args.get("INFLUXDB_USER", "homeassistant")
-        self.influxdb_password = self.args["INFLUXDB_PASSWORD"]
-        self.influxdb_database = self.args.get("INFLUXDB_DATABASE", "homeassistant")
+        # VictoriaMetrics connection (replaced the InfluxDB add-on)
+        self.victoriametrics_host = self.args.get("VICTORIAMETRICS_HOST", "a0d7b954-victoriametrics")
+        self.victoriametrics_port = self.args.get("VICTORIAMETRICS_PORT", 8428)
 
-        # InfluxDB entity_id tags for weather station sensors
+        # Weather station entity_id tags (metrics are named "sensor.<tag>_value" in VictoriaMetrics)
         self.tag_temperature = self.args["TAG_TEMPERATURE"]
         self.tag_humidity = self.args["TAG_HUMIDITY"]
         self.tag_pressure = self.args["TAG_PRESSURE"]
@@ -68,22 +70,30 @@ class ET_Calculation(hass.Hass):
 
     # METHODS.
 
-    def query_influx(self, query, label):
+    def query_metric(self, tag, agg, label):
         self.log(f"Querying: {label}")
-        result = self.conn.query(query=query)
-        series = result.raw.get('series')
-        if not series or not series[0].get('values'):
-            raise ValueError(f"No InfluxDB data for: {label}")
-        return series[0]['values']
+        end = (int(time.time()) // 3600) * 3600
+        start = end - 23 * 3600
+        query = f"{agg}_over_time(sensor.{tag}_value[1h])"
+        params = urllib.parse.urlencode({
+            "query": query,
+            "start": start,
+            "end": end,
+            "step": "3600s",
+        })
+        url = f"http://{self.victoriametrics_host}:{self.victoriametrics_port}/api/v1/query_range?{params}"
+        with urllib.request.urlopen(url, timeout=10) as resp:
+            payload = json.loads(resp.read())
+        result = payload.get("data", {}).get("result")
+        if not result:
+            raise ValueError(f"No VictoriaMetrics data for: {label}")
+        return [
+            [datetime.fromtimestamp(ts, tz=timezone.utc).isoformat(), float(value)]
+            for ts, value in result[0]["values"]
+        ]
 
     def Calculate_ET_for_the_day(self, *kwarg):
         try:
-            self.conn = InfluxDBClient(
-                self.influxdb_host, self.influxdb_port,
-                self.influxdb_user, self.influxdb_password,
-                self.influxdb_database)
-            self.log("Connection to influxdb was succesfull..")
-
             t = self.tag_temperature
             h = self.tag_humidity
             p = self.tag_pressure
@@ -92,65 +102,45 @@ class ET_Calculation(hass.Hass):
             s = self.tag_solarradiation
 
             self.df1 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '{t}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{t} (T_mean)"),
+                self.query_metric(t, "avg", f"{t} (T_mean)"),
                 columns=['time', 'T_mean'])
 
             self.df2 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '{h}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{h} (RH_mean)"),
+                self.query_metric(h, "avg", f"{h} (RH_mean)"),
                 columns=['time', 'RH_mean'])
 
             self.df3 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT min(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '{t}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{t} (T_min)"),
+                self.query_metric(t, "min", f"{t} (T_min)"),
                 columns=['time', 'T_min'])
 
             self.df4 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT max(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '{t}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{t} (T_max)"),
+                self.query_metric(t, "max", f"{t} (T_max)"),
                 columns=['time', 'T_max'])
 
             self.df5 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"hPa\" WHERE (\"entity_id\"::tag = '{p}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{p} (P)"),
+                self.query_metric(p, "avg", f"{p} (P)"),
                 columns=['time', 'P'])
             self.df5['P'] = self.df5['P'] / 10  # hPa to kPa
 
             self.df6 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"°C\" WHERE (\"entity_id\"::tag = '{d}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{d} (T_dew)"),
+                self.query_metric(d, "avg", f"{d} (T_dew)"),
                 columns=['time', 'T_dew'])
 
             self.df7 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"km/h\" WHERE (\"entity_id\"::tag = '{w}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{w} (U_z)"),
+                self.query_metric(w, "avg", f"{w} (U_z)"),
                 columns=['time', 'U_z'])
 
             self.df8 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT mean(\"value\") FROM \"W/m²\" WHERE (\"entity_id\"::tag = '{s}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{s} (R_s)"),
+                self.query_metric(s, "avg", f"{s} (R_s)"),
                 columns=['time', 'R_s'])
             self.df8['R_s'] = self.df8['R_s'] * 0.0036  # W/m² to MJ/m²/h
 
             self.df9 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT max(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '{h}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{h} (RH_max)"),
+                self.query_metric(h, "max", f"{h} (RH_max)"),
                 columns=['time', 'RH_max'])
 
             self.df10 = pd.DataFrame(
-                self.query_influx(
-                    f"SELECT min(\"value\") FROM \"%\" WHERE (\"entity_id\"::tag = '{h}') AND time >= now() - 23h and time <= now() GROUP BY time(1h) fill(null)",
-                    f"{h} (RH_min)"),
+                self.query_metric(h, "min", f"{h} (RH_min)"),
                 columns=['time', 'RH_min'])
 
             self.df1 = pd.merge(self.df1, self.df2, on='time', how='outer')
