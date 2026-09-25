@@ -91,7 +91,7 @@ irrigationG:              # Gardens
   # Clay typically needs 3-6L/m² to wet the soil to root depth for established plants 2–3 times per week. Given the Gardens deliver 6 L/m²/hour this would be 1 hour at 3 times a week at the top of the range. This is equivalent in lawn watering time over three days of 150m (EV of 10 mm/day or 50m/day). The conversion factor from Lawn Watering to Garden Watering is therefore 60m/150m = .4 
   # Wrong Logic not sure why: The Garden calculations use the Lawn Watering time (for 338 sq metres) and pro rata it down (for Gardens of 195 sq metres) using a factor of 60%. Given the L/m2/hour for the lawn is three times the garden rate the final conversion factor is Lawn Watering Time * 0.6 * 3 = Garden Watering Time. So the weight of 1.8 is used for Station 6 and 7 using this conversion.     
   STATION_6_WEIGHT: 0.4  # 75 metres of drip line with 1 hole every 300 mm delivering 30ml per minute i.e. 75 / .3 * 30 = 7.5 litres per minute or .1 Litre per metre per minute. Based on typical bed of 1m wide this is 6 L/m²/hour. 
-  STATION_7_WEIGHT: 0.4  # 120 metres of drip line with 1 hole every 300 mm delivering 30ml per minute i.e. 120 / .3 * 30 = 12 litres per minute or .1 Litre per metre per minute. Based on typical bed of 1m wide this is 6 L/m²/hour.
+  STATION_7_WEIGHT: 0.6  # 120 metres of drip line with 1 hole every 300 mm delivering 30ml per minute i.e. 120 / .3 * 30 = 12 litres per minute or .1 Litre per metre per minute. Based on typical bed of 1m wide this is 6 L/m²/hour. 25/9 added .2 dues to trees at the back
   
 
 irrigation_rain_monitor:              # Resets cumulative garden run time if rain occurs
