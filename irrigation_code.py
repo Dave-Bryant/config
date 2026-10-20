@@ -193,6 +193,12 @@ class Home_Irrigation(hass.Hass):
             return
 
         for key, data in self.stations.items():
+            if not key.startswith('noswitch') and data['station_running_time'] > 0.001 \
+                    and not self._station_available(key):
+                self.log(f"WARNING: {key} is disabled/unavailable - skipping", level="WARNING")
+                data['station_running_time'] = 0.0
+
+        for key, data in self.stations.items():
             if not key.startswith('noswitch'):
                 self.set_textvalue(f"input_text.{key[7:]}_run_duration", str(round(data['station_running_time'])))
 
@@ -236,12 +242,18 @@ class Home_Irrigation(hass.Hass):
         key = kwargs["current_station"]
         run_seconds = kwargs["run_seconds"]
         now = kwargs["now"]
+        if not self._station_available(key):
+            self.log(f"WARNING: {key} is disabled/unavailable - not run", level="WARNING")
+            return
         self.call_service("opensprinkler/run", entity_id=key, run_seconds=run_seconds)
         self.set_textvalue(f"input_text.{key[7:]}_run_date", now.strftime("%d/%m"))
         self.set_textvalue(f"input_text.{key[7:]}_run_time", now.strftime("%H:%M"))
         self.log(f"Queued {key} for {run_seconds}s")
 
     # --- Helpers ---
+
+    def _station_available(self, key):
+        return self.get_state(key) not in (None, "unknown", "unavailable")
 
     def _assign_station_time(self, key, data, base_time):
         if self.debug:
