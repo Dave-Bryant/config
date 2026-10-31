@@ -25,7 +25,7 @@ _lawn_defaults: &lawn_defaults
   STATION_1_WEIGHT: 0.2   # Was .6  19% of total are a of 338 sq mtrs
   STATION_2_WEIGHT: 0.3   # Was .9  30% of total area of 338 sq mtrs
   STATION_3_WEIGHT: 0.25  # Was .75 25% of total area of 338 sq mtrs
-  STATION_4_WEIGHT: 0.26  # Was .5  26% of total area of 338 sq mtrs
+  STATION_4_WEIGHT: 0.33  # Was .5 then .26 but has slower flow heads   26% of total area of 338 sq mtrs
   STATION_5_WEIGHT: 1.00  # Not used
   STATION_6_WEIGHT: 0.4
   STATION_7_WEIGHT: 0.4   
