@@ -17,6 +17,12 @@ views:
     badges:
       - entity: binary_sensor.home_assistant_versions_update_available
         name: Update?
+      - type: entity
+        show_name: true
+        show_state: true
+        show_icon: true
+        entity: sensor.cluster_status
+        name: Homelab
       - entity: person.david_bryant
         name: David
         display_type: complete
@@ -264,405 +270,174 @@ views:
         title: Television     
             
       - type: horizontal-stack
-        title: PVE (Intel)
+        title: Geekom (Proxmox)
         cards:
-          - type: custom:canvas-gauge-card
+          - type: gauge
             entity: sensor.pve_cpu_temp
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: CPU Temperature
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
+            name: CPU Temp
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 78
+          - type: gauge
             entity: sensor.node_pve_memory_used_percentage
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Memory Usage (%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
+            name: Memory
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+          - type: gauge
             entity: sensor.node_pve_cpu_used
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Processor Usage (%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-      
-      
+            name: CPU
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
 
       - type: horizontal-stack
-        title: OdroidN2(ARM)
+        title: Minisforum
         cards:
-          - type: custom:canvas-gauge-card
-            entity: sensor.odroidn2_cpu_temp
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: CPU Temperature
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
-            entity: sensor.odroidn2_mem_load
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Memory Usage (%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
-            entity: sensor.odroidn2_cpu_load
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Processor Usage (%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
+          - type: gauge
+            entity: sensor.minisforum_pc_cpu_temp
+            name: CPU Temp
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 78
+          - type: gauge
+            entity: sensor.minisforum_pc_memory_usage
+            name: Memory
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+          - type: gauge
+            entity: sensor.minisforum_pc_cpu_usage
+            name: CPU
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+
       - type: horizontal-stack
-        title: OrangePi5 (ARM)
+        title: OrangePi 5B
         cards:
-          - type: custom:canvas-gauge-card
+          - type: gauge
             entity: sensor.orangepi5_cpu_temp
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: CPU Temperature
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 70, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
+            name: CPU Temp
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 50
+              red: 60
+          - type: gauge
             entity: sensor.node_orangepi5b_memory_used_percentage
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Memory Usage(%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
-            entity: sensor.node_orangepi5b1_cpu_used
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Processor Usage(%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
+            name: Memory
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+          - type: gauge
+            entity: sensor.node_orangepi5b_cpu_used
+            name: CPU
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
 
       - type: horizontal-stack
-        title: Nvidia GPU (ARM)
+        title: Jetson Orin Nano (GPU)
         cards:
-          - type: custom:canvas-gauge-card
+          - type: gauge
             entity: sensor.jetson_orin_nano_jetson_temperature
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: GPU Temperature
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 75, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
+            name: Temp
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 50
+              red: 63
+          - type: gauge
             entity: sensor.jetson_orin_nano_jetson_memory_usage
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Memory Usage(%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
-          - type: custom:canvas-gauge-card
+            name: Memory
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+          - type: gauge
             entity: sensor.jetson_orin_nano_jetson_gpu_usage
-            card_height: 62
-            gauge:
-              type: "radial-gauge"
-              title: Processor Usage(%)
-              width: 110
-              height: 110
-              borderShadowWidth: 0
-              borderOuterWidth: 0
-              borderMiddleWidth: 0
-              borderInnerWidth: 0
-              minValue: 0
-              maxValue: 100
-              startAngle: 90
-              ticksAngle: 180
-              valueBox: false
-              majorTicks:
-                ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"]
-              minorTicks: 2
-              strokeTicks: true
-              highlights:
-                [{ "from": 80, "to": 100, "color": "rgba(200, 50, 50, .75)" }]
-              colorPlate: "#ddd"
-              borders: false
-              needleType: "arrow"
-              needleWidth: 2
-              needleCircleSize: 7
-              needleCircleOuter: true
-              needleCircleInner: false
-              animationDuration: 1500
-              animationRule: "linear"
+            name: GPU
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+
+      - type: horizontal-stack
+        title: Odroid N2
+        cards:
+          - type: gauge
+            entity: sensor.odroidn2_cpu_temp
+            name: CPU Temp
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 45
+              red: 55
+          - type: gauge
+            entity: sensor.odroidn2_mem_load
+            name: Memory
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
+          - type: gauge
+            entity: sensor.odroidn2_cpu_load
+            name: CPU
+            min: 0
+            max: 100
+            needle: true
+            severity:
+              green: 0
+              yellow: 65
+              red: 80
 
       - type: vertical-stack
         cards:
@@ -852,109 +627,34 @@ views:
     
   - title: Irrigation
     cards:
+      - type: markdown
+        title: Last scheduled run per zone
+        content: |
+          {% set zones = [
+            ('Front lawn west','1_front_lawn','1_front_lawn'),
+            ('Front lawn east','2_front_lawn_left','2_front_lawn_left'),
+            ('Back lawn south','3_back_lawn_south','3_back_lawn_south'),
+            ('Back lawn north','4_back_lawn_north','4_back_lawn_north'),
+            ('Back & west gardens','6_west_side_back_gardens','6_west_side_back_gardens'),
+            ('East & front gardens','7_east_side_front_gardens','7_east_side_front_gardens')] %}
+          | Zone | Status | Time | Date | Duration |
+          |---|---|---|---|---|
+          {% for name, key, _ in zones -%}
+          {% set st = states('sensor.opensprinkler_' ~ key ~ '_station_status') -%}
+          {% set en = is_state('switch.opensprinkler_' ~ key ~ '_station_enabled', 'on') -%}
+          {% set base = 'input_text.opensprinkler_' ~ key ~ '_station_enabled_run_' -%}
+          {% set secs = states(base ~ 'duration') | int(0) -%}
+          {% if not en %}{% set col = '🔴' %}{% set txt = 'disabled' -%}
+          {% elif st in ['unavailable','unknown'] %}{% set col = '🔴' %}{% set txt = st -%}
+          {% elif st == 'idle' %}{% set col = '⚪' %}{% set txt = 'idle' -%}
+          {% elif st in ['waiting','queued'] %}{% set col = '🟠' %}{% set txt = st -%}
+          {% else %}{% set col = '🟢' %}{% set txt = 'running (' ~ st ~ ')' -%}
+          {% endif -%}
+          | {{ name }} | {{ col }} **{{ txt }}** | {{ states(base ~ 'time') }} | {{ states(base ~ 'date') }} | {{ secs // 60 }}m {{ secs % 60 }}s |
+          {% endfor %}
       - type: entities
-        title: 'Irrigation Status'
+        title: 'Watering & Evapotranspiration'
         entities:
-          - entity: sensor.opensprinkler_1_front_lawn_station_status  #Front Lawn West Irrigation
-            #icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: frlawnwest
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_time
-                name: run time
-              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_date
-                name: run date
-              - entity: input_text.opensprinkler_1_front_lawn_station_enabled_run_duration
-                name: run dur.
-                format: duration
-          - entity: sensor.opensprinkler_2_front_lawn_left_station_status  #Front Lawn East Irrigation
-            #icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: frlawneast
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_time
-                name: false
-              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_date
-                name: false
-              - entity: input_text.opensprinkler_2_front_lawn_left_station_enabled_run_duration
-                name: false
-                format: duration
-          - entity: sensor.opensprinkler_3_back_lawn_south_station_status  #Back Lawn South Irrigation
-            #icon: 'mdi:grass'
-            type: custom:multiple-entity-row
-            name: bklawnsouth
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_time
-                name: false
-              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_date
-                name: false
-              - entity: input_text.opensprinkler_3_back_lawn_south_station_enabled_run_duration
-                name: false
-                format: duration
-          - entity: sensor.opensprinkler_4_back_lawn_north_station_status
-            type: custom:multiple-entity-row
-            name: bklawnnorth
-            #icon: 'mdi:grass'
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_time
-                name: false
-              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_date
-                name: false
-              - entity: input_text.opensprinkler_4_back_lawn_north_station_enabled_run_duration
-                name: false
-                format: duration
-          - type: section
-          # - entity: sensor.opensprinkler_5_not_used_station_status  # Front Garden
-          #   icon: 'mdi:water-pump-off'
-          #   type: custom:multiple-entity-row
-          #   name: not-used
-          #   toggle: true
-          #   state_color: true
-          #   entities:
-          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_time
-          #       name: false
-          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_date
-          #       name: false
-          #     - entity: input_text.opensprinkler_5_not_used_station_enabled_run_duration
-          #       name: false
-          #       format: duration
-          - entity: sensor.opensprinkler_6_west_side_back_gardens_station_status  # Back & Side Garden
-            #icon: 'mdi:water-pump'
-            type: custom:multiple-entity-row
-            name: backsidegarden
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_time
-                name: false
-              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_date
-                name: false
-              - entity: input_text.opensprinkler_6_west_side_back_gardens_station_enabled_run_duration
-                name: false
-                format: duration
-          - entity: sensor.opensprinkler_7_east_side_front_gardens_station_status
-            #icon: 'mdi:water-pump'
-            type: custom:multiple-entity-row
-            name: sidefrontgarden
-            #toggle: true
-            state_color: true
-            entities:
-              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_time
-                name: false
-              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_date
-                name: false
-              - entity: input_text.opensprinkler_7_east_side_front_gardens_station_enabled_run_duration
-                name: false
-                format: duration
-          - type: section
           - entity: input_number.garden_watering_time
             icon: 'mdi:clock'
             secondary_info: last-changed
@@ -1349,68 +1049,229 @@ views:
               - entity: sensor.grd_bot_t90_pro_omni_unit_care_lifespan
                 name: Unit care
 
-  - title: Cameras
-    cards:
-      - type: picture-entity
-        entity: camera.front_camera_2
+  - type: sections
+    title: Cameras
+    path: cameras
+    icon: mdi:cctv
+    max_columns: 4
+    badges:
+    - type: entity
+      entity: sensor.frigate_status
+      name: Frigate
+      show_name: true
+    - type: entity
+      entity: sensor.frigate_tensorrt_inference_speed
+      name: Inference
+      show_name: true
+    - type: entity
+      entity: binary_sensor.garden_front_person_occupancy
+      name: Front person
+      show_name: true
+    - type: entity
+      entity: binary_sensor.garden_back_person_occupancy
+      name: Back person
+      show_name: true
+    - type: entity
+      entity: update.garage_frigate_server
+      name: Update
+      show_name: true
+      visibility:
+      - condition: state
+        entity: update.garage_frigate_server
+        state: 'on'
+    sections:
+    - type: grid
+      column_span: 2
+      cards:
+      - type: heading
+        heading: Live
+        heading_style: title
+        icon: mdi:video
+      - type: picture-glance
+        title: Front
+        camera_image: camera.garden_front
+        camera_view: live
+        entities:
+        - entity: binary_sensor.garden_front_person_occupancy
+          name: Person
+        - entity: binary_sensor.garden_front_car_occupancy
+          name: Car
+        - entity: binary_sensor.garden_front_dog_occupancy
+          name: Dog
+        - entity: binary_sensor.garden_front_cat_occupancy
+          name: Cat
+        - entity: binary_sensor.garden_front_motion
+          name: Motion
+        grid_options:
+          columns: 12
+      - type: picture-glance
+        title: Back
+        camera_image: camera.garden_back
+        camera_view: live
+        entities:
+        - entity: binary_sensor.garden_back_person_occupancy
+          name: Person
+        - entity: binary_sensor.garden_back_car_occupancy
+          name: Car
+        - entity: binary_sensor.garden_back_dog_occupancy
+          name: Dog
+        - entity: binary_sensor.garden_back_cat_occupancy
+          name: Cat
+        - entity: binary_sensor.garden_back_motion
+          name: Motion
+        grid_options:
+          columns: 12
+      - type: heading
+        heading: Camera controls
+        heading_style: title
+        icon: mdi:tune
+      - type: heading
+        heading: Front
+        heading_style: subtitle
+      - type: tile
+        entity: switch.garden_front_detect
+        name: Detect
+      - type: tile
+        entity: switch.garden_front_recordings
+        name: Recordings
+      - type: tile
+        entity: switch.garden_front_snapshots
+        name: Snapshots
+      - type: tile
+        entity: switch.garden_front_motion
+        name: Motion
+      - type: heading
+        heading: Back
+        heading_style: subtitle
+      - type: tile
+        entity: switch.garden_back_detect
+        name: Detect
+      - type: tile
+        entity: switch.garden_back_recordings
+        name: Recordings
+      - type: tile
+        entity: switch.garden_back_snapshots
+        name: Snapshots
+      - type: tile
+        entity: switch.garden_back_motion
+        name: Motion
+      - type: heading
+        heading: Frigate health
+        heading_style: title
+        icon: mdi:heart-pulse
+      - type: gauge
+        entity: sensor.frigate_tensorrt_inference_speed
+        name: Inference (ms)
+        min: 0
+        max: 100
+        needle: true
+        severity:
+          green: 0
+          yellow: 40
+          red: 70
+        grid_options:
+          columns: 12
+          rows: 2
+      - type: tile
+        entity: sensor.default_frigate_frigate_memory_usage
+        name: Pod memory
+      - type: tile
+        entity: sensor.default_frigate_frigate_cpu_usage
+        name: Pod CPU
+      - type: tile
+        entity: sensor.default_frigate_frigate_nas_copy
+        name: NAS copy job
+        icon: mdi:nas
+      - type: tile
+        entity: update.garage_frigate_server
+        name: Frigate version
+    - type: grid
+      cards:
+      - type: heading
+        heading: Detections now
+        heading_style: title
+        icon: mdi:account-eye
+      - type: heading
+        heading: Front
+        heading_style: subtitle
+      - type: tile
+        entity: binary_sensor.garden_front_person_occupancy
+        name: Person
+        icon: mdi:account
+        color: red
+      - type: tile
+        entity: binary_sensor.garden_front_car_occupancy
+        name: Car
+        icon: mdi:car
+        color: orange
+      - type: tile
+        entity: binary_sensor.garden_front_dog_occupancy
+        name: Dog
+        icon: mdi:dog
+        color: blue
+      - type: tile
+        entity: binary_sensor.garden_front_cat_occupancy
+        name: Cat
+        icon: mdi:cat
+        color: blue
+      - type: heading
+        heading: Back
+        heading_style: subtitle
+      - type: tile
+        entity: binary_sensor.garden_back_person_occupancy
+        name: Person
+        icon: mdi:account
+        color: red
+      - type: tile
+        entity: binary_sensor.garden_back_car_occupancy
+        name: Car
+        icon: mdi:car
+        color: orange
+      - type: tile
+        entity: binary_sensor.garden_back_dog_occupancy
+        name: Dog
+        icon: mdi:dog
+        color: blue
+      - type: tile
+        entity: binary_sensor.garden_back_cat_occupancy
+        name: Cat
+        icon: mdi:cat
+        color: blue
+      - type: heading
+        heading: Advanced view
+        heading_style: title
+        icon: mdi:cctv
+      - type: tile
+        entity: camera.garden_front
+        name: Advanced camera card
+        icon: mdi:cctv
         tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.front_camera_2
-            filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
-
+          action: navigate
+          navigation_path: /lovelace-test2/camera-card
+    - type: grid
+      cards:
+      - type: heading
+        heading: Last detected
+        heading_style: title
+        icon: mdi:image-search
       - type: picture-entity
-        entity: camera.back_camera
-        tap_action:
-          action: call-service
-          service: camera.snapshot
-          service_data:
-            entity_id: camera.back_camera
-            filename: '/media/front_camera-{{ now().strftime("%Y-%m-%d-%H%M%S") }}.jpg'
-  
-  
-  # - type: custom:vertical-stack-in-card
-  #   title: Flightradar24
-  #   cards:
-  #     - type: entities
-  #       entities:
-  #         - entity: sensor.flightradar24_current_in_area
-  #           name: In area
-  #     - type: conditional
-  #       conditions:
-  #         - condition: numeric_state
-  #           entity: sensor.flightradar24_current_in_area
-  #           above: 0
-  #       card:
-  #         type: markdown
-  #         content: >-
-  #           {% set data = state_attr('sensor.flightradar24_current_in_area',
-  #           'flights') %} {% for flight in data %}
-  #             <ha-icon icon="mdi:airplane"></ha-icon>{{ flight.flight_number }} - {{ flight.airline_short }} - {{ flight.aircraft_model }}
-  #             {{ flight.airport_origin_city }}{%if flight.airport_origin_city %}<img src="https://flagsapi.com/{{ flight.airport_origin_country_code }}/shiny/16.png" title='{{ flight.airport_origin_country_name }}'/>{% endif %} -> {{ flight.airport_destination_city }}{%
-  #             if flight.airport_destination_country_code %}<img src="https://flagsapi.com/{{ flight.airport_destination_country_code }}/shiny/16.png" title='{{ flight.airport_destination_country_name }}'/>{% endif %}
-  #             {%if flight.time_scheduled_departure %}Departure - {{ flight.time_scheduled_departure | timestamp_custom('%H:%M') }}; {% endif %}{%if flight.time_scheduled_arrival%}Arrival - {{ flight.time_scheduled_arrival | timestamp_custom('%H:%M') }}{% endif %}
-  #             Altitude - {{ flight.altitude }} ft{%if flight.altitude > 0 %} ({{(flight.altitude * 0.3048)| round(0)}} m){% endif%}; Gr. speed - {{ flight.ground_speed }} kts{%if flight.ground_speed > 0 %} ({{(flight.ground_speed * 1.852)| round(0)}} km/h){% endif%}
-  #             {% endfor %}
-  
-  #     - type: iframe
-  #       url: >-
-  #         https://www.flightradar24.com/simple?lat=-35.27&lon=149.03&z=10&label1=reg&size=small
-  #       aspect_ratio: 100% 
+        entity: image.garden_front_person
+        name: Front – last person
+        show_state: false
+      - type: picture-entity
+        entity: image.garden_back_person
+        name: Back – last person
+        show_state: false
+      - type: picture-entity
+        entity: image.garden_front_car
+        name: Front – last car
+        show_state: false
+      - type: picture-entity
+        entity: image.garden_back_car
+        name: Back – last car
+        show_state: false
 
-
-
-  # - title: Grafana
-  #   cards:
-  #     - type: iframe
-  #       # url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/dashboard/snapshot/GcoR4m6EiZ5E3Aoe5379EyjuY4H0eM6L?orgId=1&kiosk
-  #       url: http://10.0.0.55:3000/api/hassio_ingress/3eZf1RWXgPHubUsGs2TsNUMhnzzV1lmAy0YAEJH4tS8/d/zzAVYzLnz/home-assistant?orgId=1&kiosk
-  #       aspect_ratio: 100%
-
-  #   path: default_view
-
-  - title: ProxMox
+  - title: Homelab
     #path: proxmox
     #type: custom:dashboard
     sections:
@@ -1634,6 +1495,42 @@ views:
           - type: tile
             entity: sensor.ds723plus_upload_throughput
         title: DS723plus
+      - type: grid
+        cards:
+          - type: heading
+            heading: Scheduled jobs
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_velero_daily_cluster_backup
+            name: Velero daily backup
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_immich_library_backup_nas
+            name: Immich library backup (NAS)
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_immich_enhance_gpu
+            name: Immich enhance (GPU)
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_okama_downloader_weekly
+            name: Okama downloader (weekly)
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_librenms_to_netbox_sync
+            name: LibreNMS to NetBox sync
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.homelab_scheduled_jobs_system_updates_weekly_scan
+            name: System updates weekly scan
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.minio_off_site_velero
+            name: "B2 off-site: Velero"
+            icon: mdi:calendar-check
+          - type: tile
+            entity: sensor.minio_off_site_immich
+            name: "B2 off-site: Immich"
+            icon: mdi:calendar-check
     
     header:
       type: template
@@ -1643,7 +1540,7 @@ views:
       card:
          type: custom:button-card
          entity: sensor.cluster_status
-         name: Proxmox Status
+         name: Homelab Status
          show_state: true
          show_icon: true
          # Apply colour to the icon AND the name
@@ -1670,7 +1567,7 @@ views:
         # type: markdown
         # text_only: true
         # content: |-
-        #   # Proxmox Status
+        #   # Homelab Status
         #   All systems are **{{ states('sensor.cluster_status') }}**      
         
     badges:

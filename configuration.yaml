@@ -78,29 +78,29 @@ lovelace:
   resource_mode: yaml
   resources:
     - type: module
-      url: /hacsfiles/canvas-gauge-card/canvas-gauge-card.js
+      url: /local/community/canvas-gauge-card/canvas-gauge-card.js
     - type: module
-      url: /hacsfiles/lovelace-card-templater/lovelace-card-templater.js
+      url: /local/community/lovelace-card-templater/lovelace-card-templater.js
     - type: module
-      url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
+      url: /local/community/lovelace-multiple-entity-row/multiple-entity-row.js
     - type: module
-      url: /hacsfiles/button-card/button-card.js
+      url: /local/community/button-card/button-card.js
     - type: module
-      url: /hacsfiles/bom-radar-card/bom-radar-card.js
+      url: /local/community/bom-radar-card/bom-radar-card.js
     - type: module
-      url: /hacsfiles/hass-swipe-navigation/swipe-navigation.js
+      url: /local/community/hass-swipe-navigation/swipe-navigation.js
     - type: module
-      url: /hacsfiles/uptime-card/uptime-card.js
+      url: /local/community/uptime-card/uptime-card.js
     - type: module
-      url: /hacsfiles/apexcharts-card/apexcharts-card.js?v=2.0.1
+      url: /local/community/apexcharts-card/apexcharts-card.js?v=2.0.1
     - type: module
-      url: /hacsfiles/vacuum-card/vacuum-card.js
+      url: /local/community/vacuum-card/vacuum-card.js
     - type: module
-      url: /hacsfiles/mini-climate-card/mini-climate-card-bundle.js?v=2.2.1
+      url: /local/community/mini-climate-card/mini-climate-card-bundle.js?v=2.2.1
     - type: module
-      url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+      url: /local/community/vertical-stack-in-card/vertical-stack-in-card.js
     - type: module
-      url: /hacsfiles/opensprinkler-card/opensprinkler-card.js
+      url: /local/community/advanced-camera-card/advanced-camera-card.js?v=8.2.0
   dashboards:
     lovelace:
       mode: yaml
@@ -320,14 +320,23 @@ template:
     state: '{{ state_attr(''climate.family_room'', ''current_humidity'') }}'
 
 - sensor:
-    - name: "Cluster Status"
+    - name: "Homelab Status"
+      default_entity_id: sensor.cluster_status
       state: >
         {% set nodes = [
           states('binary_sensor.node_orangepi5b_status'),
           states('binary_sensor.node_orangepi5b1_status'),
           states('binary_sensor.node_pve_status'),
           states('binary_sensor.qemu_haos_16_2_100_status'),
-          states('sensor.ds723plus_volume_1_status')
+          states('sensor.ds723plus_volume_1_status'),
+          states('sensor.homelab_scheduled_jobs_velero_daily_cluster_backup'),
+          states('sensor.homelab_scheduled_jobs_immich_library_backup_nas'),
+          states('sensor.homelab_scheduled_jobs_immich_enhance_gpu'),
+          states('sensor.homelab_scheduled_jobs_okama_downloader_weekly'),
+          states('sensor.homelab_scheduled_jobs_librenms_to_netbox_sync'),
+          states('sensor.homelab_scheduled_jobs_system_updates_weekly_scan'),
+          states('sensor.minio_off_site_velero'),
+          states('sensor.minio_off_site_immich')
         ] %}
         {% set healthy_states = ['on', 'true', '1', 'healthy', 'normal', 'ok', 'running', 'up'] %}
         {% set healthy_nodes = nodes | select('in', healthy_states) | list %}
